@@ -1,0 +1,204 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="DrawEngine\d3dEngine.h" />
+    <ClInclude Include="DrawEngine\d3dUtil.h" />
+    <ClInclude Include="DrawEngine\GameTimer.h" />
+    <ClInclude Include="EditMessage\ChangeManager.h" />
+    <ClInclude Include="EditorApp.h" />
+    <ClInclude Include="EditorFrame.h" />
+    <ClInclude Include="EditorWindow\AbstractWindowFactory.h" />
+    <ClInclude Include="EditorWindow\EditorButton.h" />
+    <ClInclude Include="EditorWindow\EditorFunc.h" />
+    <ClInclude Include="EditorWindow\EditorStatic.h" />
+    <ClInclude Include="EditorWindow\SimpleButton.h" />
+    <ClInclude Include="EditorWindow\SimpleStatic.h" />
+    <ClInclude Include="EditorWindow\SimpleWindow.h" />
+    <ClInclude Include="EditorWindow\WindowFactory.h" />
+    <ClInclude Include="EditorWindow\WindowInterface.h" />
+    <ClInclude Include="ErrorHandle\ErrorHandle.h" />
+    <ClInclude Include="ErrorHandle\ErrorMessage.h" />
+    <ClInclude Include="Form\EditorToolObjectView.h" />
+    <ClInclude Include="Form\EditorToolPropertyEditor.h" />
+    <ClInclude Include="Form\EditorToolWidgetSelect.h" />
+    <ClInclude Include="Form\EditorToolWidgetSelectDefine.h" />
+    <ClInclude Include="Form\EditorToolWindow.h" />
+    <ClInclude Include="Form\EditorWindowFactory.h" />
+    <ClInclude Include="Form\EditorWorkArea.h" />
+    <ClInclude Include="Form\EditorWorkAreaPrivate.h" />
+    <ClInclude Include="Form\WorkArea.h" />
+    <ClInclude Include="Form\WorkAreaDefine.h" />
+    <ClInclude Include="PropertyEditor\AbstractPropertyValidator.h" />
+    <ClInclude Include="PropertyEditor\AbstractPropertySequence.h" />
+    <ClInclude Include="PropertyEditor\PropertySequence.h" />
+    <ClInclude Include="Property\ImageProperty.h" />
+    <ClInclude Include="Property\PropertyFactory.h" />
+    <ClInclude Include="Settings\AttributeBuilder\AbstractWinAttrBuilder.h" />
+    <ClInclude Include="Settings\AttributeBuilder\XmlWinAttrBuilder.h" />
+    <ClInclude Include="Settings\WindowAttributeDefine.h" />
+    <ClInclude Include="Settings\WindowAttributeManager.h" />
+    <ClInclude Include="Settings\WindowEnumAttrDefine.h" />
+    <ClInclude Include="Util\StringUtil.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="DrawEngine\d3dEngine.cpp" />
+    <ClCompile Include="DrawEngine\d3dUtil.cpp" />
+    <ClCompile Include="DrawEngine\GameTimer.cpp" />
+    <ClCompile Include="EditorApp.cpp" />
+    <ClCompile Include="EditorFrame.cpp" />
+    <ClCompile Include="EditorWindow\EditorButton.inl" />
+    <ClCompile Include="EditorWindow\EditorFunc.cpp" />
+    <ClCompile Include="EditorWindow\EditorStatic.inl" />
+    <ClCompile Include="EditorWindow\SimpleButton.inl" />
+    <ClCompile Include="EditorWindow\SimpleStatic.inl" />
+    <ClCompile Include="EditorWindow\SimpleWindow.inl" />
+    <ClCompile Include="EditorWindow\WindowFactory.cpp" />
+    <ClCompile Include="Form\EditorToolObjectView.cpp" />
+    <ClCompile Include="Form\EditorToolPropertyEditor.cpp" />
+    <ClCompile Include="Form\EditorToolWidgetSelect.cpp" />
+    <ClCompile Include="Form\EditorToolWindow.cpp" />
+    <ClCompile Include="Form\EditorWindowFactory.cpp" />
+    <ClCompile Include="Form\EditorWorkArea.cpp" />
+    <ClCompile Include="Form\EditorWorkAreaPrivate.cpp" />
+    <ClCompile Include="Form\WorkArea.cpp" />
+    <ClCompile Include="PropertyEditor\AbstractPropertySequence.cpp" />
+    <ClCompile Include="PropertyEditor\PropertySequence.cpp" />
+    <ClCompile Include="Property\ImageProperty.cpp" />
+    <ClCompile Include="Property\PropertyFactory.cpp" />
+    <ClCompile Include="Settings\AttributeBuilder\AbstractWinAttrBuilder.cpp" />
+    <ClCompile Include="Settings\AttributeBuilder\XmlWinAttrBuilder.cpp" />
+    <ClCompile Include="Settings\WindowAttributeManager.cpp" />
+    <ClCompile Include="UI Editor.cpp" />
+    <ClCompile Include="Util\StringUtil.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\wxWidgets-3.0.3\build\msw\wx_vc12_base.vcxproj">
+      <Project>{3fcc50c2-81e9-5db2-b8d8-2129427568b1}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\wxWidgets-3.0.3\build\msw\wx_vc12_core.vcxproj">
+      <Project>{6744dad8-9c70-574a-bff2-9f8dddb24a75}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\wxWidgets-3.0.3\build\msw\wx_vc12_custom_build.vcxproj">
+      <Project>{01f4ce10-2cfb-41a8-b41f-e54337868a1d}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{539F7B14-8C10-43E4-B9DF-112290414190}</ProjectGuid>
+    <RootNamespace>UIEditor</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>D:\wxWidgets-3.0.3\lib\vc_lib\mswd;D:\wxWidgets-3.0.3\include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\wxWidgets-3.0.3\lib\vc_lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalOptions>/D _CRT_SECURE_NO_WARNINGS %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>wxmsw30d_core.lib;wxbase30d.lib;wxtiffd.lib;wxjpegd.lib;wxpngd.lib;wxzlibd.lib;wxregexd.lib;wxexpatd.lib;winmm.lib;comctl32.lib;rpcrt4.lib;wsock32.lib;wininet.lib;wxmsw30d_aui.lib;wxbase30d_xml.lib;wxbase30d_net.lib;wxmsw30d_adv.lib;wxmsw30d_propgrid.lib;d3d9.lib;d3dx9d.lib;DxErr.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

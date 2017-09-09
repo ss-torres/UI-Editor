@@ -1,0 +1,47 @@
+#ifndef EDITOR_WORK_AREA_H
+#define EDITOR_WORK_AREA_H
+
+#include "WorkArea.h"
+#include <wx/mdi.h>
+#include <Windows.h>
+
+class D3DEngine;
+
+class EditorWorkArea : public WorkArea
+{
+public:
+	EditorWorkArea(wxMDIParentFrame* parent, const wxString& captionName, const wxPoint& position, const wxSize &size);
+	~EditorWorkArea();
+
+	// 获取该对象中的主窗口
+	wxWindow* getBench() { return m_bench;  }
+
+	// 用来每帧处理
+	void updateFrame(float dt);
+
+private:
+	// 用来处理场景更新的计算
+	void updateScene(float dt);
+	// 用来每帧绘制
+	void drawScene();
+
+	// 获取窗口句柄，该函数必须在初始化bench之后调用
+	HWND getHandle();
+
+	// 初始化D3D成员
+	void initD3DMember();
+
+private:
+	wxMDIChildFrame *m_bench;
+
+	// 绘制D3D的引擎
+	D3DEngine* m_d3dEngine;
+};
+
+// 获取窗口句柄，该函数必须在初始化bench之后调用
+inline HWND EditorWorkArea::getHandle()
+{ 
+	return static_cast<HWND>(getBench()->GetHandle()); 
+}
+
+#endif	// EDITOR_WORK_AREA_H

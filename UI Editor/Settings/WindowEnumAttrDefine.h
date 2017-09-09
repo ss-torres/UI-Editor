@@ -1,0 +1,18 @@
+#ifndef WINDOW_ENUM_ATTR_DEFINE_H
+#define WINDOW_ENUM_ATTR_DEFINE_H
+
+// 字体类型使用的枚举
+enum FONT_TYPE
+{
+	FONT_12_NORMAL	= 0,			// 默认值
+	FONT_12_BOLD	= 1,
+	FONT_14_NORMAL	= 2,
+	FONT_14_BOLD	= 3,
+	FONT_16_BOLD	= 4,
+	FONT_18_BOLD	= 5,
+	FONT_24_BOLD	= 6,
+
+	FONT_MAX		= 7
+};
+
+#endif	// WINDOW_ENUM_ATTR_DEFINE_H

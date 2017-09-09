@@ -1,11 +1,15 @@
 # Prerequisites
 *.d
+*.tlog
+*.ilk
+*.idb
 
 # Compiled Object files
 *.slo
 *.lo
 *.o
 *.obj
+*.pdb
 
 # Precompiled Headers
 *.gch
@@ -30,3 +34,11 @@
 *.exe
 *.out
 *.app
+UI Editor/WindowAttribute.xml.bak
+UI Editor/EditorWindow/readMe.txt.bak
+UI Editor/Form/readMe.txt.bak
+UI Editor/PropertyEditor/readMe.txt.bak
+*.bak
+UI Editor/Debug/UI Editor.Build.CppClean.log
+UI Editor/Debug/UI Editor.log
+UI Editor/Debug/UI Editor.vcxprojResolveAssemblyReference.cache

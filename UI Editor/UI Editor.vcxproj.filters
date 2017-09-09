@@ -1,0 +1,252 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="PropertyEditor">
+      <UniqueIdentifier>{c868f5c3-83c8-4b67-88cc-4408ef3812f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Property">
+      <UniqueIdentifier>{2c80e396-2ff0-4d3d-8aa7-2bbcd33a5545}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Form">
+      <UniqueIdentifier>{ae8baff8-c552-41d4-b00e-b067302db7a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ErrorHandle">
+      <UniqueIdentifier>{ef944dc2-30e0-4c5e-b77d-3e8404a17d10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Settings">
+      <UniqueIdentifier>{9afd8bc1-2304-461f-9a47-59f1e7f0c1b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Settings\AttributeBuilder">
+      <UniqueIdentifier>{027499a5-76e9-4e9a-83b8-ec98ab9af403}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EditorWindow">
+      <UniqueIdentifier>{571baa13-fa34-4765-b595-0f40b0b33ed4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EditMessage">
+      <UniqueIdentifier>{a4515ec9-b4b2-4421-9818-6b188bcf451a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DrawEngine">
+      <UniqueIdentifier>{89693776-34c1-439d-b1fe-445e4856c9bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Util">
+      <UniqueIdentifier>{43cb8050-d118-43d8-8991-81f91244c48a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="PropertyEditor\PropertySequence.h">
+      <Filter>PropertyEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="PropertyEditor\AbstractPropertySequence.h">
+      <Filter>PropertyEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorFrame.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorApp.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ErrorHandle\ErrorHandle.h">
+      <Filter>ErrorHandle</Filter>
+    </ClInclude>
+    <ClInclude Include="Form\EditorToolWindow.h">
+      <Filter>Form</Filter>
+    </ClInclude>
+    <ClInclude Include="Form\WorkArea.h">
+      <Filter>Form</Filter>
+    </ClInclude>
+    <ClInclude Include="PropertyEditor\AbstractPropertyValidator.h">
+      <Filter>PropertyEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="Settings\WindowAttributeManager.h">
+      <Filter>Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Settings\AttributeBuilder\AbstractWinAttrBuilder.h">
+      <Filter>Settings\AttributeBuilder</Filter>
+    </ClInclude>
+    <ClInclude Include="Settings\AttributeBuilder\XmlWinAttrBuilder.h">
+      <Filter>Settings\AttributeBuilder</Filter>
+    </ClInclude>
+    <ClInclude Include="Form\EditorToolWidgetSelect.h">
+      <Filter>Form</Filter>
+    </ClInclude>
+    <ClInclude Include="Form\EditorToolWidgetSelectDefine.h">
+      <Filter>Form</Filter>
+    </ClInclude>
+    <ClInclude Include="Form\EditorWorkArea.h">
+      <Filter>Form</Filter>
+    </ClInclude>
+    <ClInclude Include="ErrorHandle\ErrorMessage.h">
+      <Filter>ErrorHandle</Filter>
+    </ClInclude>
+    <ClInclude Include="EditMessage\ChangeManager.h">
+      <Filter>EditMessage</Filter>
+    </ClInclude>
+    <ClInclude Include="Form\EditorToolPropertyEditor.h">
+      <Filter>Form</Filter>
+    </ClInclude>
+    <ClInclude Include="Form\EditorToolObjectView.h">
+      <Filter>Form</Filter>
+    </ClInclude>
+    <ClInclude Include="Form\WorkAreaDefine.h">
+      <Filter>Form</Filter>
+    </ClInclude>
+    <ClInclude Include="Form\EditorWindowFactory.h">
+      <Filter>Form</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorWindow\EditorFunc.h">
+      <Filter>EditorWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorWindow\EditorStatic.h">
+      <Filter>EditorWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="Property\ImageProperty.h">
+      <Filter>Property</Filter>
+    </ClInclude>
+    <ClInclude Include="Settings\WindowAttributeDefine.h">
+      <Filter>Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Property\PropertyFactory.h">
+      <Filter>Property</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawEngine\d3dUtil.h">
+      <Filter>DrawEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawEngine\d3dEngine.h">
+      <Filter>DrawEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawEngine\GameTimer.h">
+      <Filter>DrawEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="Settings\WindowEnumAttrDefine.h">
+      <Filter>Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\StringUtil.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Form\EditorWorkAreaPrivate.h">
+      <Filter>Form</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorWindow\SimpleWindow.h">
+      <Filter>EditorWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorWindow\SimpleStatic.h">
+      <Filter>EditorWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorWindow\AbstractWindowFactory.h">
+      <Filter>EditorWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorWindow\WindowFactory.h">
+      <Filter>EditorWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorWindow\EditorButton.h">
+      <Filter>EditorWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorWindow\SimpleButton.h">
+      <Filter>EditorWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorWindow\WindowInterface.h">
+      <Filter>EditorWindow</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="PropertyEditor\PropertySequence.cpp">
+      <Filter>PropertyEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="PropertyEditor\AbstractPropertySequence.cpp">
+      <Filter>PropertyEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="UI Editor.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorApp.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Form\EditorToolWindow.cpp">
+      <Filter>Form</Filter>
+    </ClCompile>
+    <ClCompile Include="Form\WorkArea.cpp">
+      <Filter>Form</Filter>
+    </ClCompile>
+    <ClCompile Include="Settings\WindowAttributeManager.cpp">
+      <Filter>Settings</Filter>
+    </ClCompile>
+    <ClCompile Include="Settings\AttributeBuilder\AbstractWinAttrBuilder.cpp">
+      <Filter>Settings\AttributeBuilder</Filter>
+    </ClCompile>
+    <ClCompile Include="Settings\AttributeBuilder\XmlWinAttrBuilder.cpp">
+      <Filter>Settings\AttributeBuilder</Filter>
+    </ClCompile>
+    <ClCompile Include="Form\EditorToolWidgetSelect.cpp">
+      <Filter>Form</Filter>
+    </ClCompile>
+    <ClCompile Include="Form\EditorWorkArea.cpp">
+      <Filter>Form</Filter>
+    </ClCompile>
+    <ClCompile Include="Form\EditorToolObjectView.cpp">
+      <Filter>Form</Filter>
+    </ClCompile>
+    <ClCompile Include="Form\EditorWindowFactory.cpp">
+      <Filter>Form</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorWindow\EditorFunc.cpp">
+      <Filter>EditorWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="Property\ImageProperty.cpp">
+      <Filter>Property</Filter>
+    </ClCompile>
+    <ClCompile Include="Form\EditorToolPropertyEditor.cpp">
+      <Filter>Form</Filter>
+    </ClCompile>
+    <ClCompile Include="Property\PropertyFactory.cpp">
+      <Filter>Property</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawEngine\d3dUtil.cpp">
+      <Filter>DrawEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawEngine\d3dEngine.cpp">
+      <Filter>DrawEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawEngine\GameTimer.cpp">
+      <Filter>DrawEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorFrame.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Util\StringUtil.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Form\EditorWorkAreaPrivate.cpp">
+      <Filter>Form</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorWindow\SimpleWindow.inl">
+      <Filter>EditorWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorWindow\WindowFactory.cpp">
+      <Filter>EditorWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorWindow\EditorButton.inl">
+      <Filter>EditorWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorWindow\EditorStatic.inl">
+      <Filter>EditorWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorWindow\SimpleButton.inl">
+      <Filter>EditorWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorWindow\SimpleStatic.inl">
+      <Filter>EditorWindow</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

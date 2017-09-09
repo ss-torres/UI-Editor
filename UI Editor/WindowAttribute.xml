@@ -1,0 +1,27 @@
+<?xml version="1.0" ?>
+<UIAttribute version = "1">
+	<Window name="GWindow">
+		<Attribute name="objectName" EditorProperty="string" EditorName="" EditorValidator="" EditorMaxLength="255">
+			<EditorAttributeList>
+				<EditorAttribute name = "DefaultValue" value = "" />
+				<EditorAttribute name = "Hint" value = "window object name" />
+			</EditorAttributeList>
+		</Attribute>
+		<Attribute name="text" />
+		<Attribute name="font" EditorProperty="enum" >
+			<PropertyAdditional>
+				<Additional name="range" value="normal_12,bold_12,normal_14,bold_14,bold_16,bold_18,bold_24" />
+			</PropertyAdditional>
+		</Attribute>
+		<Attribute name="enabled" />
+		<Attribute name="showEnabled" />
+		<Attribute name="posX" />
+		<Attribute name="posY" />
+		<Attribute name="sizeX" />
+		<Attribute name="sizeY" />
+		
+		<Window name="GStatic">
+			<Attribute name="image" />
+		</Window>
+	</Window>
+</UIAttribute>
