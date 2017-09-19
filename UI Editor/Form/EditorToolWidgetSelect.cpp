@@ -1,7 +1,10 @@
 #include "EditorToolWidgetSelect.h"
-
 #include <wx/dnd.h>
+#include <wx/propgrid/property.h>
 #include "../ErrorHandle/ErrorMessage.h"
+#include "EditorToolWidgetSelectDefine.h"
+#include "../CopyDrop/CopyWinObject.h"
+#include "../Settings/WindowAttributeManager.h"
 
 const wxString WIDGET_SELECT_ICONS = "widget-icons.png";
 
@@ -26,16 +29,31 @@ EditorToolWidgetSelect::~EditorToolWidgetSelect()
 }
 
 // 用来处理拖拉窗口类型图标
-void EditorToolWidgetSelect::OnDragWidgetIcon(wxTreeEvent & event)
+void EditorToolWidgetSelect::OnDragWidgetIcon(wxTreeEvent& event)
 {
 	const wxTreeItemId& treeItem = event.GetItem();
-	int itemImage = m_widget_tree->GetItemImage(treeItem);
+	wxTreeItemData *itemData = m_widget_tree->GetItemData(treeItem);
+	auto itemWidgetName = dynamic_cast<WidgetSelectItemName*>(itemData);
+	// 如果不能获得对应的窗口，则没有必要使用拖拉了
+	if (itemWidgetName == nullptr)
+	{
+		event.Veto();
+	}
 
-	wxBitmapDataObject bitmap;
-	bitmap.SetBitmap(m_widget_tree->GetImageList()->GetBitmap(itemImage));
+	// 使用拖拉
+	std::vector<wxPGProperty*> attrList = m_winAttrMgr->getWinAttr(itemWidgetName->getWidgetName());
+	CopyWindowValue winValue(itemWidgetName->getWidgetName());
+	
+	for (auto prop : attrList)
+	{
+		winValue.add(prop->GetBaseName(), prop->GetValue());
+	}
+	
+	CopyWinObject dropData(getCopyDataFormat());
+	dropData.SetData(sizeof(winValue), &winValue);
 
 	wxDropSource dropSource;
-	dropSource.SetData(bitmap);
+	dropSource.SetData(dropData);
 
 	dropSource.DoDragDrop();
 }
@@ -66,8 +84,8 @@ void EditorToolWidgetSelect::initSubWindows()
 
 	// 创建窗口类型列表
 	wxTreeItemId rootId = m_widget_tree->AddRoot(wxT("Root"));
-	wxTreeItemId itemId1 = m_widget_tree->AppendItem(rootId, wxT("Static"), 3, 3);
-	wxTreeItemId itemId2 = m_widget_tree->AppendItem(rootId, wxT("Button"), 10, 10);
+	wxTreeItemId itemId1 = m_widget_tree->AppendItem(rootId, EDITOR_STATIC_SHOW, 3, 3, new WidgetSelectItemName(EDITOR_STATIC_TYPE));
+	wxTreeItemId itemId2 = m_widget_tree->AppendItem(rootId, EDITOR_BUTTON_SHOW, 10, 10, new WidgetSelectItemName(EDITOR_BUTTON_TYPE));
 
 	// 绑定时间
 	m_widget_tree->Bind(wxEVT_TREE_BEGIN_DRAG, &EditorToolWidgetSelect::OnDragWidgetIcon, this, wxID_ANY);

@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CopyDrop\CopyWinObject.h" />
     <ClInclude Include="DrawEngine\d3dEngine.h" />
     <ClInclude Include="DrawEngine\d3dUtil.h" />
     <ClInclude Include="DrawEngine\GameTimer.h" />
@@ -56,9 +57,11 @@
     <ClInclude Include="Settings\WindowAttributeDefine.h" />
     <ClInclude Include="Settings\WindowAttributeManager.h" />
     <ClInclude Include="Settings\WindowEnumAttrDefine.h" />
+    <ClInclude Include="Util\ArithmeticUtil.h" />
     <ClInclude Include="Util\StringUtil.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CopyDrop\CopyWinObject.cpp" />
     <ClCompile Include="DrawEngine\d3dEngine.cpp" />
     <ClCompile Include="DrawEngine\d3dUtil.cpp" />
     <ClCompile Include="DrawEngine\GameTimer.cpp" />
@@ -87,18 +90,8 @@
     <ClCompile Include="Settings\AttributeBuilder\XmlWinAttrBuilder.cpp" />
     <ClCompile Include="Settings\WindowAttributeManager.cpp" />
     <ClCompile Include="UI Editor.cpp" />
+    <ClCompile Include="Util\ArithmeticUtil.cpp" />
     <ClCompile Include="Util\StringUtil.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\wxWidgets-3.0.3\build\msw\wx_vc12_base.vcxproj">
-      <Project>{3fcc50c2-81e9-5db2-b8d8-2129427568b1}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\wxWidgets-3.0.3\build\msw\wx_vc12_core.vcxproj">
-      <Project>{6744dad8-9c70-574a-bff2-9f8dddb24a75}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\wxWidgets-3.0.3\build\msw\wx_vc12_custom_build.vcxproj">
-      <Project>{01f4ce10-2cfb-41a8-b41f-e54337868a1d}</Project>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{539F7B14-8C10-43E4-B9DF-112290414190}</ProjectGuid>
@@ -162,7 +155,7 @@
       <AdditionalOptions>/D _CRT_SECURE_NO_WARNINGS %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>wxmsw30d_core.lib;wxbase30d.lib;wxtiffd.lib;wxjpegd.lib;wxpngd.lib;wxzlibd.lib;wxregexd.lib;wxexpatd.lib;winmm.lib;comctl32.lib;rpcrt4.lib;wsock32.lib;wininet.lib;wxmsw30d_aui.lib;wxbase30d_xml.lib;wxbase30d_net.lib;wxmsw30d_adv.lib;wxmsw30d_propgrid.lib;d3d9.lib;d3dx9d.lib;DxErr.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>wxmsw30d_core.lib;wxmsw30ud_core.lib;wxbase30d.lib;wxbase30ud.lib;wxtiffd.lib;wxjpegd.lib;wxpngd.lib;wxzlibd.lib;wxregexd.lib;wxexpatd.lib;winmm.lib;comctl32.lib;rpcrt4.lib;wsock32.lib;wininet.lib;wxmsw30d_aui.lib;wxbase30d_xml.lib;wxbase30d_net.lib;wxmsw30d_adv.lib;wxmsw30d_propgrid.lib;d3d9.lib;d3dx9d.lib;DxErr.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

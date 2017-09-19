@@ -2,10 +2,10 @@
 #define EDITOR_TOOL_WINDOW_H
 
 #include "WorkArea.h"
-
 #include <wx/aui/aui.h>
+#include <memory>
 
-class wxFrame;
+class WindowAttributeManager;
 
 class EditorToolWindow : public WorkArea
 {
@@ -25,6 +25,12 @@ public:
 	// 获取各种停靠属性
 	wxAuiPaneInfo& getPanelInfo();
 
+	// 设置窗口属性列表
+	void setWinAttrManager(std::shared_ptr<WindowAttributeManager> winAttrMgr) { m_winAttrMgr = winAttrMgr;  }
+
+protected:
+	// 用来获取窗口属性列表
+	std::shared_ptr<WindowAttributeManager> m_winAttrMgr;
 private:
 	wxAuiManager& m_auiManager;
 	// 用来记录该区域管理的窗口类

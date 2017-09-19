@@ -10,6 +10,7 @@
 *.o
 *.obj
 *.pdb
+*.ipch
 
 # Precompiled Headers
 *.gch
@@ -42,3 +43,15 @@ UI Editor/PropertyEditor/readMe.txt.bak
 UI Editor/Debug/UI Editor.Build.CppClean.log
 UI Editor/Debug/UI Editor.log
 UI Editor/Debug/UI Editor.vcxprojResolveAssemblyReference.cache
+UI Editor/Property/原来的文件/AbstractProperty.h
+UI Editor/Property/原来的文件/AbstractPropertyGroup.h
+UI Editor/Property/原来的文件/IntProperty.h
+UI Editor/Property/原来的文件/PropertyGroup.h
+UI Editor/Property/原来的文件/SinglePropertyGroup.h
+UI Editor/Property/原来的文件/StringProperty.h
+UI Editor.VC.db
+UI Editor.VC.db
+*.db
+UI Editor.VC.VC.opendb
+UI Editor.VC.db
+UI Editor.VC.db

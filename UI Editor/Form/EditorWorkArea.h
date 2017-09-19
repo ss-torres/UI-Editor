@@ -3,9 +3,15 @@
 
 #include "WorkArea.h"
 #include <wx/mdi.h>
+#include <wx/panel.h>
+#include <wx/dnd.h>
 #include <Windows.h>
 
 class D3DEngine;
+class CopyWindowValue;
+class wxMDIParentFrame;
+class wxMDIChildFrame;
+//class AbstractEditorWindow;
 
 class EditorWorkArea : public WorkArea
 {
@@ -14,10 +20,13 @@ public:
 	~EditorWorkArea();
 
 	// 获取该对象中的主窗口
-	wxWindow* getBench() { return m_bench;  }
+	wxWindow* getBench() override;
 
 	// 用来每帧处理
 	void updateFrame(float dt);
+
+	// 用来处理Drop事件
+	void onDrop(wxCoord x, wxCoord y, const CopyWindowValue& winValue);
 
 private:
 	// 用来处理场景更新的计算
@@ -36,6 +45,8 @@ private:
 
 	// 绘制D3D的引擎
 	D3DEngine* m_d3dEngine;
+	//// 用来存储创建的窗口
+	//AbstractEditorWindow* m_editorWins = nullptr;
 };
 
 // 获取窗口句柄，该函数必须在初始化bench之后调用

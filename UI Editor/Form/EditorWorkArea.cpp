@@ -1,16 +1,68 @@
 #include "EditorWorkArea.h"
 #include "../DrawEngine/d3dEngine.h"
+#include "../CopyDrop/CopyWinObject.h"
+#include "../EditorWindow/WindowInterface.h"
+
+class DropWinTarget : public wxDropTarget
+{
+public:
+	DropWinTarget(EditorWorkArea *workArea)
+		: wxDropTarget(new CopyWinObject(getCopyDataFormat()))
+	{
+		m_workArea = workArea;
+	}
+
+	~DropWinTarget(){ }
+
+	wxDragResult OnEnter(wxCoord x, wxCoord y, wxDragResult defResult) override
+	{
+		return defResult;
+	}
+
+	wxDragResult OnDragOver(wxCoord x, wxCoord y, wxDragResult defResult) override
+	{
+		return defResult;
+	}
+
+	wxDragResult OnData(wxCoord x, wxCoord y, wxDragResult defResult) override
+	{
+		if (!GetData())
+		{
+			return wxDragNone;
+		}
+
+		auto rcvObj = dynamic_cast<CopyWinObject*>(GetDataObject());
+
+		if (rcvObj == nullptr)
+		{
+			return wxDragNone;
+		}
+
+		m_workArea->onDrop(x, y, rcvObj->getWinValue());
+
+		return defResult;
+	}
+private:
+	EditorWorkArea* m_workArea;
+};
 
 EditorWorkArea::EditorWorkArea(wxMDIParentFrame* parent, const wxString& captionName = wxEmptyString, const wxPoint& position = wxDefaultPosition, const wxSize &size = wxDefaultSize)
 	: WorkArea(parent)
 {
 	m_bench = new wxMDIChildFrame(parent, wxID_ANY, captionName, position, size);
 	m_d3dEngine = new D3DEngine(getHandle(), D3DDEVTYPE_HAL, D3DCREATE_HARDWARE_VERTEXPROCESSING);
+
+	getBench()->SetDropTarget(new DropWinTarget(this));
 }
 
 EditorWorkArea::~EditorWorkArea()
 {
 	delete m_d3dEngine;
+}
+
+wxWindow * EditorWorkArea::getBench()
+{
+	return m_bench;
 }
 
 // 用来每帧处理
@@ -24,6 +76,12 @@ void EditorWorkArea::updateFrame(float dt)
 
 	updateScene(dt);
 	drawScene();
+}
+
+// 用来处理Drop事件
+void EditorWorkArea::onDrop(wxCoord x, wxCoord y, const CopyWindowValue & winValue)
+{
+	
 }
 
 // 用来处理场景更新的计算

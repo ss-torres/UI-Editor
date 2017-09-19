@@ -7,7 +7,6 @@
  */
 
 #include "../EditorWindow/SimpleWindow.h"
-#include "../"
 
 class EditorWorkAreaPrivate
 {

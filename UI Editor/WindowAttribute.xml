@@ -23,5 +23,7 @@
 		<Window name="GStatic">
 			<Attribute name="image" />
 		</Window>
+		<Window name="GButton">
+		</Window>
 	</Window>
 </UIAttribute>

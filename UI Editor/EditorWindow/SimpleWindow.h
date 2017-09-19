@@ -23,6 +23,10 @@ namespace inner
 		SimpleWindow(SimpleWindow<T>* parent, int relX, int relY, int width, int height);
 		virtual ~SimpleWindow();
 
+		// forbidden the copy constructor and copy assignment
+		SimpleWindow(const SimpleWindow<T>& right) = delete;
+		SimpleWindow<T>& operator=(const SimpleWindow<T>& right) = delete;
+
 		//窗口遍历相关函数
 		// 获取该窗口的父窗口
 		SimpleWindow<T>* getParent() const { return m_parent; }

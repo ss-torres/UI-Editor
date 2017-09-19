@@ -43,6 +43,9 @@
     <Filter Include="Util">
       <UniqueIdentifier>{43cb8050-d118-43d8-8991-81f91244c48a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="CopyDrop">
+      <UniqueIdentifier>{70f9a04b-1828-47e5-9c55-633021695bb6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PropertyEditor\PropertySequence.h">
@@ -159,6 +162,12 @@
     <ClInclude Include="EditorWindow\WindowInterface.h">
       <Filter>EditorWindow</Filter>
     </ClInclude>
+    <ClInclude Include="Util\ArithmeticUtil.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="CopyDrop\CopyWinObject.h">
+      <Filter>CopyDrop</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PropertyEditor\PropertySequence.cpp">
@@ -247,6 +256,12 @@
     </ClCompile>
     <ClCompile Include="EditorWindow\SimpleStatic.inl">
       <Filter>EditorWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="Util\ArithmeticUtil.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="CopyDrop\CopyWinObject.cpp">
+      <Filter>CopyDrop</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

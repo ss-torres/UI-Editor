@@ -1,6 +1,5 @@
 #include "EditorToolWindow.h"
 #include "../ErrorHandle/ErrorHandle.h"
-#include <wx/frame.h>
 #include <cassert>
 
 EditorToolWindow::EditorToolWindow(wxAuiManager &manager, wxWindow * parent, int direction, const wxString & paneName)

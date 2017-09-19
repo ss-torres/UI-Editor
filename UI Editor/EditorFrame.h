@@ -8,6 +8,7 @@
 
 #include <wx/wxprec.h>
 #include <wx/aui/aui.h>
+#include <memory>
 
 #ifndef WX_PRECOMP
 #include <wx/wx.h>
@@ -46,7 +47,7 @@ private:
 private:
 	wxAuiManager* m_auiManager;
 	// 管理窗口属性
-	WindowAttributeManager* m_winAttrManager;
+	std::shared_ptr<WindowAttributeManager> m_winAttrManager;
 
 	// 创建主工作区和工具窗口
 	EditorWindowFactory m_manager;

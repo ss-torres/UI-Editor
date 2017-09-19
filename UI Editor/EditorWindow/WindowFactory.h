@@ -11,8 +11,10 @@ class WindowFactory : AbstractWindowFactory <inner::EditorFunc>
 public:
 	using EditorStatic = inner:: SimpleStatic<inner::EditorFunc>;
 public:
-	WindowFactory();
-	~WindowFactory();
+	WindowFactory() {}
+	~WindowFactory() {}
+
+	// 根据窗口类型名窗口对应窗口
 
 	// 创建一个Static
 	EditorStatic* createStatic() const override;

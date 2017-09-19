@@ -101,7 +101,7 @@ void EditorFrame::OnSize(wxSizeEvent & event)
 // 加载窗口属性
 void EditorFrame::loadWindowAttributes()
 {
-	m_winAttrManager = new WindowAttributeManager();
+	m_winAttrManager.reset(new WindowAttributeManager());
 	m_winAttrManager->LoadAttributeFile(WIN_ATTR_FILE);
 }
 
@@ -119,11 +119,13 @@ void EditorFrame::initSubWindows()
 	widgetSelectPaneInfo.MaxSize(200, clientSize.GetWidth());
 	widgetSelectPaneInfo.Resizable(true);
 	m_tool_widget_select->setPanelInfo(widgetSelectPaneInfo);
+	m_tool_widget_select->setWinAttrManager(m_winAttrManager);
 	// 查看窗口对象父子级关系
 	m_tool_object_view = m_manager.createToolWindow(ToolWindowType::ObjectView, *m_auiManager, this, wxRIGHT, "Object View");
-
+	m_tool_object_view->setWinAttrManager(m_winAttrManager);
 	// 窗口对象属性修改
 	m_tool_property_editor = m_manager.createToolWindow(ToolWindowType::PropertyEditor, *m_auiManager, this, wxRIGHT, "Property Editor");
+	m_tool_property_editor->setWinAttrManager(m_winAttrManager);
 
 	m_auiManager->Update();
 
