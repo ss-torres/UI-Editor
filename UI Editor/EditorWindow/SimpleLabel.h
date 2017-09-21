@@ -2,7 +2,7 @@
 #define SIMPLE_STATIC_H
 
 /*
- * 文件名：SimpleStatic
+ * 文件名：SimpleLabel
  * 作用：用来实现简单label显示的窗口
  */
 
@@ -12,16 +12,19 @@
 namespace inner
 {
 	template <typename T>
-	class SimpleStatic : public SimpleWindow<T>
+	class SimpleLabel : public SimpleWindow<T>
 	{
 	public:
-		SimpleStatic(SimpleWindow<T>* parent, int relX, int relY, int width, int height);
-		~SimpleStatic() override;
+		SimpleLabel(SimpleWindow<T>* parent, int relX, int relY, int width, int height);
+		~SimpleLabel() override;
 
 		// 设置显示的文字
 		void setLabel(const wxString& label) { m_label = label; }
 		// 设置显示用的字体
 		void setFont(wxFont font) { m_font = font; }
+
+		// 重载绘制函数
+		void draw() override {}
 
 	private:
 		// 显示的label
@@ -31,6 +34,6 @@ namespace inner
 	};
 }
 
-#include "SimpleStatic.inl"
+#include "SimpleLabel.inl"
 
 #endif	// SIMPLE_STATIC_H

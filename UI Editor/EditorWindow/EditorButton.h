@@ -12,16 +12,26 @@
 
 namespace inner
 {
-	class EditorButton : SimpleButton<EditorFunc>
+	class EditorButton : public SimpleButton<EditorFunc>
 	{
 	public:
 		EditorButton(AbstractEditorWindow* parent, int relX, int relY, int width, int height);
-		~EditorButton();
+		~EditorButton() override;
 
+		// 用来获取构建的窗口类型，继承的窗口返回自身
+		SimpleButton<EditorFunc>* getConstructWindow() override { return this; }
 
+		// 更新窗口对象属性信息
+		void updateWinAttr(const wxString& attrName, const wxAny& value) override;
+
+	protected:
+		// 获取属性与属性处理函数Map
+		static const ATTR_HANDLE_MAP& getEditorAttrHandles();
+
+	private:
+		// 初始化属性处理函数Map
+		static ATTR_HANDLE_MAP initEditorAttrHanldes();
 	};
 }
-
-#include "EditorButton.inl"
 
 #endif	// EDITOR_BUTTON_H

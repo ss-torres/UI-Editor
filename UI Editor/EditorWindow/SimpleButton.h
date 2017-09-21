@@ -23,6 +23,9 @@ namespace inner
 		// 设置显示用的字体
 		void setFont(wxFont font) { m_font = font; }
 
+		// 重载绘制函数
+		void draw() override {}
+
 	private:
 		// 显示的label
 		wxString m_label;

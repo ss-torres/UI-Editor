@@ -2,10 +2,10 @@
 #define EDITOR_WORK_AREA_H
 
 #include "WorkArea.h"
+#include <wx/msw/wrapwin.h>		// ÔÚwxWidgetsÖÐÌæ´ú<Windows.h>
 #include <wx/mdi.h>
 #include <wx/panel.h>
 #include <wx/dnd.h>
-#include <Windows.h>
 
 class D3DEngine;
 class CopyWindowValue;

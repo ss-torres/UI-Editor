@@ -4,6 +4,13 @@
 #include <wx/string.h>
 #include <map>
 
+// 用来标识在xml中如何制定设置的项
+const wxString SET_PROPERTY_TYPE = wxS("EditorProperty");
+const wxString SET_EDITOR_NAME = wxS("EditorName");
+const wxString SET_EDITOR_VALIDATOR = wxS("EditorValidator");
+const wxString SET_EDITOR_MAX_LEN = wxS("EditorMaxLength");
+const wxString SET_INITIAL_VALUE = wxS("InitialValue");
+
 // 用来记录编辑属性类型，对应于wxPGProperty，这里不区分大小写
 // 默认的属性类型，当前为wxStringProeprty
 const wxString DEFAULT_PROPERTY = "";		// 如果该项不存在，则表示""
@@ -15,8 +22,6 @@ const wxString INT_PROPERTY = "int";
 const wxString BOOL_PROPERTY = "bool";
 // 对应于wxEnumProperty
 const wxString ENUM_PROPERTY = "enum";
-
-
 
 
 // 用来标识编辑属性对应于编辑器类型，对应于wxPGEditor
@@ -110,6 +115,8 @@ struct AttributeProperty
 	wxString editorValidator;
 	// 编辑器最大长度
 	int editorMaxLength;
+	// 初始值
+	wxString initialValue;
 	// 编辑器的属性设置
 	std::map<wxString, wxString> editorAttributeList;
 	// 关于属性的额外信息

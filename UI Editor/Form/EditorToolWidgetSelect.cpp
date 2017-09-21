@@ -65,7 +65,7 @@ void EditorToolWidgetSelect::initSubWindows()
 
 	if (!iconImage.Ok())
 	{
-		EditorMessage::showErrorMessage(wxT("Sorry, could not load file: ") + WIDGET_SELECT_ICONS);
+		EditorMessage::showErrorMessage(wxS("Sorry, could not load file: ") + WIDGET_SELECT_ICONS);
 	}
 
 	wxImageList* imageList = new wxImageList(ICONS_DIS_X, ICONS_DIS_Y);
@@ -83,11 +83,11 @@ void EditorToolWidgetSelect::initSubWindows()
 	m_widget_tree->AssignImageList(imageList);
 
 	// 创建窗口类型列表
-	wxTreeItemId rootId = m_widget_tree->AddRoot(wxT("Root"));
-	wxTreeItemId itemId1 = m_widget_tree->AppendItem(rootId, EDITOR_STATIC_SHOW, 3, 3, new WidgetSelectItemName(EDITOR_STATIC_TYPE));
+	wxTreeItemId rootId = m_widget_tree->AddRoot(wxS("Root"));
+	wxTreeItemId itemId1 = m_widget_tree->AppendItem(rootId, EDITOR_LABEL_SHOW, 3, 3, new WidgetSelectItemName(EDITOR_LABEL_TYPE));
 	wxTreeItemId itemId2 = m_widget_tree->AppendItem(rootId, EDITOR_BUTTON_SHOW, 10, 10, new WidgetSelectItemName(EDITOR_BUTTON_TYPE));
 
-	// 绑定时间
+	// 绑定事件
 	m_widget_tree->Bind(wxEVT_TREE_BEGIN_DRAG, &EditorToolWidgetSelect::OnDragWidgetIcon, this, wxID_ANY);
 
 	wxBoxSizer* vBoxSizer = new wxBoxSizer(wxVERTICAL);

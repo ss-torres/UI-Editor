@@ -10,17 +10,16 @@
 #include <vector>
 #include <type_traits>
 #include <wx/string.h>
-#include <wx/variant.h>
 #include <wx/dataobj.h>
 
-const wxString COPY_DATA_FORMAT = wxT("CopyWinValue");
+const wxString COPY_DATA_FORMAT = wxS("CopyWinValue");
 
 class CopyWindowValue
 {
 public:
-	using WIN_ATTR_VALUE_LIST = std::vector<std::pair<wxString, wxVariant>>;
+	using WIN_ATTR_VALUE_LIST = std::vector<std::pair<wxString, wxAny>>;
 public:
-	CopyWindowValue(const wxString &winName = wxT(""))
+	CopyWindowValue(const wxString &winName = wxS(""))
 		: m_winName(winName)
 	{
 
@@ -34,7 +33,7 @@ public:
 
 	}
 	CopyWindowValue(CopyWindowValue&& right) noexcept(std::is_nothrow_move_constructible<wxString>::value
-		&& std::is_nothrow_constructible<std::vector<std::pair<wxString, wxVariant>>>::value)
+		&& std::is_nothrow_constructible<std::vector<std::pair<wxString, wxAny>>>::value)
 		: m_winName(std::move(right.m_winName)), m_winAttrValues(std::move(right.m_winAttrValues))
 	{
 
@@ -47,7 +46,7 @@ public:
 		return *this;
 	}
 	CopyWindowValue& operator=(CopyWindowValue&& right) noexcept(std::is_nothrow_move_assignable<wxString>::value
-		&& std::is_nothrow_move_assignable<std::vector<std::pair<wxString, wxVariant>>>::value)
+		&& std::is_nothrow_move_assignable<std::vector<std::pair<wxString, wxAny>>>::value)
 	{
 		m_winName = std::move(right.m_winName);
 		m_winAttrValues = std::move(right.m_winAttrValues);
@@ -58,14 +57,14 @@ public:
 	// 获取窗口名
 	const wxString& getWinName() const { return m_winName; }
 	// 添加一条窗口属性
-	void add(const wxString winAttr, const wxVariant& attrValue) { m_winAttrValues.push_back(std::make_pair(winAttr, attrValue)); }
+	void add(const wxString winAttr, const wxAny& attrValue) { m_winAttrValues.push_back(std::make_pair(winAttr, attrValue)); }
 	// 获取窗口属性
 	const WIN_ATTR_VALUE_LIST& getWinAttrValues() const { return m_winAttrValues; }
 private:
 	// 窗口名
 	wxString m_winName;
 	// 窗口属性值对
-	std::vector<std::pair<wxString, wxVariant>> m_winAttrValues;
+	std::vector<std::pair<wxString, wxAny>> m_winAttrValues;
 };
 
 // 获取一个自定义的DataFormat

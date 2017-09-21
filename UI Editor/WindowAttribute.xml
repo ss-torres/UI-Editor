@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <UIAttribute version = "1">
 	<Window name="GWindow">
-		<Attribute name="objectName" EditorProperty="string" EditorName="" EditorValidator="" EditorMaxLength="255">
+		<Attribute name="objectName" EditorProperty="string" EditorName="" EditorValidator="" >
 			<EditorAttributeList>
 				<EditorAttribute name = "DefaultValue" value = "" />
 				<EditorAttribute name = "Hint" value = "window object name" />
@@ -13,15 +13,19 @@
 				<Additional name="range" value="normal_12,bold_12,normal_14,bold_14,bold_16,bold_18,bold_24" />
 			</PropertyAdditional>
 		</Attribute>
-		<Attribute name="enabled" />
-		<Attribute name="showEnabled" />
-		<Attribute name="posX" />
-		<Attribute name="posY" />
-		<Attribute name="sizeX" />
-		<Attribute name="sizeY" />
+		<Attribute name="enabled" EditorProperty="bool" />
+		<Attribute name="showEnabled" EditorProperty="bool" />
+		<Attribute name="posX" EditorProperty="int" InitialValue = "40">
+			<EditorAttributeList>
+				<EditorAttribute name = "DefaultValue" value = "40" />
+			</EditorAttributeList>
+		</Attribute>
+		<Attribute name="posY" EditorProperty="int" />
+		<Attribute name="sizeX" EditorProperty="int" />
+		<Attribute name="sizeY" EditorProperty="int" />
 		
-		<Window name="GStatic">
-			<Attribute name="image" />
+		<Window name="GLabel">
+			<Attribute name="text" />
 		</Window>
 		<Window name="GButton">
 		</Window>

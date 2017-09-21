@@ -105,15 +105,15 @@ void XmlWinAttrBuilder::loadXmlNode(wxXmlNode * node, std::vector<AttributePrope
 // 分析一个Attribute的数据
 void XmlWinAttrBuilder::AnalyzeNode(wxXmlNode *node, AttributeProperty & attrProperty)
 {
-	attrProperty.editorProperty = node->GetAttribute(wxS("EditorProperty"), "");
+	attrProperty.editorProperty = node->GetAttribute(SET_PROPERTY_TYPE, "");
 	if (attrProperty.editorProperty.empty())
 	{
 		attrProperty.editorProperty = STRING_PROPERTY;
 	}
-	attrProperty.editorName = node->GetAttribute(wxS("EditorName"), "");
-	attrProperty.editorValidator = node->GetAttribute(wxS("EditorValidator"), "");
+	attrProperty.editorName = node->GetAttribute(SET_EDITOR_NAME, "");
+	attrProperty.editorValidator = node->GetAttribute(SET_EDITOR_VALIDATOR, "");
 
-	wxString lengthDesc = node->GetAttribute(wxS("EditorMaxLength"), "");
+	wxString lengthDesc = node->GetAttribute(SET_EDITOR_MAX_LEN, "");
 	long lengthValue = 0;
 	lengthDesc.ToLong(&lengthValue);
 	if (lengthValue <= 0)
@@ -121,6 +121,7 @@ void XmlWinAttrBuilder::AnalyzeNode(wxXmlNode *node, AttributeProperty & attrPro
 		lengthValue = DEF_MAX_LENGTH;
 	}
 	attrProperty.editorMaxLength = lengthValue;
+	attrProperty.initialValue = node->GetAttribute(SET_INITIAL_VALUE, "");
 
 	wxXmlNode* subNode = node->GetChildren();
 	for (; subNode != nullptr; subNode = subNode->GetNext())

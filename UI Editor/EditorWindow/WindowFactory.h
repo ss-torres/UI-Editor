@@ -2,24 +2,36 @@
 #define WINDOW_FACTORY_H
 
 #include "AbstractWindowFactory.h"
-#include "EditorStatic.h"
 
-class EditorButton;
+namespace inner
+{
+	template <typename T>
+	class SimpleLabel;
+}
+
+class EditorLabel;
 
 class WindowFactory : AbstractWindowFactory <inner::EditorFunc>
 {
 public:
-	using EditorStatic = inner:: SimpleStatic<inner::EditorFunc>;
+	using EditorLabel = inner::SimpleLabel<inner::EditorFunc>;
 public:
 	WindowFactory() {}
 	~WindowFactory() {}
 
-	// 根据窗口类型名窗口对应窗口
+	// 根据拷贝的窗口数据，构造窗口
+	AbstractEditorWindow* createCopyObjectWnd(const CopyWindowValue& winObject,
+		AbstractEditorWindow* parent, int relX, int relY, int width, int height) override;
 
-	// 创建一个Static
-	EditorStatic* createStatic() const override;
+	//// 创建一个Static
+	//EditorLabel* createStatic() const override;
 	//// 创建一个Button
 	//EditorButton* createButton() const override;
+
+private:
+	// 根据窗口名获取对应的窗口对象
+	AbstractEditorWindow* createEditorWnd(const wxString& winName,
+		AbstractEditorWindow* parent, int relX, int relY, int width, int height) const;
 };
 
 #endif	// WINDOW_FACTORY_H

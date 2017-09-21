@@ -12,9 +12,9 @@ ImageProperty::ImageProperty(const wxString& label, const wxString& name, const 
 	: wxPGProperty(label, name), m_imageData(value)
 {
 	SetValue(WXVARIANT(value));
-	AddPrivateChild(new wxFileProperty(wxT("Image"), wxPG_LABEL, value.m_imageFile));
-	AddPrivateChild(new wxIntProperty(wxT("X"), wxPG_LABEL, value.m_x));
-	AddPrivateChild(new wxIntProperty(wxT("Y"), wxPG_LABEL, value.m_y));
+	AddPrivateChild(new wxFileProperty(wxS("Image"), wxPG_LABEL, value.m_imageFile));
+	AddPrivateChild(new wxIntProperty(wxS("X"), wxPG_LABEL, value.m_x));
+	AddPrivateChild(new wxIntProperty(wxS("Y"), wxPG_LABEL, value.m_y));
 }
 
 ImageProperty::~ImageProperty()

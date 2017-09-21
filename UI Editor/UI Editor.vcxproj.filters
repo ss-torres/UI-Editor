@@ -111,9 +111,6 @@
     <ClInclude Include="EditorWindow\EditorFunc.h">
       <Filter>EditorWindow</Filter>
     </ClInclude>
-    <ClInclude Include="EditorWindow\EditorStatic.h">
-      <Filter>EditorWindow</Filter>
-    </ClInclude>
     <ClInclude Include="Property\ImageProperty.h">
       <Filter>Property</Filter>
     </ClInclude>
@@ -144,9 +141,6 @@
     <ClInclude Include="EditorWindow\SimpleWindow.h">
       <Filter>EditorWindow</Filter>
     </ClInclude>
-    <ClInclude Include="EditorWindow\SimpleStatic.h">
-      <Filter>EditorWindow</Filter>
-    </ClInclude>
     <ClInclude Include="EditorWindow\AbstractWindowFactory.h">
       <Filter>EditorWindow</Filter>
     </ClInclude>
@@ -167,6 +161,18 @@
     </ClInclude>
     <ClInclude Include="CopyDrop\CopyWinObject.h">
       <Filter>CopyDrop</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorWindow\ContainerWindow.h">
+      <Filter>EditorWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="Settings\UsedWinAttrDefine.h">
+      <Filter>Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorWindow\SimpleLabel.h">
+      <Filter>EditorWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorWindow\EditorLabel.h">
+      <Filter>EditorWindow</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -245,16 +251,7 @@
     <ClCompile Include="EditorWindow\WindowFactory.cpp">
       <Filter>EditorWindow</Filter>
     </ClCompile>
-    <ClCompile Include="EditorWindow\EditorButton.inl">
-      <Filter>EditorWindow</Filter>
-    </ClCompile>
-    <ClCompile Include="EditorWindow\EditorStatic.inl">
-      <Filter>EditorWindow</Filter>
-    </ClCompile>
     <ClCompile Include="EditorWindow\SimpleButton.inl">
-      <Filter>EditorWindow</Filter>
-    </ClCompile>
-    <ClCompile Include="EditorWindow\SimpleStatic.inl">
       <Filter>EditorWindow</Filter>
     </ClCompile>
     <ClCompile Include="Util\ArithmeticUtil.cpp">
@@ -262,6 +259,18 @@
     </ClCompile>
     <ClCompile Include="CopyDrop\CopyWinObject.cpp">
       <Filter>CopyDrop</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorWindow\ContainerWindow.inl">
+      <Filter>EditorWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorWindow\EditorButton.cpp">
+      <Filter>EditorWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorWindow\SimpleLabel.inl">
+      <Filter>EditorWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorWindow\EditorLabel.cpp">
+      <Filter>EditorWindow</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

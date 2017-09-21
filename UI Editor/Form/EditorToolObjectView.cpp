@@ -15,10 +15,10 @@ EditorToolObjectView::~EditorToolObjectView()
 void EditorToolObjectView::initSubWindows()
 {
 	m_objectView = new wxTreeListCtrl(getBench(), wxID_ANY, wxPoint(0, 0), wxSize(300, 600), wxTL_DEFAULT_STYLE | wxTL_CHECKBOX);
-	m_objectView->AppendColumn(wxT("object"));
-	m_objectView->AppendColumn(wxT("class"));
-	wxTreeListItem item = m_objectView->AppendItem(m_objectView->GetRootItem(), wxT("background"));
-	m_objectView->SetItemText(item, 1, wxT("EditorStatic"));
+	m_objectView->AppendColumn(wxS("object"));
+	m_objectView->AppendColumn(wxS("class"));
+	wxTreeListItem item = m_objectView->AppendItem(m_objectView->GetRootItem(), wxS("background"));
+	m_objectView->SetItemText(item, 1, wxS("EditorLabel"));
 
 	wxBoxSizer* boxSizer = new wxBoxSizer(wxVERTICAL);
 	boxSizer->Add(m_objectView, 1, wxALL, 5);

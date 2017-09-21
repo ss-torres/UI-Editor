@@ -45,8 +45,10 @@ namespace PropertyFactoryImpl
 	void setPropertyEditor(wxPGProperty* property, const wxString& editorName);
 	// 设置属性编辑验证器
 	void setEditorValidator(wxPGProperty* property, const wxString& validatorName);
+	// 设置初始值
+	void setInitialValue(wxPGProperty* property, const wxString& initialValue);
 	// 设置属性的一些额外属性
-	void SetPropertyAdditional(wxPGProperty* property, const std::map<wxString, wxString>& additionalInfos);
+	void setPropertyAdditional(wxPGProperty* property, const std::map<wxString, wxString>& additionalInfos);
 	// 设置EnumProperty的一些额外属性
 	void SetEnumPropAdditional(wxEnumProperty* property, const std::map<wxString, wxString>& additionalInfos);
 }

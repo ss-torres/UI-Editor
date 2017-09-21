@@ -79,9 +79,11 @@ void EditorWorkArea::updateFrame(float dt)
 }
 
 // 用来处理Drop事件
-void EditorWorkArea::onDrop(wxCoord x, wxCoord y, const CopyWindowValue & winValue)
+void EditorWorkArea::onDrop(wxCoord x, wxCoord y, const CopyWindowValue& winValue)
 {
-	
+	std::pair<wxString, wxAny> valuePair = winValue.getWinAttrValues()[5];
+	int value = valuePair.second.As<int>();
+	int j = value;
 }
 
 // 用来处理场景更新的计算

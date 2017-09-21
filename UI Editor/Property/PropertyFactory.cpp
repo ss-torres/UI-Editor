@@ -48,8 +48,9 @@ wxPGProperty * PropertyFactory::createProperty(const AttributeProperty& attrProp
 	setEditorValidator(property, attrProperty.editorValidator);
 	//// 该函数需要在添加到wxPropertyGrid之后才能设置
 	//property->SetMaxLength(attrProperty.editorMaxLength);
+	setInitialValue(property, attrProperty.initialValue);
 	setEditorAttributes(property, attrProperty.editorAttributeList);
-	SetPropertyAdditional(property, attrProperty.additionalInfos);
+	setPropertyAdditional(property, attrProperty.additionalInfos);
 
 	return property;
 }
@@ -151,8 +152,23 @@ void PropertyFactoryImpl::setEditorValidator(wxPGProperty * property, const wxSt
 	}
 }
 
+// 设置初始值
+void PropertyFactoryImpl::setInitialValue(wxPGProperty* property, const wxString& initialValue)
+{
+	if (initialValue.empty())
+	{
+		return;
+	}
+
+	wxVariant value;
+	if (property->StringToValue(value, initialValue))
+	{
+		property->SetValue(value);
+	}
+}
+
 // 设置属性的一些额外属性
-void PropertyFactoryImpl::SetPropertyAdditional(wxPGProperty * property, const std::map<wxString, wxString>& additionalInfos)
+void PropertyFactoryImpl::setPropertyAdditional(wxPGProperty * property, const std::map<wxString, wxString>& additionalInfos)
 {
 	// 判断是否为EnumProperty
 	{
