@@ -6,8 +6,10 @@
 namespace inner
 {
 	EditorFunc::EditorFunc()
-		: m_editShow(true)
+		: m_editShow(true),
+		m_id(getNewId())
 	{
+	
 	}
 
 	EditorFunc::~EditorFunc()
@@ -56,6 +58,8 @@ namespace inner
 		static ATTR_HANDLE_MAP s_attrHandles = initEditorAttrHanldes();
 		return s_attrHandles;
 	}
+
+	int EditorFunc::s_id_generator = ID_BEG;
 
 	// 初始化属性处理函数Map
 	EditorFunc::ATTR_HANDLE_MAP EditorFunc::initEditorAttrHanldes()

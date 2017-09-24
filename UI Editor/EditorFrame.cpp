@@ -2,7 +2,10 @@
 
 #include "Settings/WindowAttributeManager.h"
 #include "Form/EditorToolWindow.h"
+#include "Form/EditorToolObjectView.h"
+#include "Form/EditorToolPropertyEditor.h"
 #include "Form/EditorWorkArea.h"
+#include "EditMessage/ChangeManager.h"
 
 const wxString WIN_ATTR_FILE = "WindowAttribute.xml";
 
@@ -17,10 +20,6 @@ EditorFrame::EditorFrame(const wxString & title)
 EditorFrame::~EditorFrame()
 {
 	m_auiManager->UnInit();
-	m_manager.destroyToolWindow(m_tool_widget_select);
-	m_manager.destroyToolWindow(m_tool_object_view);
-	m_manager.destroyToolWindow(m_tool_property_editor);
-	m_manager.destroyWorkArea(m_editWorkArea);
 }
 
 // 每帧处理函数
@@ -112,8 +111,13 @@ void EditorFrame::initSubWindows()
 
 	m_auiManager = new wxAuiManager(this, wxAUI_MGR_DEFAULT);
 
+	auto funcWndsMgr = m_manager;
+	auto tool_window_del_func = [funcWndsMgr](EditorToolWindow* editWnd) {funcWndsMgr.destroyToolWindow(editWnd); };
+
 	// 窗口类型选择
-	m_tool_widget_select = m_manager.createToolWindow(ToolWindowType::WidgetSelect, *m_auiManager, this, wxLEFT, "Widget Select");
+	m_tool_widget_select.reset(
+		m_manager.createToolWindow(ToolWindowType::WidgetSelect, *m_auiManager, this, wxLEFT, "Widget Select"),
+		tool_window_del_func);
 	wxAuiPaneInfo& widgetSelectPaneInfo = m_tool_widget_select->getPanelInfo();
 	widgetSelectPaneInfo.BestSize(100, clientSize.GetWidth());
 	widgetSelectPaneInfo.MaxSize(200, clientSize.GetWidth());
@@ -121,10 +125,14 @@ void EditorFrame::initSubWindows()
 	m_tool_widget_select->setPanelInfo(widgetSelectPaneInfo);
 	m_tool_widget_select->setWinAttrManager(m_winAttrManager);
 	// 查看窗口对象父子级关系
-	m_tool_object_view = m_manager.createToolWindow(ToolWindowType::ObjectView, *m_auiManager, this, wxRIGHT, "Object View");
+	m_tool_object_view.reset(dynamic_cast<EditorToolObjectView*>(
+		m_manager.createToolWindow(ToolWindowType::ObjectView, *m_auiManager, this, wxRIGHT, "Object View")),
+		tool_window_del_func);
 	m_tool_object_view->setWinAttrManager(m_winAttrManager);
 	// 窗口对象属性修改
-	m_tool_property_editor = m_manager.createToolWindow(ToolWindowType::PropertyEditor, *m_auiManager, this, wxRIGHT, "Property Editor");
+	m_tool_property_editor.reset(dynamic_cast<EditorToolPropertyEditor*>(
+		m_manager.createToolWindow(ToolWindowType::PropertyEditor, *m_auiManager, this, wxRIGHT, "Property Editor")),
+		tool_window_del_func);
 	m_tool_property_editor->setWinAttrManager(m_winAttrManager);
 
 	m_auiManager->Update();
@@ -132,8 +140,17 @@ void EditorFrame::initSubWindows()
 	//wxMDIClientWindowBase* clientWindow = GetClientWindow();
 	//clientWindow->SetSize(200, 0, 500, 400);
 
+	auto work_area_del_func = [funcWndsMgr](EditorWorkArea* editWnd) {funcWndsMgr.destroyWorkArea(editWnd); };
 	// 添加工作窗口
-	m_editWorkArea = m_manager.createWorkArea(this, "WorkArea", wxDefaultPosition, wxSize(500, 400));
+	m_editWorkArea.reset(
+		m_manager.createWorkArea(this, "WorkArea", wxDefaultPosition, wxSize(500, 400)),
+			work_area_del_func);
+
+	// 将主工作区和工具窗口添加到命令处理对象中
+	Command::ChangeManager changeMgr;
+	changeMgr.setObjectView(m_tool_object_view);
+	changeMgr.setPropertyEditor(m_tool_property_editor);
+	changeMgr.setWorkArea(m_editWorkArea);
 }
 
 wxDEFINE_EVENT(DESTROY_EVENT, wxNotifyEvent);

@@ -6,12 +6,12 @@
 #include <wx/mdi.h>
 #include <wx/panel.h>
 #include <wx/dnd.h>
+#include "../EditorWindow/WindowInterface.h"
 
 class D3DEngine;
 class CopyWindowValue;
 class wxMDIParentFrame;
 class wxMDIChildFrame;
-//class AbstractEditorWindow;
 
 class EditorWorkArea : public WorkArea
 {
@@ -37,6 +37,8 @@ private:
 	// 获取窗口句柄，该函数必须在初始化bench之后调用
 	HWND getHandle();
 
+	// 创建一个窗口对象
+	void createWndObject(AbstractEditorWindow* parent, int absX, int absY, const CopyWindowValue& winValue);
 	// 初始化D3D成员
 	void initD3DMember();
 

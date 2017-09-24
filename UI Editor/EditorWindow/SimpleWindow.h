@@ -44,10 +44,14 @@ namespace inner
 		void updateRelX(int x) { m_relX = x; }
 		// 获取相对坐标X
 		int getRelX() const { return m_relX;  }
+		// 获取绝对坐标X
+		int getAbsX() const;
 		// 更新相对坐标Y
 		void updateRelY(int y) { m_relY = y; }
 		// 获取相对坐标Y
 		int getRelY() const { return m_relY;  }
+		// 获取绝对坐标Y
+		int getAbsY() const;
 		// 更新相对坐标X和Y
 		void updateRelPos(int x, int y) { m_relX = x, m_relY = y; }
 		// 更新窗口宽度大小
@@ -72,6 +76,10 @@ namespace inner
 		virtual void draw() = 0;
 
 	protected:
+		// 获取父窗口绝对坐标X
+		virtual int getParentAbsX() const { return 0;  }
+		// 获取父窗口绝对坐标Y
+		virtual int getParentAbsY() const { return 0;  }
 		// 获取该窗口的父窗口
 		SimpleWindow<T>* getParent() const { return m_parent; }
 		// 设置该窗口的父窗口对象
@@ -101,6 +109,20 @@ namespace inner
 		bool m_visibleEnable;
 	};
 
+
+	// 获取绝对坐标X
+	template <typename T>
+	int SimpleWindow<T>::getAbsX() const
+	{
+		return getParentAbsX() + getRelX();
+	}
+
+	// 获取绝对坐标Y
+	template <typename T>
+	int SimpleWindow<T>::getAbsY() const
+	{
+		return getParentAbsY() + getRelY();
+	}
 }
 
 #include "SimpleWindow.inl"

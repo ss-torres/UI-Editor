@@ -5,16 +5,18 @@
 #include "../CopyDrop/CopyWinObject.h"
 #include "WindowInterface.h"
 
-template <typename T>
+
 class AbstractWindowFactory
 {
 public:
+	static AbstractWindowFactory* winFactoryInst() { return nullptr; }
+
 	AbstractWindowFactory() {}
 	virtual ~AbstractWindowFactory() {}
 
 	// 根据拷贝的窗口数据，构造窗口
-	virtual AbstractEditorWindow* createCopyObjectWnd(const CopyWindowValue& winObject,
-		AbstractEditorWindow* parent, int relX, int relY, int width, int height) { return nullptr; }
+	virtual AbstractEditorWindow* createCopyObjectWnd(CopyWindowValue winObject,
+		AbstractEditorWindow* parent, int relX, int relY, int width = -1, int height = -1) { return nullptr; }
 
 	//virtual inner::SimpleWindow<T>* createStatic() const = 0;
 	//virtual SimpleWindow<T>* createButton() const = 0;

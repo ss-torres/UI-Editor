@@ -2,6 +2,7 @@
 #include "../DrawEngine/d3dEngine.h"
 #include "../CopyDrop/CopyWinObject.h"
 #include "../EditorWindow/WindowInterface.h"
+#include "../EditorWindow/WindowFactory.h"
 
 class DropWinTarget : public wxDropTarget
 {
@@ -81,9 +82,7 @@ void EditorWorkArea::updateFrame(float dt)
 // 用来处理Drop事件
 void EditorWorkArea::onDrop(wxCoord x, wxCoord y, const CopyWindowValue& winValue)
 {
-	std::pair<wxString, wxAny> valuePair = winValue.getWinAttrValues()[5];
-	int value = valuePair.second.As<int>();
-	int j = value;
+	createWndObject(nullptr, x, y, winValue);
 }
 
 // 用来处理场景更新的计算
@@ -109,6 +108,21 @@ void EditorWorkArea::drawScene()
 
 	HR(d3dDevice->EndScene());
 	HR(d3dDevice->Present(0, 0, 0, 0));
+}
+
+// 创建一个窗口对象
+void EditorWorkArea::createWndObject(AbstractEditorWindow* parent, int absX, int absY, const CopyWindowValue& winValue)
+{
+	AbstractWindowFactory* wndFac = WindowFactory::winFactoryInst();
+	// 暂时处理，之后会将nullptr判断移除
+	int relX = absX;
+	int relY = absY;
+	if (parent != nullptr)
+	{
+		relX -= parent->getAbsX();
+		relY -= parent->getAbsY();
+	}
+	auto createdWnd = wndFac->createCopyObjectWnd(winValue, parent, relX, relY);
 }
 
 // 初始化D3D成员

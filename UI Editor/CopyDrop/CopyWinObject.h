@@ -7,7 +7,7 @@
  * 注意事项：当前只考虑一个应用直接的拷贝，如果需要可以修改来实现不同项目之间的考虑
  */
 
-#include <vector>
+#include <map>
 #include <type_traits>
 #include <wx/string.h>
 #include <wx/dataobj.h>
@@ -17,7 +17,7 @@ const wxString COPY_DATA_FORMAT = wxS("CopyWinValue");
 class CopyWindowValue
 {
 public:
-	using WIN_ATTR_VALUE_LIST = std::vector<std::pair<wxString, wxAny>>;
+	using WIN_ATTR_VALUE_LIST = std::map<wxString, wxAny>;
 public:
 	CopyWindowValue(const wxString &winName = wxS(""))
 		: m_winName(winName)
@@ -33,7 +33,7 @@ public:
 
 	}
 	CopyWindowValue(CopyWindowValue&& right) noexcept(std::is_nothrow_move_constructible<wxString>::value
-		&& std::is_nothrow_constructible<std::vector<std::pair<wxString, wxAny>>>::value)
+		&& std::is_nothrow_constructible<std::map<wxString, wxAny>>::value)
 		: m_winName(std::move(right.m_winName)), m_winAttrValues(std::move(right.m_winAttrValues))
 	{
 
@@ -46,7 +46,7 @@ public:
 		return *this;
 	}
 	CopyWindowValue& operator=(CopyWindowValue&& right) noexcept(std::is_nothrow_move_assignable<wxString>::value
-		&& std::is_nothrow_move_assignable<std::vector<std::pair<wxString, wxAny>>>::value)
+		&& std::is_nothrow_move_assignable<std::map<wxString, wxAny>>::value)
 	{
 		m_winName = std::move(right.m_winName);
 		m_winAttrValues = std::move(right.m_winAttrValues);
@@ -57,14 +57,16 @@ public:
 	// 获取窗口名
 	const wxString& getWinName() const { return m_winName; }
 	// 添加一条窗口属性
-	void add(const wxString winAttr, const wxAny& attrValue) { m_winAttrValues.push_back(std::make_pair(winAttr, attrValue)); }
+	void add(const wxString winAttr, const wxAny& attrValue) { m_winAttrValues.insert(std::make_pair(winAttr, attrValue)); }
 	// 获取窗口属性
 	const WIN_ATTR_VALUE_LIST& getWinAttrValues() const { return m_winAttrValues; }
+	// 移动窗口属性
+	WIN_ATTR_VALUE_LIST&& moveWinAttrValues() { return std::move(m_winAttrValues); }
 private:
 	// 窗口名
 	wxString m_winName;
 	// 窗口属性值对
-	std::vector<std::pair<wxString, wxAny>> m_winAttrValues;
+	std::map<wxString, wxAny> m_winAttrValues;
 };
 
 // 获取一个自定义的DataFormat

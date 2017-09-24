@@ -24,6 +24,8 @@
     <ClInclude Include="DrawEngine\d3dUtil.h" />
     <ClInclude Include="DrawEngine\GameTimer.h" />
     <ClInclude Include="EditMessage\ChangeManager.h" />
+    <ClInclude Include="EditMessage\CommandStack.h" />
+    <ClInclude Include="EditMessage\InsertWindowCommand.h" />
     <ClInclude Include="EditorApp.h" />
     <ClInclude Include="EditorFrame.h" />
     <ClInclude Include="EditorWindow\AbstractWindowFactory.h" />
@@ -35,6 +37,7 @@
     <ClInclude Include="EditorWindow\SimpleLabel.h" />
     <ClInclude Include="EditorWindow\SimpleWindow.h" />
     <ClInclude Include="EditorWindow\WindowFactory.h" />
+    <ClInclude Include="EditorWindow\WindowFactoryDefine.h" />
     <ClInclude Include="EditorWindow\WindowInterface.h" />
     <ClInclude Include="ErrorHandle\ErrorHandle.h" />
     <ClInclude Include="ErrorHandle\ErrorMessage.h" />
@@ -67,6 +70,9 @@
     <ClCompile Include="DrawEngine\d3dEngine.cpp" />
     <ClCompile Include="DrawEngine\d3dUtil.cpp" />
     <ClCompile Include="DrawEngine\GameTimer.cpp" />
+    <ClCompile Include="EditMessage\ChangeManager.cpp" />
+    <ClCompile Include="EditMessage\CommandStack.cpp" />
+    <ClCompile Include="EditMessage\InsertWindowCommand.cpp" />
     <ClCompile Include="EditorApp.cpp" />
     <ClCompile Include="EditorFrame.cpp" />
     <ClCompile Include="EditorWindow\ContainerWindow.inl" />

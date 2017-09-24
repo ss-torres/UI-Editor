@@ -6,12 +6,9 @@
  * 作用：用来定义编辑窗口使用的接口
  */
 
-namespace inner
-{
-	class EditorFunc;
-	template <typename T>
-	class SimpleWindow;
-}
+#include "EditorFunc.h"
+#include "SimpleWindow.h"
+
 
 using AbstractEditorWindow = inner::SimpleWindow<inner::EditorFunc>;
 

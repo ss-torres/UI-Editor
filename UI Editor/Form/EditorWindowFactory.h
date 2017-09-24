@@ -15,14 +15,15 @@ public:
 
 	// 创建对应的ToolWindow
 	EditorToolWindow* createToolWindow(ToolWindowType type, wxAuiManager &manager, wxWindow * parent, 
-		int direction = wxLEFT, const wxString & paneName = wxEmptyString);
+		int direction = wxLEFT, const wxString & paneName = wxEmptyString) const;
 	// 销毁对应的ToolWindow
-	void destroyToolWindow(EditorToolWindow* &toolWnd);
+	void destroyToolWindow(EditorToolWindow* &toolWnd) const;
 
 	// 创建主工作区
-	EditorWorkArea* createWorkArea(wxMDIParentFrame* parent, const wxString& captionName, const wxPoint& position, const wxSize &size);
+	EditorWorkArea* createWorkArea(wxMDIParentFrame* parent, 
+		const wxString& captionName, const wxPoint& position, const wxSize &size) const;
 	// 销毁主工作区
-	void destroyWorkArea(EditorWorkArea* &workArea);
+	void destroyWorkArea(EditorWorkArea* &workArea) const;
 
 private:
 	

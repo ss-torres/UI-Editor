@@ -22,7 +22,7 @@ EditorWindowFactory::~EditorWindowFactory()
 }
 
 EditorToolWindow * EditorWindowFactory::createToolWindow(ToolWindowType type, wxAuiManager &manager, wxWindow * parent,
-	int direction, const wxString & paneName)
+	int direction, const wxString & paneName) const
 {
 	switch (type)
 	{
@@ -42,20 +42,21 @@ EditorToolWindow * EditorWindowFactory::createToolWindow(ToolWindowType type, wx
 }
 
 // 销毁对应的ToolWindow
-void EditorWindowFactory::destroyToolWindow(EditorToolWindow* &toolWnd)
+void EditorWindowFactory::destroyToolWindow(EditorToolWindow* &toolWnd) const
 {
 	delete toolWnd;
 	toolWnd = NULL;
 }
 
 // 创建主工作区
-EditorWorkArea * EditorWindowFactory::createWorkArea(wxMDIParentFrame* parent, const wxString& captionName, const wxPoint& position, const wxSize& size)
+EditorWorkArea * EditorWindowFactory::createWorkArea(wxMDIParentFrame* parent, 
+	const wxString& captionName, const wxPoint& position, const wxSize& size) const
 {
 	return new EditorWorkArea(parent, captionName, position, size);
 }
 
 // 销毁主工作区
-void EditorWindowFactory::destroyWorkArea(EditorWorkArea* &workArea)
+void EditorWindowFactory::destroyWorkArea(EditorWorkArea* &workArea) const
 {
 	delete workArea;
 	workArea = NULL;

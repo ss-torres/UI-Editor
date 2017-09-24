@@ -11,6 +11,7 @@
 #include <map>
 #include <utility>
 #include <functional>
+#include <stdexcept>
 #include <wx/string.h>
 #include <wx/any.h>
 
@@ -19,6 +20,9 @@ namespace inner
 	template <typename T>
 	class SimpleWindow;
 }
+
+// 编辑窗口的起始ID
+const int ID_BEG = 10;
 
 class Visitor;
 
@@ -35,8 +39,15 @@ namespace inner
 		// 用来获取构建的窗口类型，继承的窗口返回自身
 		virtual SimpleWindow<EditorFunc>* getConstructWindow() = 0;
 
+		// 获取窗口ID，用来标识窗口
+		int getId() const { return m_id; }
+
 		// 更新窗口对象属性信息
 		virtual void updateWinAttr(const wxString& attrName, const wxAny& value) { updateAttrValue(attrName, value); }
+
+		// 重新设置整个属性表，当前只会更新列表信息，不会修改Window中的数据
+		template <typename ATTR_MAP_TYPE = WIN_ATTR_MAP>
+		void resetWinAttrs(ATTR_MAP_TYPE&& allTypes = ATTR_MAP_TYPE());
 
 	protected:
 		// 定义处理消息的类型，返回值表示是否修改了属性，true表示修改，false表示未修改
@@ -67,6 +78,10 @@ namespace inner
 		const WIN_ATTR_MAP& getWinAttrs() const { return m_allWinAttrs;  }
 
 	private:
+		// 用来生成新的窗口ID
+		static int s_id_generator;
+		// 获取一个窗口ID，获取的窗口ID从ID_BEG开始，如果新的窗口ID为负值，则提示错误
+		static int getNewId();
 		// 初始化属性处理函数Map
 		static ATTR_HANDLE_MAP initEditorAttrHanldes();
 		// 修改窗口中一个T型属性
@@ -77,10 +92,18 @@ namespace inner
 	private:
 		// 在编辑时，该窗口是否显示
 		bool m_editShow;
+		// 用来记录当前窗口的ID
+		int m_id;
 		// 用来记录窗口的全部属性
 		WIN_ATTR_MAP m_allWinAttrs;
 	};
 
+	// 重新设置整个属性表，当前只会更新列表信息，不会修改Window中的数据
+	template<typename ATTR_MAP_TYPE>
+	inline void EditorFunc::resetWinAttrs(ATTR_MAP_TYPE&& allTypes)
+	{
+		m_allWinAttrs = allTypes;
+	}
 
 	// 更新整个属性表中的信息
 	inline void EditorFunc::updateAttrValue(const wxString & name, const wxAny & value)
@@ -110,6 +133,18 @@ namespace inner
 
 		return false;
 	}
+
+	// 获取一个窗口ID，获取的窗口ID从10开始，如果新的窗口ID为负值，则提示错误
+	inline int EditorFunc::getNewId()
+	{
+		int newId = s_id_generator++;
+		if (newId < 0)
+		{
+			throw std::runtime_error("EditorFunc::getNewId will return negative id");
+		}
+		return newId;
+	}
 }
+
 
 #endif	// EDITOR_FUNC_H

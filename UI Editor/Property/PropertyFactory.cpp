@@ -55,6 +55,31 @@ wxPGProperty * PropertyFactory::createProperty(const AttributeProperty& attrProp
 	return property;
 }
 
+// 根据属性名创建属性
+wxPGProperty * PropertyFactory::createPropertyFromName(const wxString & propertyName, const wxString& editorProperty) const
+{
+	wxPGProperty* property = NULL;
+	if (editorProperty == STRING_PROPERTY)
+	{
+		property = new wxStringProperty(propertyName, wxPG_LABEL);
+	}
+	else if (editorProperty == INT_PROPERTY)
+	{
+		property = new wxIntProperty(propertyName, wxPG_LABEL);
+	}
+	else if (editorProperty == BOOL_PROPERTY)
+	{
+		property = new wxBoolProperty(propertyName, wxPG_LABEL);
+
+	}
+	else if (editorProperty == ENUM_PROPERTY)
+	{
+		property = new wxEnumProperty(propertyName, wxPG_LABEL);
+	}
+
+	return property;
+}
+
 // 销毁属性列表
 void PropertyFactory::destroyProperty(wxPGProperty *& property)
 {
@@ -95,31 +120,6 @@ void PropertyFactory::initXmlAttrTowxAttr()
 	m_xmlAttrTowxAttr.emplace(XML_FLOAT_PRECISION,				wxPG_FLOAT_PRECISION);
 	m_xmlAttrTowxAttr.emplace(XML_UINT_BASE,					wxPG_UINT_BASE);
 	m_xmlAttrTowxAttr.emplace(XML_UINT_PREFIX,					wxPG_UINT_PREFIX);
-}
-
-// 根据属性名创建属性
-wxPGProperty * PropertyFactoryImpl::createPropertyFromName(const wxString & propertyName, const wxString& editorProperty)
-{
-	wxPGProperty* property = NULL;
-	if (editorProperty == STRING_PROPERTY)
-	{
-		property = new wxStringProperty(propertyName, wxPG_LABEL);
-	}
-	else if (editorProperty == INT_PROPERTY)
-	{
-		property = new wxIntProperty(propertyName, wxPG_LABEL);
-	}
-	else if (editorProperty == BOOL_PROPERTY)
-	{
-		property = new wxBoolProperty(propertyName, wxPG_LABEL);
-
-	}
-	else if (editorProperty == ENUM_PROPERTY)
-	{
-		property = new wxEnumProperty(propertyName, wxPG_LABEL);
-	}
-
-	return property;
 }
 
 // 根据编辑器描述设置编辑器
