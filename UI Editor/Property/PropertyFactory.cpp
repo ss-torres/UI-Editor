@@ -41,7 +41,7 @@ wxPGProperty * PropertyFactory::createProperty(const AttributeProperty& attrProp
 
 	if (property == nullptr)
 	{
-		throw ExtraException::unexpected_situation("some Attribute's EditorProperty is wrong");
+		throw ExtraException::unexpected_situation(__func__ + std::string("some Attribute's EditorProperty is wrong"));
 	}
 
 	setPropertyEditor(property, attrProperty.editorName);
@@ -55,27 +55,21 @@ wxPGProperty * PropertyFactory::createProperty(const AttributeProperty& attrProp
 	return property;
 }
 
-// 根据属性名创建属性
-wxPGProperty * PropertyFactory::createPropertyFromName(const wxString & propertyName, const wxString& editorProperty) const
+// 根据配置参数，获取一个可以获取值得wxPGProperty
+wxPGProperty * PropertyFactory::createDefaultProperty(const AttributeProperty & attrProperty) const
 {
-	wxPGProperty* property = NULL;
-	if (editorProperty == STRING_PROPERTY)
-	{
-		property = new wxStringProperty(propertyName, wxPG_LABEL);
-	}
-	else if (editorProperty == INT_PROPERTY)
-	{
-		property = new wxIntProperty(propertyName, wxPG_LABEL);
-	}
-	else if (editorProperty == BOOL_PROPERTY)
-	{
-		property = new wxBoolProperty(propertyName, wxPG_LABEL);
+	using namespace PropertyFactoryImpl;
 
-	}
-	else if (editorProperty == ENUM_PROPERTY)
+	// 创建属性
+	wxPGProperty* property = createPropertyFromName(attrProperty.propertyName, attrProperty.editorProperty);
+
+	if (property == nullptr)
 	{
-		property = new wxEnumProperty(propertyName, wxPG_LABEL);
+		throw ExtraException::unexpected_situation(__func__ + std::string("some Attribute's EditorProperty is wrong"));
 	}
+
+	setInitialValue(property, attrProperty.initialValue);
+	setPropertyAdditional(property, attrProperty.additionalInfos);
 
 	return property;
 }
@@ -120,6 +114,31 @@ void PropertyFactory::initXmlAttrTowxAttr()
 	m_xmlAttrTowxAttr.emplace(XML_FLOAT_PRECISION,				wxPG_FLOAT_PRECISION);
 	m_xmlAttrTowxAttr.emplace(XML_UINT_BASE,					wxPG_UINT_BASE);
 	m_xmlAttrTowxAttr.emplace(XML_UINT_PREFIX,					wxPG_UINT_PREFIX);
+}
+
+// 根据属性名创建属性
+wxPGProperty * PropertyFactoryImpl::createPropertyFromName(const wxString & propertyName, const wxString& editorProperty)
+{
+	wxPGProperty* property = NULL;
+	if (editorProperty == STRING_PROPERTY)
+	{
+		property = new wxStringProperty(propertyName, wxPG_LABEL);
+	}
+	else if (editorProperty == INT_PROPERTY)
+	{
+		property = new wxIntProperty(propertyName, wxPG_LABEL);
+	}
+	else if (editorProperty == BOOL_PROPERTY)
+	{
+		property = new wxBoolProperty(propertyName, wxPG_LABEL);
+
+	}
+	else if (editorProperty == ENUM_PROPERTY)
+	{
+		property = new wxEnumProperty(propertyName, wxPG_LABEL);
+	}
+
+	return property;
 }
 
 // 根据编辑器描述设置编辑器

@@ -20,8 +20,9 @@ public:
 
 	// 根据配置参数，获取一个wxPGProperty
 	wxPGProperty* createProperty(const AttributeProperty& attrProperty) const;
-	// 根据属性名创建属性
-	wxPGProperty* createPropertyFromName(const wxString& propertyName, const wxString& editorProperty) const;
+	// 根据配置参数，获取一个可以获取值得wxPGProperty
+	wxPGProperty* createDefaultProperty(const AttributeProperty& attrProperty) const;
+
 	// 销毁属性列表
 	void destroyProperty(wxPGProperty* &property);
 
@@ -41,6 +42,8 @@ private:
 
 namespace PropertyFactoryImpl
 {
+	// 根据属性名创建属性
+	wxPGProperty* createPropertyFromName(const wxString& propertyName, const wxString& editorProperty);
 	// 根据编辑器描述设置编辑器
 	void setPropertyEditor(wxPGProperty* property, const wxString& editorName);
 	// 设置属性编辑验证器

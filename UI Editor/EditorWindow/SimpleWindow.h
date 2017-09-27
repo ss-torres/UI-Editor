@@ -9,6 +9,8 @@
 #include <vector>
 #include <iterator>
 #include <wx/string.h>
+#include <wx/region.h>
+#include "../Util/ArithmeticUtil.h"
 
 namespace inner
 {
@@ -37,33 +39,35 @@ namespace inner
 		// 用来获取窗口对象名字
 		wxString getWindowObjectName() { return m_windowObjectName; }
 		// 用来获取窗口类名字
-		virtual wxString getWindowClassName() { return "SimpleWindow"; }
+		virtual wxString getWindowClassName() const { return wxS("SimpleWindow"); }
 
 		// 编辑窗口范围
 		// 更新相对坐标X
-		void updateRelX(int x) { m_relX = x; }
+		void updateRelX(int x);
 		// 获取相对坐标X
 		int getRelX() const { return m_relX;  }
 		// 获取绝对坐标X
 		int getAbsX() const;
 		// 更新相对坐标Y
-		void updateRelY(int y) { m_relY = y; }
+		void updateRelY(int y);
 		// 获取相对坐标Y
 		int getRelY() const { return m_relY;  }
 		// 获取绝对坐标Y
 		int getAbsY() const;
 		// 更新相对坐标X和Y
-		void updateRelPos(int x, int y) { m_relX = x, m_relY = y; }
+		void updateRelPos(int x, int y);
 		// 更新窗口宽度大小
-		void updateWidth(int width) { m_width = width; }
+		void updateWidth(int width);
 		// 获取窗口宽度大小
 		int getWidth() const { return m_width;  }
 		// 更新窗口高度大小
-		void updateHeight(int height) { m_height = height; }
+		void updateHeight(int height);
 		// 获取高度大小
 		int getHeight() const { return m_height;  }
+		// 更新窗口大小
+		void updateSize(int width, int height);
 		// 更新窗口范围
-		void updateRange(int x, int y, int width, int height) { m_relX = x; m_relY = y; m_width = width; m_height = height; }
+		void updateRange(int x, int y, int width, int height);
 
 		// 设置窗口是否为Enable
 		void setEnable(bool enable) { m_enable = enable; }
@@ -72,20 +76,26 @@ namespace inner
 		// 设置窗口是否能够可见
 		void setVisibleEnable(bool visibleEnable) { m_visibleEnable = visibleEnable; }
 
-		// 用来在界面上绘制的函数
+		// 在界面上绘制
 		virtual void draw() = 0;
 
+		// 获取消息处理的范围，相对范围
+		virtual wxRegion getMsgRegion() const;
+
+
 	protected:
-		// 获取父窗口绝对坐标X
-		virtual int getParentAbsX() const { return 0;  }
-		// 获取父窗口绝对坐标Y
-		virtual int getParentAbsY() const { return 0;  }
 		// 获取该窗口的父窗口
 		SimpleWindow<T>* getParent() const { return m_parent; }
+		// 标识窗口没有父窗口，简化判断
+		bool hasParent() const { return m_parent != nullptr; }
 		// 设置该窗口的父窗口对象
 		void setParent(SimpleWindow<T>* parent) { m_parent = parent; }
 		// 用来添加一个子窗口对象，该函数不会检测插入的对象是否已经有了父对象
 		virtual void pushChild(SimpleWindow<T>* child);
+		// 更新该窗口判断消息的范围，将childRect的消息处理范围添加到该窗口中
+		virtual void incrMsgRegion(const wxRegion& childRect) { if (hasParent()) { getParent()->incrMsgRegion(childRect); } }
+		// 设置窗口消息范围为所有子窗口范围，用来子窗口发生变化，例如改变
+		virtual void resetMsgRegion() { if (hasParent()) { getParent()->resetMsgRegion(); } }
 
 	protected:
 		// 窗口的父对象
@@ -107,21 +117,113 @@ namespace inner
 		bool m_visible;
 		// 设置窗口是否能够可见
 		bool m_visibleEnable;
+
+	private:
+		// 更新父窗口消息处理范围
+		void updateParentMsgRect();
 	};
 
+
+	// 更新相对坐标X
+	template <typename T>
+	void SimpleWindow<T>::updateRelX(int x)
+	{
+		m_relX = x;
+		updateParentMsgRect();
+	}
+
+	// 更新相对坐标Y
+	template <typename T>
+	void SimpleWindow<T>::updateRelY(int y)
+	{
+		m_relY = y;
+		updateParentMsgRect();
+	}
+
+	// 更新相对坐标X和Y
+	template <typename T>
+	void SimpleWindow<T>::updateRelPos(int x, int y)
+	{
+		m_relX = x;
+		m_relY = y;
+		updateParentMsgRect();
+	}
 
 	// 获取绝对坐标X
 	template <typename T>
 	int SimpleWindow<T>::getAbsX() const
 	{
-		return getParentAbsX() + getRelX();
+		if (hasParent())
+		{
+			return getParent()->getAbsX() + getRelX();
+		}
+		return getRelX();
 	}
 
 	// 获取绝对坐标Y
 	template <typename T>
 	int SimpleWindow<T>::getAbsY() const
 	{
-		return getParentAbsY() + getRelY();
+		if (hasParent())
+		{
+			return getParent()->getAbsY() + getRelY();
+		}
+		return getRelY();
+	}
+
+	// 更新窗口宽度大小
+	template <typename T>
+	void SimpleWindow<T>::updateWidth(int width)
+	{
+		m_width = width;
+		updateParentMsgRect();
+	}
+
+	// 更新窗口高度大小
+	template <typename T>
+	void SimpleWindow<T>::updateHeight(int height)
+	{
+		m_height = height;
+		updateParentMsgRect();
+	}
+
+	// 更新窗口大小
+	template <typename T>
+	void SimpleWindow<T>::updateSize(int width, int height)
+	{
+		m_width = width;
+		m_height = height;
+		updateParentMsgRect();
+	}
+
+	// 更新窗口范围
+	template <typename T>
+	void SimpleWindow<T>::updateRange(int x, int y, int width, int height)
+	{
+		m_relX = x;
+		m_relY = y;
+		m_width = width;
+		m_height = height;
+		updateParentMsgRect();
+	}
+
+	// 获取消息处理的范围，相对范围
+	template <typename T>
+	wxRegion SimpleWindow<T>::getMsgRegion() const 
+	{
+		return wxRegion(
+			narrow_cast<wxCoord>(m_relX), narrow_cast<wxCoord>(m_relY),
+			narrow_cast<wxCoord>(m_width), narrow_cast<wxCoord>(m_height));
+	}
+
+	// 更新父窗口消息处理范围
+	template <typename T>
+	void SimpleWindow<T>::updateParentMsgRect()
+	{
+		if (hasParent())
+		{
+			getParent()->incrMsgRegion(getMsgRegion());
+		}
 	}
 }
 

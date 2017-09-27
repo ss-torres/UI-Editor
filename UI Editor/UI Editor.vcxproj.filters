@@ -183,6 +183,15 @@
     <ClInclude Include="EditMessage\InsertWindowCommand.h">
       <Filter>EditMessage</Filter>
     </ClInclude>
+    <ClInclude Include="EditMessage\RemoveWindowCommand.h">
+      <Filter>EditMessage</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorWindow\EditorFuncDefine.h">
+      <Filter>EditorWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorWindow\EditorManageWindow.h">
+      <Filter>EditorWindow</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PropertyEditor\PropertySequence.cpp">
@@ -289,6 +298,12 @@
     </ClCompile>
     <ClCompile Include="EditMessage\ChangeManager.cpp">
       <Filter>EditMessage</Filter>
+    </ClCompile>
+    <ClCompile Include="EditMessage\RemoveWindowCommand.cpp">
+      <Filter>EditMessage</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorWindow\EditorManageWindow.cpp">
+      <Filter>EditorWindow</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

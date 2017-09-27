@@ -9,7 +9,7 @@
 #include "../EditorWindow/WindowInterface.h"
 
 class D3DEngine;
-class CopyWindowValue;
+class CopyWindowInfo;
 class wxMDIParentFrame;
 class wxMDIChildFrame;
 
@@ -21,12 +21,15 @@ public:
 
 	// 获取该对象中的主窗口
 	wxWindow* getBench() override;
+	// 为ID的窗口添加一个子窗口
+	void pushBackWindow(ID_TYPE parentId, AbstractEditorWindow* insertWnd);
 
+public:
 	// 用来每帧处理
 	void updateFrame(float dt);
 
 	// 用来处理Drop事件
-	void onDrop(wxCoord x, wxCoord y, const CopyWindowValue& winValue);
+	void onDrop(wxCoord x, wxCoord y, const CopyWindowInfo& winValue);
 
 private:
 	// 用来处理场景更新的计算
@@ -38,17 +41,17 @@ private:
 	HWND getHandle();
 
 	// 创建一个窗口对象
-	void createWndObject(AbstractEditorWindow* parent, int absX, int absY, const CopyWindowValue& winValue);
-	// 初始化D3D成员
-	void initD3DMember();
+	void createWndObject(AbstractEditorWindow* parent, int absX, int absY, const CopyWindowInfo& winValue);
+	// 初始化管理窗口
+	void initManageWnd();
 
 private:
 	wxMDIChildFrame *m_bench;
 
 	// 绘制D3D的引擎
 	D3DEngine* m_d3dEngine;
-	//// 用来存储创建的窗口
-	//AbstractEditorWindow* m_editorWins = nullptr;
+	// 用来存储创建的窗口
+	AbstractEditorWindow* m_editorWins = nullptr;
 };
 
 // 获取窗口句柄，该函数必须在初始化bench之后调用

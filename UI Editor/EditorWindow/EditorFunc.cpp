@@ -55,11 +55,11 @@ namespace inner
 	const EditorFunc::ATTR_HANDLE_MAP& EditorFunc::getEditorAttrHandles()
 	{
 		// 属性与属性处理函数Map
-		static ATTR_HANDLE_MAP s_attrHandles = initEditorAttrHanldes();
+		static auto s_attrHandles = initEditorAttrHanldes();
 		return s_attrHandles;
 	}
 
-	int EditorFunc::s_id_generator = ID_BEG;
+	ID_TYPE EditorFunc::s_id_generator = ID_BEG;
 
 	// 初始化属性处理函数Map
 	EditorFunc::ATTR_HANDLE_MAP EditorFunc::initEditorAttrHanldes()

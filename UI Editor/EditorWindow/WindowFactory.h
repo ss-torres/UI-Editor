@@ -22,8 +22,11 @@ public:
 	~WindowFactory() {}
 
 	// 根据拷贝的窗口数据，构造窗口
-	AbstractEditorWindow* createCopyObjectWnd(CopyWindowValue winObject,
+	AbstractEditorWindow* createCopyObjectWnd(CopyWindowInfo winObject,
 		AbstractEditorWindow* parent, int relX, int relY, int width = -1, int height = -1) override;
+
+	// 创建一个管理窗口
+	AbstractEditorWindow* createManageWnd(int width, int height) override;
 
 	//// 创建一个Static
 	//EditorLabel* createStatic() const override;

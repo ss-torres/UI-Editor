@@ -4,6 +4,9 @@
 #include "../EditorWindow/WindowInterface.h"
 #include "../EditorWindow/WindowFactory.h"
 
+const int MANAGE_WINDOW_WIDTH = 1200;
+const int MANAGE_WINDOW_HEIGHT = 900;
+
 class DropWinTarget : public wxDropTarget
 {
 public:
@@ -52,6 +55,7 @@ EditorWorkArea::EditorWorkArea(wxMDIParentFrame* parent, const wxString& caption
 {
 	m_bench = new wxMDIChildFrame(parent, wxID_ANY, captionName, position, size);
 	m_d3dEngine = new D3DEngine(getHandle(), D3DDEVTYPE_HAL, D3DCREATE_HARDWARE_VERTEXPROCESSING);
+	initManageWnd();
 
 	getBench()->SetDropTarget(new DropWinTarget(this));
 }
@@ -64,6 +68,12 @@ EditorWorkArea::~EditorWorkArea()
 wxWindow * EditorWorkArea::getBench()
 {
 	return m_bench;
+}
+
+// 为ID的窗口添加一个子窗口
+void EditorWorkArea::pushBackWindow(ID_TYPE parentId, AbstractEditorWindow *insertWnd)
+{
+
 }
 
 // 用来每帧处理
@@ -80,7 +90,7 @@ void EditorWorkArea::updateFrame(float dt)
 }
 
 // 用来处理Drop事件
-void EditorWorkArea::onDrop(wxCoord x, wxCoord y, const CopyWindowValue& winValue)
+void EditorWorkArea::onDrop(wxCoord x, wxCoord y, const CopyWindowInfo& winValue)
 {
 	createWndObject(nullptr, x, y, winValue);
 }
@@ -111,7 +121,7 @@ void EditorWorkArea::drawScene()
 }
 
 // 创建一个窗口对象
-void EditorWorkArea::createWndObject(AbstractEditorWindow* parent, int absX, int absY, const CopyWindowValue& winValue)
+void EditorWorkArea::createWndObject(AbstractEditorWindow* parent, int absX, int absY, const CopyWindowInfo& winValue)
 {
 	AbstractWindowFactory* wndFac = WindowFactory::winFactoryInst();
 	// 暂时处理，之后会将nullptr判断移除
@@ -125,8 +135,10 @@ void EditorWorkArea::createWndObject(AbstractEditorWindow* parent, int absX, int
 	auto createdWnd = wndFac->createCopyObjectWnd(winValue, parent, relX, relY);
 }
 
-// 初始化D3D成员
-void EditorWorkArea::initD3DMember()
-{
 
+// 初始化管理窗口
+void EditorWorkArea::initManageWnd()
+{
+	AbstractWindowFactory* wndFac = WindowFactory::winFactoryInst();
+	m_editorWins = wndFac->createManageWnd(MANAGE_WINDOW_WIDTH, MANAGE_WINDOW_HEIGHT);
 }

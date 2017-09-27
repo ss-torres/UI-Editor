@@ -18,6 +18,8 @@ namespace inner
 		EditorButton(AbstractEditorWindow* parent, int relX, int relY, int width, int height);
 		~EditorButton() override;
 
+		// 用来获取窗口类名字
+		virtual wxString getWindowClassName() const { return wxS("EditorButton"); }
 		// 用来获取构建的窗口类型，继承的窗口返回自身
 		SimpleButton<EditorFunc>* getConstructWindow() override { return this; }
 

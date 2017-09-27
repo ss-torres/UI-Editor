@@ -4,11 +4,12 @@
 #include "EditorFunc.h"
 #include "EditorLabel.h"
 #include "EditorButton.h"
+#include "EditorManageWindow.h"
 
 AbstractWindowFactory* WindowFactory::s_factoryInst = nullptr;
 
 // 根据拷贝的窗口数据，构造窗口
-AbstractEditorWindow * WindowFactory::createCopyObjectWnd(CopyWindowValue winObject,
+AbstractEditorWindow * WindowFactory::createCopyObjectWnd(CopyWindowInfo winObject,
 	AbstractEditorWindow* parent, int relX, int relY, int width, int height)
 {
 	AbstractEditorWindow* editorWnd = WindowFactoryImpl::createEditorWnd(winObject.getWinName(),
@@ -22,6 +23,12 @@ AbstractEditorWindow * WindowFactory::createCopyObjectWnd(CopyWindowValue winObj
 	}
 
 	return editorWnd;
+}
+
+// 创建一个管理窗口
+AbstractEditorWindow * WindowFactory::createManageWnd(int width, int height)
+{
+	return new EditorManageWindow(0, 0, width, height);
 }
 
 // 根据窗口名获取对应的窗口对象

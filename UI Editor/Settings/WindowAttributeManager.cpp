@@ -88,10 +88,10 @@ void WindowAttributeManager::createDefaultAttrs(const std::map<wxString, std::ve
 		auto& winAttr = it->second;
 		for (auto iter = winAttr.cbegin(); iter != winAttr.cend(); ++iter)
 		{
-			wxPGProperty* pg = m_propertyFacotry->createProperty(*iter);
+			wxPGProperty* pg = m_propertyFacotry->createDefaultProperty(*iter);
 			if (pg == nullptr)
 			{
-				throw ExtraException::unexpected_situation("WindowAttributeManager::LoadAttributeFile: pg should not be nullptr");
+				throw ExtraException::unexpected_situation("WindowAttributeManager::createDefaultAttrs: pg should not be nullptr");
 			}
 			properties.push_back(pg);
 		}
@@ -113,10 +113,10 @@ void WindowAttributeManager::createEditAttrs(const std::map<wxString, std::vecto
 		auto& winAttr = it->second;
 		for (auto iter = winAttr.cbegin(); iter != winAttr.cend(); ++iter)
 		{
-			wxPGProperty* pg = m_propertyFacotry->createPropertyFromName(iter->propertyName, iter->editorProperty);
+			wxPGProperty* pg = m_propertyFacotry->createProperty(*iter);
 			if (pg == nullptr)
 			{
-				throw ExtraException::unexpected_situation("WindowAttributeManager::LoadAttributeFile: pg should not be nullptr");
+				throw ExtraException::unexpected_situation("WindowAttributeManager::createEditAttrs: pg should not be nullptr");
 			}
 			properties.push_back(pg);
 		}
