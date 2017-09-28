@@ -2,6 +2,11 @@
 #include "../DrawEngine/d3dEngine.h"
 #include "../CopyDrop/CopyWinObject.h"
 #include "../EditorWindow/WindowInterface.h"
+#include "../EditorWindow/WindowFactory.h"
+#include "EditorWorkAreaHelp.h"
+
+const int MANAGE_WINDOW_WIDTH = 1200;
+const int MANAGE_WINDOW_HEIGHT = 900;
 
 class DropWinTarget : public wxDropTarget
 {
@@ -51,6 +56,7 @@ EditorWorkArea::EditorWorkArea(wxMDIParentFrame* parent, const wxString& caption
 {
 	m_bench = new wxMDIChildFrame(parent, wxID_ANY, captionName, position, size);
 	m_d3dEngine = new D3DEngine(getHandle(), D3DDEVTYPE_HAL, D3DCREATE_HARDWARE_VERTEXPROCESSING);
+	initManageWnd();
 
 	getBench()->SetDropTarget(new DropWinTarget(this));
 }
@@ -63,6 +69,43 @@ EditorWorkArea::~EditorWorkArea()
 wxWindow * EditorWorkArea::getBench()
 {
 	return m_bench;
+}
+
+// 为ID的窗口添加一个子窗口
+bool EditorWorkArea::pushBackWindow(AbstractEditorWindow* parentWnd, AbstractEditorWindow *insertWnd)
+{
+	if (!parentWnd->isContainerWnd())
+	{
+		return false;
+	}
+
+	parentWnd->addChild(insertWnd);
+	return true;
+}
+
+// 为parentWnd在指定位置添加一个子窗口
+bool EditorWorkArea::insertWindow(AbstractEditorWindow* parentWnd, size_t idx, AbstractEditorWindow * insertWnd)
+{
+	if (!parentWnd->isContainerWnd())
+	{
+		return false;
+	}
+	
+	if (idx > parentWnd->getChildrenSize())
+	{
+		return false;
+	}
+	auto iter = parentWnd->getChildrencConstBeg() + idx;
+	parentWnd->insertChild(insertWnd, iter);
+	return true;
+}
+
+// 将特定ID的子窗口移除
+bool EditorWorkArea::removeWindow(AbstractEditorWindow* removeWnd)
+{
+	auto parenWnd = removeWnd->getParent();
+	parenWnd->removeChild(removeWnd);
+	return true;
 }
 
 // 用来每帧处理
@@ -79,11 +122,11 @@ void EditorWorkArea::updateFrame(float dt)
 }
 
 // 用来处理Drop事件
-void EditorWorkArea::onDrop(wxCoord x, wxCoord y, const CopyWindowValue& winValue)
+void EditorWorkArea::onDrop(wxCoord x, wxCoord y, const CopyWindowInfo& winValue)
 {
-	std::pair<wxString, wxAny> valuePair = winValue.getWinAttrValues()[5];
-	int value = valuePair.second.As<int>();
-	int j = value;
+	// 查看父窗口对象
+	AbstractEditorWindow* parentWnd = WorkAreaHelp::getMatchWindow(m_winMgr, x, y);
+	createWndObject(parentWnd, x, y, winValue);
 }
 
 // 用来处理场景更新的计算
@@ -111,8 +154,25 @@ void EditorWorkArea::drawScene()
 	HR(d3dDevice->Present(0, 0, 0, 0));
 }
 
-// 初始化D3D成员
-void EditorWorkArea::initD3DMember()
+// 创建一个窗口对象
+void EditorWorkArea::createWndObject(AbstractEditorWindow* parent, int absX, int absY, const CopyWindowInfo& winValue)
 {
+	AbstractWindowFactory* wndFac = WindowFactory::winFactoryInst();
+	// 暂时处理，之后会将nullptr判断移除
+	int relX = absX;
+	int relY = absY;
+	if (parent != nullptr)
+	{
+		relX -= parent->getAbsX();
+		relY -= parent->getAbsY();
+	}
+	auto createdWnd = wndFac->createCopyObjectWnd(winValue, parent, relX, relY);
+}
 
+
+// 初始化管理窗口
+void EditorWorkArea::initManageWnd()
+{
+	AbstractWindowFactory* wndFac = WindowFactory::winFactoryInst();
+	m_winMgr = wndFac->createManageWnd(MANAGE_WINDOW_WIDTH, MANAGE_WINDOW_HEIGHT);
 }

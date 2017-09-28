@@ -12,14 +12,16 @@
 
 // 如下定义目前只是为了便于构建，之后可以考虑这部分构建也依赖于WindowAttribute.xml中的数据
 // 窗口类型显示和窗口类型
-const wxString EDITOR_WINDOW_TYPE = wxS("GWindow");
+
+const wxString EDITOR_WINDOW_TYPE = wxS("GWindow");		// 不可创建
 const wxString EDITOR_WINDOW_SHOW = wxS("Window");
 
-const wxString EDITOR_LABEL_TYPE = wxS("GLabel");
+const wxString EDITOR_LABEL_TYPE = wxS("GLabel");		// 可以创建
 const wxString EDITOR_LABEL_SHOW = wxS("Label");
 
-const wxString EDITOR_BUTTON_TYPE = wxS("GButton");
+const wxString EDITOR_BUTTON_TYPE = wxS("GButton");		// 可以创建
 const wxString EDITOR_BUTTON_SHOW = wxS("Button");
+
 
 // 存储在窗口选择节点中的数据
 class WidgetSelectItemName : public wxTreeItemData

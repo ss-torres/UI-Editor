@@ -24,17 +24,26 @@
     <ClInclude Include="DrawEngine\d3dUtil.h" />
     <ClInclude Include="DrawEngine\GameTimer.h" />
     <ClInclude Include="EditMessage\ChangeManager.h" />
+    <ClInclude Include="EditMessage\CommandStack.h" />
+    <ClInclude Include="EditMessage\InsertWindowCommand.h" />
+    <ClInclude Include="EditMessage\RemoveWindowCommand.h" />
     <ClInclude Include="EditorApp.h" />
     <ClInclude Include="EditorFrame.h" />
+    <ClInclude Include="EditorWindow\AbstractEditorWindow.h" />
     <ClInclude Include="EditorWindow\AbstractWindowFactory.h" />
-    <ClInclude Include="EditorWindow\ContainerWindow.h" />
     <ClInclude Include="EditorWindow\EditorButton.h" />
+    <ClInclude Include="EditorWindow\EditorContainerWindow.h" />
     <ClInclude Include="EditorWindow\EditorFunc.h" />
+    <ClInclude Include="EditorWindow\EditorFuncDefine.h" />
     <ClInclude Include="EditorWindow\EditorLabel.h" />
-    <ClInclude Include="EditorWindow\SimpleButton.h" />
-    <ClInclude Include="EditorWindow\SimpleLabel.h" />
-    <ClInclude Include="EditorWindow\SimpleWindow.h" />
+    <ClInclude Include="EditorWindow\EditorManageWindow.h" />
+    <ClInclude Include="EditorWindow\EditorWindowCheck.h" />
+    <ClInclude Include="EditorWindow\SimpleWindow\ContainerWindow.h" />
+    <ClInclude Include="EditorWindow\SimpleWindow\SimpleButton.h" />
+    <ClInclude Include="EditorWindow\SimpleWindow\SimpleLabel.h" />
+    <ClInclude Include="EditorWindow\SimpleWindow\SimpleWindow.h" />
     <ClInclude Include="EditorWindow\WindowFactory.h" />
+    <ClInclude Include="EditorWindow\WindowFactoryDefine.h" />
     <ClInclude Include="EditorWindow\WindowInterface.h" />
     <ClInclude Include="ErrorHandle\ErrorHandle.h" />
     <ClInclude Include="ErrorHandle\ErrorMessage.h" />
@@ -45,7 +54,7 @@
     <ClInclude Include="Form\EditorToolWindow.h" />
     <ClInclude Include="Form\EditorWindowFactory.h" />
     <ClInclude Include="Form\EditorWorkArea.h" />
-    <ClInclude Include="Form\EditorWorkAreaPrivate.h" />
+    <ClInclude Include="Form\EditorWorkAreaHelp.h" />
     <ClInclude Include="Form\WorkArea.h" />
     <ClInclude Include="Form\WorkAreaDefine.h" />
     <ClInclude Include="PropertyEditor\AbstractPropertyValidator.h" />
@@ -67,15 +76,17 @@
     <ClCompile Include="DrawEngine\d3dEngine.cpp" />
     <ClCompile Include="DrawEngine\d3dUtil.cpp" />
     <ClCompile Include="DrawEngine\GameTimer.cpp" />
+    <ClCompile Include="EditMessage\ChangeManager.cpp" />
+    <ClCompile Include="EditMessage\CommandStack.cpp" />
+    <ClCompile Include="EditMessage\InsertWindowCommand.cpp" />
+    <ClCompile Include="EditMessage\RemoveWindowCommand.cpp" />
     <ClCompile Include="EditorApp.cpp" />
     <ClCompile Include="EditorFrame.cpp" />
-    <ClCompile Include="EditorWindow\ContainerWindow.inl" />
     <ClCompile Include="EditorWindow\EditorButton.cpp" />
+    <ClCompile Include="EditorWindow\EditorContainerWindow.cpp" />
     <ClCompile Include="EditorWindow\EditorFunc.cpp" />
     <ClCompile Include="EditorWindow\EditorLabel.cpp" />
-    <ClCompile Include="EditorWindow\SimpleButton.inl" />
-    <ClCompile Include="EditorWindow\SimpleLabel.inl" />
-    <ClCompile Include="EditorWindow\SimpleWindow.inl" />
+    <ClCompile Include="EditorWindow\EditorManageWindow.cpp" />
     <ClCompile Include="EditorWindow\WindowFactory.cpp" />
     <ClCompile Include="Form\EditorToolObjectView.cpp" />
     <ClCompile Include="Form\EditorToolPropertyEditor.cpp" />
@@ -83,7 +94,7 @@
     <ClCompile Include="Form\EditorToolWindow.cpp" />
     <ClCompile Include="Form\EditorWindowFactory.cpp" />
     <ClCompile Include="Form\EditorWorkArea.cpp" />
-    <ClCompile Include="Form\EditorWorkAreaPrivate.cpp" />
+    <ClCompile Include="Form\EditorWorkAreaHelp.cpp" />
     <ClCompile Include="Form\WorkArea.cpp" />
     <ClCompile Include="PropertyEditor\AbstractPropertySequence.cpp" />
     <ClCompile Include="PropertyEditor\PropertySequence.cpp" />
@@ -95,6 +106,13 @@
     <ClCompile Include="UI Editor.cpp" />
     <ClCompile Include="Util\ArithmeticUtil.cpp" />
     <ClCompile Include="Util\StringUtil.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="EditorWindow\EditorFuncCategory.inl" />
+    <None Include="EditorWindow\SimpleWindow\ContainerWindow.inl" />
+    <None Include="EditorWindow\SimpleWindow\SimpleButton.inl" />
+    <None Include="EditorWindow\SimpleWindow\SimpleLabel.inl" />
+    <None Include="EditorWindow\SimpleWindow\SimpleWindow.inl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{539F7B14-8C10-43E4-B9DF-112290414190}</ProjectGuid>

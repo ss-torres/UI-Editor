@@ -41,7 +41,7 @@ wxPGProperty * PropertyFactory::createProperty(const AttributeProperty& attrProp
 
 	if (property == nullptr)
 	{
-		throw ExtraException::unexpected_situation("some Attribute's EditorProperty is wrong");
+		throw ExtraException::unexpected_situation(__func__ + std::string("some Attribute's EditorProperty is wrong"));
 	}
 
 	setPropertyEditor(property, attrProperty.editorName);
@@ -50,6 +50,25 @@ wxPGProperty * PropertyFactory::createProperty(const AttributeProperty& attrProp
 	//property->SetMaxLength(attrProperty.editorMaxLength);
 	setInitialValue(property, attrProperty.initialValue);
 	setEditorAttributes(property, attrProperty.editorAttributeList);
+	setPropertyAdditional(property, attrProperty.additionalInfos);
+
+	return property;
+}
+
+// 根据配置参数，获取一个可以获取值得wxPGProperty
+wxPGProperty * PropertyFactory::createDefaultProperty(const AttributeProperty & attrProperty) const
+{
+	using namespace PropertyFactoryImpl;
+
+	// 创建属性
+	wxPGProperty* property = createPropertyFromName(attrProperty.propertyName, attrProperty.editorProperty);
+
+	if (property == nullptr)
+	{
+		throw ExtraException::unexpected_situation(__func__ + std::string("some Attribute's EditorProperty is wrong"));
+	}
+
+	setInitialValue(property, attrProperty.initialValue);
 	setPropertyAdditional(property, attrProperty.additionalInfos);
 
 	return property;

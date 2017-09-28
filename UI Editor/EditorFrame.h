@@ -17,6 +17,8 @@
 #include "Form/EditorWindowFactory.h"
 
 class EditorToolWindow;
+class EditorToolObjectView;
+class EditorToolPropertyEditor;
 class EditorWorkArea;
 class WindowAttributeManager;
 
@@ -28,9 +30,12 @@ public:
 
 	// 每帧处理函数
 	void updateFrame(float dt);
-
 	// 重写销毁函数
 	bool Destroy() override;
+	// 获取功能窗口
+	std::shared_ptr<EditorToolObjectView> getObjectView() const { return m_tool_object_view; }
+	std::shared_ptr<EditorToolPropertyEditor> getPropertyEditor() const { return m_tool_property_editor; }
+	std::shared_ptr<EditorWorkArea> getWorkArea() const { return m_editWorkArea; }
 
 private:
 	// 加载窗口属性
@@ -53,14 +58,14 @@ private:
 	EditorWindowFactory m_manager;
 	// 工具窗口
 	// 窗口类型选择
-	EditorToolWindow* m_tool_widget_select;
+	std::shared_ptr<EditorToolWindow> m_tool_widget_select;
 	// 创建窗口对象父子级关系
-	EditorToolWindow* m_tool_object_view;
+	std::shared_ptr<EditorToolObjectView> m_tool_object_view;
 	// 窗口属性修改
-	EditorToolWindow* m_tool_property_editor;
+	std::shared_ptr<EditorToolPropertyEditor> m_tool_property_editor;
 
 	// 工作区窗口
-	EditorWorkArea* m_editWorkArea;
+	std::shared_ptr<EditorWorkArea> m_editWorkArea;
 
 DECLARE_EVENT_TABLE()
 };

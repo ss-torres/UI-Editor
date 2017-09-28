@@ -6,7 +6,7 @@
 namespace inner
 {
 	template <typename T>
-	SimpleButton<T>::SimpleButton(SimpleWindow<T>* parent, int relX, int relY, int width, int height)
+	SimpleButton<T>::SimpleButton(SIMPLE_WINDOW_TYPE* parent, int relX, int relY, int width, int height)
 		: SimpleWindow<T>(parent, relX, relY, width, height)
 	{
 

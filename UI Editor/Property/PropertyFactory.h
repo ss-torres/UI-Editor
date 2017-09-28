@@ -20,6 +20,9 @@ public:
 
 	// 根据配置参数，获取一个wxPGProperty
 	wxPGProperty* createProperty(const AttributeProperty& attrProperty) const;
+	// 根据配置参数，获取一个可以获取值得wxPGProperty
+	wxPGProperty* createDefaultProperty(const AttributeProperty& attrProperty) const;
+
 	// 销毁属性列表
 	void destroyProperty(wxPGProperty* &property);
 

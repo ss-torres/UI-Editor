@@ -6,8 +6,7 @@
  * 作用：在SimpleLabel的基础上，实现用于编辑的相关功能
  */
 
-#include "SimpleLabel.h"
-#include "EditorFunc.h"
+#include "SimpleWindow/SimpleLabel.h"
 #include "WindowInterface.h"
 
 
@@ -16,14 +15,16 @@
 
 namespace inner
 {
-	class EditorLabel : public SimpleLabel<EditorFunc>
+	class EditorLabel : public SimpleLabel<EditorEditableFunc>
 	{
 	public:
-		EditorLabel(AbstractEditorWindow* parent, int relX, int relY, int width, int height);
+		EditorLabel(SIMPLE_WINDOW_TYPE* parent, int relX, int relY, int width, int height);
 		virtual ~EditorLabel();
 
+		// 用来获取窗口类名字
+		virtual wxString getWindowClassName() const { return wxS("EditorLabel"); }
 		// 用来获取构建的窗口类型，继承的窗口返回自身
-		SimpleLabel<EditorFunc>* getConstructWindow() override { return this;  }
+		SimpleLabel<EditorEditableFunc>* getConstructWindow() override { return this;  }
 
 		// 更新窗口对象属性信息
 		void updateWinAttr(const wxString& attrName, const wxAny& value) override;

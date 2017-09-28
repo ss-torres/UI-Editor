@@ -1,17 +1,29 @@
 #include "EditorFunc.h"
 #include <stdexcept>
 #include "../Settings/UsedWinAttrDefine.h"
-#include "SimpleWindow.h"
+#include "SimpleWindow/SimpleWindow.h"
 
 namespace inner
 {
 	EditorFunc::EditorFunc()
-		: m_editShow(true)
+		: m_editShow(true),
+		m_id(getNewId())
 	{
+	
 	}
 
 	EditorFunc::~EditorFunc()
 	{
+	}
+
+	// 用来查看对应ID的窗口
+	SimpleWindow<EditorFunc>* EditorFunc::findMatchWnd(ID_TYPE findId)
+	{
+		if (getId() == findId)
+		{
+			return getConstructWindow();
+		}
+		return nullptr;
 	}
 
 	// 修改编辑时是否显示
@@ -53,9 +65,11 @@ namespace inner
 	const EditorFunc::ATTR_HANDLE_MAP& EditorFunc::getEditorAttrHandles()
 	{
 		// 属性与属性处理函数Map
-		static ATTR_HANDLE_MAP s_attrHandles = initEditorAttrHanldes();
+		static auto s_attrHandles = initEditorAttrHanldes();
 		return s_attrHandles;
 	}
+
+	ID_TYPE EditorFunc::s_id_generator = ID_BEG;
 
 	// 初始化属性处理函数Map
 	EditorFunc::ATTR_HANDLE_MAP EditorFunc::initEditorAttrHanldes()

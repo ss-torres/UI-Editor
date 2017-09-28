@@ -8,14 +8,35 @@
  *		 （3）在目标改变时，更新所有与之相关的观察者
  */
 
-class ChangeManager
+#include <memory>
+
+class EditorWorkArea;
+class EditorToolPropertyEditor;
+class EditorToolObjectView;
+
+namespace Command
 {
-public:
-	ChangeManager() {}
-	~ChangeManager() {}
+	class ChangeManager
+	{
+	public:
+		ChangeManager() {}
+		~ChangeManager() {}
 
-private:
+		// 设置主工作区和工具窗口
+		void setWorkArea(std::shared_ptr<EditorWorkArea> workArea) { m_workArea = workArea; }
+		void setPropertyEditor(std::shared_ptr<EditorToolPropertyEditor> propertyEditor) { m_propertyEditor = propertyEditor; }
+		void setObjectView(std::shared_ptr<EditorToolObjectView> objectView) { m_objectView = objectView; }
+		// 获取主工作区和工具窗口
+		std::shared_ptr<EditorWorkArea> getWorkArea() const { return m_workArea; }
+		std::shared_ptr<EditorToolPropertyEditor> getPropertyEditor() const { return m_propertyEditor; }
+		std::shared_ptr<EditorToolObjectView> getObjectView() const { return m_objectView; }
 
-};
+	private:
+		std::shared_ptr<EditorWorkArea> m_workArea;
+		std::shared_ptr<EditorToolPropertyEditor> m_propertyEditor;
+		std::shared_ptr<EditorToolObjectView> m_objectView;
+	};
+}
+
 
 #endif		// CHANGE_MANAGER_H

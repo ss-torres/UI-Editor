@@ -42,12 +42,12 @@ void EditorToolWidgetSelect::OnDragWidgetIcon(wxTreeEvent& event)
 
 	//  π”√Õœ¿≠
 	std::vector<wxPGProperty*> attrList = m_winAttrMgr->getWinAttr(itemWidgetName->getWidgetName());
-	CopyWindowValue winValue(itemWidgetName->getWidgetName());
+	CopyWindowInfo winValue(itemWidgetName->getWidgetName());
 	
-	for (auto prop : attrList)
-	{
-		winValue.add(prop->GetBaseName(), prop->GetValue());
-	}
+	//for (auto prop : attrList)
+	//{
+	//	winValue.add(prop->GetBaseName(), prop->GetValue());
+	//}
 	
 	CopyWinObject dropData(getCopyDataFormat());
 	dropData.SetData(sizeof(winValue), &winValue);

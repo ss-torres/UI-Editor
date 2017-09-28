@@ -1,9 +1,9 @@
-#ifndef SIMPLE_STATIC_H
-#define SIMPLE_STATIC_H
+#ifndef SIMPLE_BUTTON_H
+#define SIMPLE_BUTTON_H
 
 /*
- * 文件名：SimpleLabel
- * 作用：用来实现简单label显示的窗口
+ * 文件名：SimpleButton
+ * 作用：实现简单的按钮功能
  */
 
 #include "SimpleWindow.h"
@@ -12,11 +12,13 @@
 namespace inner
 {
 	template <typename T>
-	class SimpleLabel : public SimpleWindow<T>
+	class SimpleButton : public SimpleWindow<T>
 	{
 	public:
-		SimpleLabel(SimpleWindow<T>* parent, int relX, int relY, int width, int height);
-		~SimpleLabel() override;
+		using SIMPLE_WINDOW_TYPE = typename SimpleWindow<T>::SIMPLE_WINDOW_TYPE;
+	public:
+		SimpleButton(SIMPLE_WINDOW_TYPE* parent, int relX, int relY, int width, int height);
+		~SimpleButton() override;
 
 		// 设置显示的文字
 		void setLabel(const wxString& label) { m_label = label; }
@@ -34,6 +36,6 @@ namespace inner
 	};
 }
 
-#include "SimpleLabel.inl"
+#include "SimpleButton.inl"
 
-#endif	// SIMPLE_STATIC_H
+#endif	// SIMPLE_BUTTON_H

@@ -6,20 +6,21 @@
 * 作用：在SimpleButton的基础上，实现用于编辑的相关功能
 */
 
-#include "SimpleButton.h"
-#include "EditorFunc.h"
+#include "SimpleWindow/SimpleButton.h"
 #include "WindowInterface.h"
 
 namespace inner
 {
-	class EditorButton : public SimpleButton<EditorFunc>
+	class EditorButton : public SimpleButton<EditorEditableFunc>
 	{
 	public:
-		EditorButton(AbstractEditorWindow* parent, int relX, int relY, int width, int height);
+		EditorButton(SIMPLE_WINDOW_TYPE* parent, int relX, int relY, int width, int height);
 		~EditorButton() override;
 
+		// 用来获取窗口类名字
+		virtual wxString getWindowClassName() const { return wxS("EditorButton"); }
 		// 用来获取构建的窗口类型，继承的窗口返回自身
-		SimpleButton<EditorFunc>* getConstructWindow() override { return this; }
+		SimpleButton<EditorEditableFunc>* getConstructWindow() override { return this; }
 
 		// 更新窗口对象属性信息
 		void updateWinAttr(const wxString& attrName, const wxAny& value) override;
