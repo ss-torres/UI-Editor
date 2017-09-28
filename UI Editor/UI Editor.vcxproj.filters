@@ -46,6 +46,9 @@
     <Filter Include="CopyDrop">
       <UniqueIdentifier>{70f9a04b-1828-47e5-9c55-633021695bb6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="EditorWindow\SimpleWindow">
+      <UniqueIdentifier>{338522e5-0db4-4ffe-849e-bc945b2ab007}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PropertyEditor\PropertySequence.h">
@@ -108,9 +111,6 @@
     <ClInclude Include="Form\EditorWindowFactory.h">
       <Filter>Form</Filter>
     </ClInclude>
-    <ClInclude Include="EditorWindow\EditorFunc.h">
-      <Filter>EditorWindow</Filter>
-    </ClInclude>
     <ClInclude Include="Property\ImageProperty.h">
       <Filter>Property</Filter>
     </ClInclude>
@@ -135,12 +135,6 @@
     <ClInclude Include="Util\StringUtil.h">
       <Filter>Util</Filter>
     </ClInclude>
-    <ClInclude Include="Form\EditorWorkAreaPrivate.h">
-      <Filter>Form</Filter>
-    </ClInclude>
-    <ClInclude Include="EditorWindow\SimpleWindow.h">
-      <Filter>EditorWindow</Filter>
-    </ClInclude>
     <ClInclude Include="EditorWindow\AbstractWindowFactory.h">
       <Filter>EditorWindow</Filter>
     </ClInclude>
@@ -148,9 +142,6 @@
       <Filter>EditorWindow</Filter>
     </ClInclude>
     <ClInclude Include="EditorWindow\EditorButton.h">
-      <Filter>EditorWindow</Filter>
-    </ClInclude>
-    <ClInclude Include="EditorWindow\SimpleButton.h">
       <Filter>EditorWindow</Filter>
     </ClInclude>
     <ClInclude Include="EditorWindow\WindowInterface.h">
@@ -162,14 +153,8 @@
     <ClInclude Include="CopyDrop\CopyWinObject.h">
       <Filter>CopyDrop</Filter>
     </ClInclude>
-    <ClInclude Include="EditorWindow\ContainerWindow.h">
-      <Filter>EditorWindow</Filter>
-    </ClInclude>
     <ClInclude Include="Settings\UsedWinAttrDefine.h">
       <Filter>Settings</Filter>
-    </ClInclude>
-    <ClInclude Include="EditorWindow\SimpleLabel.h">
-      <Filter>EditorWindow</Filter>
     </ClInclude>
     <ClInclude Include="EditorWindow\EditorLabel.h">
       <Filter>EditorWindow</Filter>
@@ -186,10 +171,37 @@
     <ClInclude Include="EditMessage\RemoveWindowCommand.h">
       <Filter>EditMessage</Filter>
     </ClInclude>
+    <ClInclude Include="EditorWindow\EditorManageWindow.h">
+      <Filter>EditorWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorWindow\SimpleWindow\SimpleButton.h">
+      <Filter>EditorWindow\SimpleWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorWindow\SimpleWindow\SimpleLabel.h">
+      <Filter>EditorWindow\SimpleWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorWindow\SimpleWindow\SimpleWindow.h">
+      <Filter>EditorWindow\SimpleWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorWindow\SimpleWindow\ContainerWindow.h">
+      <Filter>EditorWindow\SimpleWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorWindow\EditorFunc.h">
+      <Filter>EditorWindow</Filter>
+    </ClInclude>
     <ClInclude Include="EditorWindow\EditorFuncDefine.h">
       <Filter>EditorWindow</Filter>
     </ClInclude>
-    <ClInclude Include="EditorWindow\EditorManageWindow.h">
+    <ClInclude Include="EditorWindow\EditorContainerWindow.h">
+      <Filter>EditorWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorWindow\EditorWindowCheck.h">
+      <Filter>EditorWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="Form\EditorWorkAreaHelp.h">
+      <Filter>Form</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorWindow\AbstractEditorWindow.h">
       <Filter>EditorWindow</Filter>
     </ClInclude>
   </ItemGroup>
@@ -233,9 +245,6 @@
     <ClCompile Include="Form\EditorWindowFactory.cpp">
       <Filter>Form</Filter>
     </ClCompile>
-    <ClCompile Include="EditorWindow\EditorFunc.cpp">
-      <Filter>EditorWindow</Filter>
-    </ClCompile>
     <ClCompile Include="Property\ImageProperty.cpp">
       <Filter>Property</Filter>
     </ClCompile>
@@ -260,16 +269,7 @@
     <ClCompile Include="Util\StringUtil.cpp">
       <Filter>Util</Filter>
     </ClCompile>
-    <ClCompile Include="Form\EditorWorkAreaPrivate.cpp">
-      <Filter>Form</Filter>
-    </ClCompile>
-    <ClCompile Include="EditorWindow\SimpleWindow.inl">
-      <Filter>EditorWindow</Filter>
-    </ClCompile>
     <ClCompile Include="EditorWindow\WindowFactory.cpp">
-      <Filter>EditorWindow</Filter>
-    </ClCompile>
-    <ClCompile Include="EditorWindow\SimpleButton.inl">
       <Filter>EditorWindow</Filter>
     </ClCompile>
     <ClCompile Include="Util\ArithmeticUtil.cpp">
@@ -278,13 +278,7 @@
     <ClCompile Include="CopyDrop\CopyWinObject.cpp">
       <Filter>CopyDrop</Filter>
     </ClCompile>
-    <ClCompile Include="EditorWindow\ContainerWindow.inl">
-      <Filter>EditorWindow</Filter>
-    </ClCompile>
     <ClCompile Include="EditorWindow\EditorButton.cpp">
-      <Filter>EditorWindow</Filter>
-    </ClCompile>
-    <ClCompile Include="EditorWindow\SimpleLabel.inl">
       <Filter>EditorWindow</Filter>
     </ClCompile>
     <ClCompile Include="EditorWindow\EditorLabel.cpp">
@@ -305,5 +299,31 @@
     <ClCompile Include="EditorWindow\EditorManageWindow.cpp">
       <Filter>EditorWindow</Filter>
     </ClCompile>
+    <ClCompile Include="EditorWindow\EditorFunc.cpp">
+      <Filter>EditorWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorWindow\EditorContainerWindow.cpp">
+      <Filter>EditorWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="Form\EditorWorkAreaHelp.cpp">
+      <Filter>Form</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="EditorWindow\SimpleWindow\SimpleButton.inl">
+      <Filter>EditorWindow\SimpleWindow</Filter>
+    </None>
+    <None Include="EditorWindow\SimpleWindow\SimpleLabel.inl">
+      <Filter>EditorWindow\SimpleWindow</Filter>
+    </None>
+    <None Include="EditorWindow\SimpleWindow\SimpleWindow.inl">
+      <Filter>EditorWindow\SimpleWindow</Filter>
+    </None>
+    <None Include="EditorWindow\SimpleWindow\ContainerWindow.inl">
+      <Filter>EditorWindow\SimpleWindow</Filter>
+    </None>
+    <None Include="EditorWindow\EditorFuncCategory.inl">
+      <Filter>EditorWindow</Filter>
+    </None>
   </ItemGroup>
 </Project>

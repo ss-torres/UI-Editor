@@ -1,7 +1,7 @@
 #include "EditorFunc.h"
 #include <stdexcept>
 #include "../Settings/UsedWinAttrDefine.h"
-#include "SimpleWindow.h"
+#include "SimpleWindow/SimpleWindow.h"
 
 namespace inner
 {
@@ -14,6 +14,16 @@ namespace inner
 
 	EditorFunc::~EditorFunc()
 	{
+	}
+
+	// 用来查看对应ID的窗口
+	SimpleWindow<EditorFunc>* EditorFunc::findMatchWnd(ID_TYPE findId)
+	{
+		if (getId() == findId)
+		{
+			return getConstructWindow();
+		}
+		return nullptr;
 	}
 
 	// 修改编辑时是否显示

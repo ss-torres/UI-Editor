@@ -10,7 +10,8 @@
 #include <iterator>
 #include <wx/string.h>
 #include <wx/region.h>
-#include "../Util/ArithmeticUtil.h"
+#include <stdexcept>
+#include "../../Util/ArithmeticUtil.h"
 
 namespace inner
 {
@@ -19,11 +20,13 @@ namespace inner
 	{
 	public:
 		// 增加一个类型标识符
-		using FuncType = T;
-		using ConstChildIterator = typename std::vector<SimpleWindow<T>*>::const_iterator;
-		using ChildIterator = typename std::vector<SimpleWindow*>::iterator;
+		using FuncType = typename T::FuncBaseType;
+		using SIMPLE_WINDOW_TYPE = SimpleWindow<FuncType>;
+		using CHILDREN_CONTAINER = std::vector<SIMPLE_WINDOW_TYPE*>;
+		using ConstChildIterator = typename CHILDREN_CONTAINER::const_iterator;
+		using ChildIterator = typename CHILDREN_CONTAINER::iterator;
 	public:
-		SimpleWindow(SimpleWindow<T>* parent, int relX, int relY, int width, int height);
+		SimpleWindow(SIMPLE_WINDOW_TYPE* parent, int relX, int relY, int width, int height);
 		virtual ~SimpleWindow();
 
 		// forbidden the copy constructor and copy assignment
@@ -32,6 +35,31 @@ namespace inner
 
 		// 获取窗口是否可以有子窗口对象
 		virtual bool isContainerWnd() const { return false; }
+		// 获取该窗口的父窗口
+		SIMPLE_WINDOW_TYPE* getParent() const { return m_parent; }
+		// 标识窗口没有父窗口，简化判断
+		bool hasParent() const { return m_parent != nullptr; }
+		// 设置该窗口的父窗口对象
+		void setParent(SIMPLE_WINDOW_TYPE* parent);
+
+		// 用来添加一个子窗口
+		virtual void addChild(SIMPLE_WINDOW_TYPE* child);
+		// 用来在before窗口之前添加一个子窗口
+		virtual bool insertChild(SIMPLE_WINDOW_TYPE* child, const SIMPLE_WINDOW_TYPE* before);
+		// 用来移除一个子窗口
+		virtual bool removeChild(SIMPLE_WINDOW_TYPE* child);
+		// 获取子窗口列表中cbegin对应的iterator
+		virtual ConstChildIterator getChildrencConstBeg() const { return s_defChildrenRet.cbegin(); }
+		// 获取子窗口列表中cend对应的iterator
+		virtual ConstChildIterator getChildrenConstEnd() const { return s_defChildrenRet.cend(); }
+
+
+		// 获取该窗口父对象的上一个子窗口，如果该窗口为第一个子窗口，则返回nullptr
+		// complexity: linear
+		SIMPLE_WINDOW_TYPE* getPrevSibling() const;
+		// 获取该窗口父对象的下一个子窗口,如果该窗口为最后一个子窗口，则返回nullptr
+		//	complexity: linear
+		SIMPLE_WINDOW_TYPE* getNextSibling() const;
 
 		// 窗口的基本属性
 		// 设置窗口对象的名字
@@ -84,22 +112,19 @@ namespace inner
 
 
 	protected:
-		// 获取该窗口的父窗口
-		SimpleWindow<T>* getParent() const { return m_parent; }
-		// 标识窗口没有父窗口，简化判断
-		bool hasParent() const { return m_parent != nullptr; }
-		// 设置该窗口的父窗口对象
-		void setParent(SimpleWindow<T>* parent) { m_parent = parent; }
 		// 用来添加一个子窗口对象，该函数不会检测插入的对象是否已经有了父对象
-		virtual void pushChild(SimpleWindow<T>* child);
+		virtual void pushChild(SIMPLE_WINDOW_TYPE* child);
 		// 更新该窗口判断消息的范围，将childRect的消息处理范围添加到该窗口中
 		virtual void incrMsgRegion(const wxRegion& childRect) { if (hasParent()) { getParent()->incrMsgRegion(childRect); } }
 		// 设置窗口消息范围为所有子窗口范围，用来子窗口发生变化，例如改变
 		virtual void resetMsgRegion() { if (hasParent()) { getParent()->resetMsgRegion(); } }
 
+		// 获取子窗口列表
+		virtual const CHILDREN_CONTAINER& getConstChildren() const;
+
 	protected:
 		// 窗口的父对象
-		SimpleWindow* m_parent;
+		SIMPLE_WINDOW_TYPE* m_parent;
 
 		// 窗口对象名字
 		wxString m_windowObjectName;
@@ -118,15 +143,28 @@ namespace inner
 		// 设置窗口是否能够可见
 		bool m_visibleEnable;
 
+		const static CHILDREN_CONTAINER s_defChildrenRet;
+
 	private:
 		// 更新父窗口消息处理范围
 		void updateParentMsgRect();
 	};
 
+	// 设置该窗口的父窗口对象
+	template <typename T>
+	inline void SimpleWindow<T>::setParent(SIMPLE_WINDOW_TYPE* parent)
+	{
+		if (!parent->isContainerWnd())
+		{
+			throw std::runtime_error("parent is not a Container window");
+		}
+		m_parent = parent;
+	}
+
 
 	// 更新相对坐标X
 	template <typename T>
-	void SimpleWindow<T>::updateRelX(int x)
+	inline void SimpleWindow<T>::updateRelX(int x)
 	{
 		m_relX = x;
 		updateParentMsgRect();
@@ -134,7 +172,7 @@ namespace inner
 
 	// 更新相对坐标Y
 	template <typename T>
-	void SimpleWindow<T>::updateRelY(int y)
+	inline void SimpleWindow<T>::updateRelY(int y)
 	{
 		m_relY = y;
 		updateParentMsgRect();
@@ -142,7 +180,7 @@ namespace inner
 
 	// 更新相对坐标X和Y
 	template <typename T>
-	void SimpleWindow<T>::updateRelPos(int x, int y)
+	inline void SimpleWindow<T>::updateRelPos(int x, int y)
 	{
 		m_relX = x;
 		m_relY = y;
@@ -151,7 +189,7 @@ namespace inner
 
 	// 获取绝对坐标X
 	template <typename T>
-	int SimpleWindow<T>::getAbsX() const
+	inline int SimpleWindow<T>::getAbsX() const
 	{
 		if (hasParent())
 		{
@@ -162,7 +200,7 @@ namespace inner
 
 	// 获取绝对坐标Y
 	template <typename T>
-	int SimpleWindow<T>::getAbsY() const
+	inline int SimpleWindow<T>::getAbsY() const
 	{
 		if (hasParent())
 		{
@@ -173,7 +211,7 @@ namespace inner
 
 	// 更新窗口宽度大小
 	template <typename T>
-	void SimpleWindow<T>::updateWidth(int width)
+	inline void SimpleWindow<T>::updateWidth(int width)
 	{
 		m_width = width;
 		updateParentMsgRect();
@@ -181,7 +219,7 @@ namespace inner
 
 	// 更新窗口高度大小
 	template <typename T>
-	void SimpleWindow<T>::updateHeight(int height)
+	inline void SimpleWindow<T>::updateHeight(int height)
 	{
 		m_height = height;
 		updateParentMsgRect();
@@ -189,7 +227,7 @@ namespace inner
 
 	// 更新窗口大小
 	template <typename T>
-	void SimpleWindow<T>::updateSize(int width, int height)
+	inline void SimpleWindow<T>::updateSize(int width, int height)
 	{
 		m_width = width;
 		m_height = height;
@@ -198,7 +236,7 @@ namespace inner
 
 	// 更新窗口范围
 	template <typename T>
-	void SimpleWindow<T>::updateRange(int x, int y, int width, int height)
+	inline void SimpleWindow<T>::updateRange(int x, int y, int width, int height)
 	{
 		m_relX = x;
 		m_relY = y;
@@ -209,7 +247,7 @@ namespace inner
 
 	// 获取消息处理的范围，相对范围
 	template <typename T>
-	wxRegion SimpleWindow<T>::getMsgRegion() const 
+	inline wxRegion SimpleWindow<T>::getMsgRegion() const 
 	{
 		return wxRegion(
 			narrow_cast<wxCoord>(m_relX), narrow_cast<wxCoord>(m_relY),
@@ -218,13 +256,19 @@ namespace inner
 
 	// 更新父窗口消息处理范围
 	template <typename T>
-	void SimpleWindow<T>::updateParentMsgRect()
+	inline void SimpleWindow<T>::updateParentMsgRect()
 	{
 		if (hasParent())
 		{
 			getParent()->incrMsgRegion(getMsgRegion());
 		}
 	}
+
+
+	// 用在Editor模块中
+	class EditorEditableFunc;
+	template <>
+	class SimpleWindow<EditorEditableFunc>;
 }
 
 #include "SimpleWindow.inl"

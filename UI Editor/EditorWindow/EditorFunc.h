@@ -33,6 +33,7 @@ namespace inner
 	class EditorFunc
 	{
 	public:
+		using FuncBaseType = EditorFunc;
 		using WIN_ATTR_MAP = std::map<wxString, wxAny>;
 	public:
 		EditorFunc();
@@ -43,6 +44,8 @@ namespace inner
 
 		// 获取窗口ID，用来标识窗口
 		ID_TYPE getId() const { return m_id; }
+		// 用来判断窗口在编辑器是否可以编辑
+		bool isUiEditable() const { return m_editShow; }
 		// 用来查看对应ID的窗口
 		virtual SimpleWindow<EditorFunc>* findMatchWnd(ID_TYPE findId);
 
@@ -72,7 +75,7 @@ namespace inner
 
 	protected:
 		// 设置窗口在编辑时是否显示
-		void setEditShow(bool editShow) { m_editShow = editShow; }
+		virtual void setEditShow(bool editShow) { m_editShow = editShow; }
 		bool getEditShow() const { return m_editShow; }
 
 		// 更新整个属性表中的信息
@@ -100,19 +103,6 @@ namespace inner
 		// 用来记录窗口的全部属性
 		WIN_ATTR_MAP m_allWinAttrs;
 	};
-
-	// 用来查看对应ID的窗口
-	inline SimpleWindow<EditorFunc>* EditorFunc::findMatchWnd(ID_TYPE findId)
-	{
-		SimpleWindow<EditorFunc>* thisWnd = getConstructWindow();
-
-		if (getId() == findId)
-		{
-			return getConstructWindow();
-		}
-		
-		return nullptr;
-	}
 
 	// 重新设置整个属性表，当前只会更新列表信息，不会修改Window中的数据
 	template<typename ATTR_MAP_TYPE>
@@ -161,6 +151,8 @@ namespace inner
 		return newId;
 	}
 }
+
+#include "EditorFuncCategory.inl"
 
 
 #endif	// EDITOR_FUNC_H

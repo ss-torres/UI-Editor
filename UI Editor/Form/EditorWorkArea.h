@@ -7,6 +7,7 @@
 #include <wx/panel.h>
 #include <wx/dnd.h>
 #include "../EditorWindow/WindowInterface.h"
+#include "../EditorWindow/EditorWindowCheck.h"
 
 class D3DEngine;
 class CopyWindowInfo;
@@ -22,7 +23,9 @@ public:
 	// 获取该对象中的主窗口
 	wxWindow* getBench() override;
 	// 为ID的窗口添加一个子窗口
-	void pushBackWindow(ID_TYPE parentId, AbstractEditorWindow* insertWnd);
+	bool pushBackWindow(ID_TYPE parentId, AbstractEditorWindow* insertWnd);
+	// 将特定ID的子窗口移除
+	bool removeWindow(ID_TYPE removeId);
 
 public:
 	// 用来每帧处理
@@ -40,6 +43,10 @@ private:
 	// 获取窗口句柄，该函数必须在初始化bench之后调用
 	HWND getHandle();
 
+private:
+	// 查找指定位置接受消息的窗口
+	template <typename T = UiEditable<AbstractEditorWindow>>
+	AbstractEditorWindow* findWnd(wxCoord x, wxCoord y);
 	// 创建一个窗口对象
 	void createWndObject(AbstractEditorWindow* parent, int absX, int absY, const CopyWindowInfo& winValue);
 	// 初始化管理窗口
@@ -58,6 +65,14 @@ private:
 inline HWND EditorWorkArea::getHandle()
 { 
 	return static_cast<HWND>(getBench()->GetHandle()); 
+}
+
+// 查找指定位置接受消息的窗口
+template<typename T>
+inline AbstractEditorWindow * EditorWorkArea::findWnd(wxCoord x, wxCoord y)
+{
+	int relX = narrow_cast<int>(x);
+	int relY = narrow_cast<int>(y);
 }
 
 #endif	// EDITOR_WORK_AREA_H

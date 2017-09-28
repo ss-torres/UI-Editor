@@ -2,8 +2,8 @@
 
 namespace inner
 {
-	EditorButton::EditorButton(AbstractEditorWindow* parent, int relX, int relY, int width, int height)
-		: SimpleButton<EditorFunc>(parent, relX, relY, width, height)
+	EditorButton::EditorButton(SIMPLE_WINDOW_TYPE* parent, int relX, int relY, int width, int height)
+		: SimpleButton<EditorEditableFunc>(parent, relX, relY, width, height)
 	{
 	}
 

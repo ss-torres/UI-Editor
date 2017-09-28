@@ -6,7 +6,7 @@
 namespace inner
 {
 	template <typename T>
-	SimpleLabel<T>::SimpleLabel(SimpleWindow<T> * parent, int relX, int relY, int width, int height)
+	SimpleLabel<T>::SimpleLabel(SIMPLE_WINDOW_TYPE * parent, int relX, int relY, int width, int height)
 		: SimpleWindow<T>(parent, relX, relY, width, height)
 	{
 	}

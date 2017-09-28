@@ -2,8 +2,8 @@
 
 namespace inner
 {
-	EditorLabel::EditorLabel(AbstractEditorWindow* parent, int relX, int relY, int width, int height)
-		: SimpleLabel<EditorFunc>(parent, relX, relY, width, height)
+	EditorLabel::EditorLabel(SIMPLE_WINDOW_TYPE* parent, int relX, int relY, int width, int height)
+		: SimpleLabel<EditorEditableFunc>(parent, relX, relY, width, height)
 	{
 	}
 

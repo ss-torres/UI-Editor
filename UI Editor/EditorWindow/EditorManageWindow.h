@@ -7,9 +7,9 @@
  */
 
 #include "WindowInterface.h"
-#include "ContainerWindow.h"
+#include "SimpleWindow/ContainerWindow.h"
 
-class EditorManageWindow : public inner::ContainerWindow<inner::EditorFunc>
+class EditorManageWindow : public inner::ContainerWindow<inner::EditorContainerFunc>
 {
 public:
 	EditorManageWindow(int relX, int relY, int width, int height);

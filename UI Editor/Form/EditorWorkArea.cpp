@@ -71,9 +71,30 @@ wxWindow * EditorWorkArea::getBench()
 }
 
 // 为ID的窗口添加一个子窗口
-void EditorWorkArea::pushBackWindow(ID_TYPE parentId, AbstractEditorWindow *insertWnd)
+bool EditorWorkArea::pushBackWindow(ID_TYPE parentId, AbstractEditorWindow *insertWnd)
 {
+	auto wnd = m_editorWins->findMatchWnd(parentId);
+	if (wnd == nullptr || !wnd->isContainerWnd())
+	{
+		return false;
+	}
+	
+	wnd->addChild(insertWnd);
+	return true;
+}
 
+// 将特定ID的子窗口移除
+bool EditorWorkArea::removeWindow(ID_TYPE removeId)
+{
+	auto wnd = m_editorWins->findMatchWnd(removeId);
+	if (wnd == nullptr)
+	{
+		return false;
+	}
+
+	auto parenWnd = wnd->getParent();
+	parenWnd->removeChild(wnd);
+	return true;
 }
 
 // 用来每帧处理

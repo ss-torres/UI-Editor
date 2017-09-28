@@ -1,7 +1,6 @@
 #include "WindowFactory.h"
 #include "../Form/EditorToolWidgetSelectDefine.h"
 #include "WindowFactoryDefine.h"
-#include "EditorFunc.h"
 #include "EditorLabel.h"
 #include "EditorButton.h"
 #include "EditorManageWindow.h"

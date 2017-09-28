@@ -1,2 +1,1 @@
 #include "InsertWindowCommand.h"
-

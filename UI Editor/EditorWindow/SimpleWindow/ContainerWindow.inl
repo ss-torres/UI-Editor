@@ -8,7 +8,7 @@
 namespace inner
 {
 	template<typename T>
-	ContainerWindow<T>::ContainerWindow(SimpleWindow<T>* parent, int relX, int relY, int width, int height)
+	ContainerWindow<T>::ContainerWindow(SIMPLE_WINDOW_TYPE* parent, int relX, int relY, int width, int height)
 		: SimpleWindow<T>(parent, relX, relY, width, height)
 	{
 	}
@@ -24,13 +24,14 @@ namespace inner
 
 	// 用来添加一个子窗口
 	template <typename T>
-	void ContainerWindow<T>::addChild(SimpleWindow<T>* child)
+	void ContainerWindow<T>::addChild(SIMPLE_WINDOW_TYPE* child)
 	{
 		assert(child != nullptr);
 
 		// 先从该窗口的父对象中移除这个子窗口
 		if (child->hasParent())
 		{
+			// 存在子窗口，则一定是ContainerWindow
 			child->getParent()->removeChild(child);
 		}
 		m_children.push_back(child);
@@ -40,13 +41,14 @@ namespace inner
 
 	// 用来在某个窗口之前添加一个子窗口
 	template <typename T>
-	bool ContainerWindow<T>::insertChild(SimpleWindow<T>* child, const SimpleWindow<T>* before)
+	bool ContainerWindow<T>::insertChild(SIMPLE_WINDOW_TYPE* child, const SIMPLE_WINDOW_TYPE* before)
 	{
 		assert(child != nullptr);
 
 		// 先从该窗口的父对象中移除这个子窗口
 		if (child->hasParent())
 		{
+			// 存在子窗口，则一定是ContainerWindow
 			child->getParent()->removeChild(child);
 		}
 		const auto it = std::find(m_children.cbegin(), m_children.cend(), before);
@@ -63,7 +65,7 @@ namespace inner
 
 	// 用来移除一个子窗口
 	template <typename T>
-	bool ContainerWindow<T>::removeChild(SimpleWindow<T>* child)
+	bool ContainerWindow<T>::removeChild(SIMPLE_WINDOW_TYPE* child)
 	{
 		assert(child != nullptr);
 
@@ -81,49 +83,9 @@ namespace inner
 		return false;
 	}
 
-	// 获取该窗口父对象的上一个子窗口，如果该窗口为第一个子窗口，则返回nullptr
-	// complexity: linear
-	template <typename T>
-	inline SimpleWindow<T>* ContainerWindow<T>::getPrevSibling() const
-	{
-		auto parentWnd = getParent();
-		if (parentWnd == nullptr)
-		{
-			return nullptr;
-		}
-		auto myIt = std::find(parentWnd->m_children.cbegin(), parentWnd->m_children.cend(), this);
-		// 在这里默认可以找到
-		if (myIt != parentWnd->m_children.cbegin())
-		{
-			return *(--myIt);
-		}
-
-		return nullptr;
-	}
-
-	// 获取该窗口父对象的下一个子窗口,如果该窗口为最后一个子窗口，则返回nullptr
-	//	complexity: linear
-	template <typename T>
-	inline SimpleWindow<T>* ContainerWindow<T>::getNextSibling() const
-	{
-		auto parentWnd = getParent();
-		if (parentWnd == nullptr)
-		{
-			return nullptr;
-		}
-		auto myIt = std::find(parentWnd->m_children.cbegin(), parentWnd->m_children.cend(), this);
-		// 在这里默认可以找到
-		if (myIt != (--parentWnd->m_children.cend()))
-		{
-			return *(++myIt);
-		}
-
-		return nullptr;
-	}
-
 	// 用来添加一个子窗口对象，该函数不会检测插入的对象是否已经有了父对象
 	template<typename T>
-	inline void ContainerWindow<T>::pushChild(SimpleWindow<T>* child)
+	inline void ContainerWindow<T>::pushChild(SIMPLE_WINDOW_TYPE* child)
 	{
 		assert(child != nullptr);
 

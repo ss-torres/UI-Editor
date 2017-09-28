@@ -11,10 +11,11 @@
 
 namespace Command
 {
+	template <typename T>
 	class InsertWindowCommand : public wxCommand
 	{
 	public:
-		InsertWindowCommand(){}
+		InsertWindowCommand(T* winMgr) : m_winMgr(winMgr) {}
 		InsertWindowCommand(AbstractEditorWindow* insertWnd, ID_TYPE id)
 			: m_insertWnd(insertWnd), m_id(id) {}
 		~InsertWindowCommand() override {}
@@ -26,19 +27,24 @@ namespace Command
 		// 回退
 		bool Undo() override;
 
-	private:
+	protected:
 		// 用来记录创建的窗口
 		AbstractEditorWindow* m_insertWnd = nullptr;
 		// 用来记录窗口ID，Do时，表示父窗口的ID，Undo的时候，用来记录子窗口的ID
 		ID_TYPE m_id = -1;
+		// 操作的窗口类
+		T* m_winMgr = nullptr;
 	};
 
-	inline bool InsertWindowCommand::Do()
+	template <typename T>
+	inline bool InsertWindowCommand<T>::Do()
 	{
-		return false;
+		m_winMgr->pushBackWindow(m_id, m_insertWnd);
+		m_id = m_insertWnd->getId();
 	}
 
-	inline bool InsertWindowCommand::Undo()
+	template <typename T>
+	inline bool InsertWindowCommand<T>::Undo()
 	{
 		return false;
 	}

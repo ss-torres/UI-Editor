@@ -10,11 +10,12 @@
 
 namespace Command
 {
-	class RemoveWindowCommand : public InsertWindowCommand
+	template <typename T>
+	class RemoveWindowCommand : public InsertWindowCommand<T>
 	{
 	public:
-		RemoveWindowCommand();
-		~RemoveWindowCommand();
+		RemoveWindowCommand(T* winMgr):InsertWindowCommand<T>(winMgr) {}
+		~RemoveWindowCommand() override {}
 
 		// 重构Do函数，与InsertWindowCommand正好相反
 		bool Do() override { return false; }

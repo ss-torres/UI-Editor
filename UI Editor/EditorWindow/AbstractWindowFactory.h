@@ -1,7 +1,7 @@
 #ifndef ABSTRACT_WINDOW_FACTORY_H
 #define ABSTRACT_WINDOW_FACTORY_H
 
-#include "SimpleWindow.h"
+#include "SimpleWindow/SimpleWindow.h"
 #include "../CopyDrop/CopyWinObject.h"
 #include "WindowInterface.h"
 
