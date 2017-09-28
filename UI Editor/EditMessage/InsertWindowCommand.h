@@ -7,18 +7,33 @@
  */
 
 #include <wx/cmdproc.h>
+#include <stdexcept>
 #include "../EditorWindow/WindowInterface.h"
 
 namespace Command
 {
+	const int INSERT_POS_DEF_X = 5;
+	const int INSERT_POS_DEF_Y = 5;
+	const int INSERT_DEF_IDX = -1;		// 表示插入到最后
+
 	template <typename T>
 	class InsertWindowCommand : public wxCommand
 	{
 	public:
-		InsertWindowCommand(T* winMgr) : m_winMgr(winMgr) {}
-		InsertWindowCommand(AbstractEditorWindow* insertWnd, ID_TYPE id)
-			: m_insertWnd(insertWnd), m_id(id) {}
+		InsertWindowCommand(T* winMgr, AbstractEditorWindow* insertWnd, AbstractEditorWindow* parentWnd)
+			: m_winMgr(winMgr), m_insertWnd(insertWnd), m_parentWnd(parentWnd)
+		{
+			if (winMgr == NULL || insertWnd == NULL || parentWnd == NULL)
+			{
+				throw std::invalid_argument("InsertWindowCommand: winMgr, insertWnd and parentWnd shouldn't be nullptr");
+			}
+		}
 		~InsertWindowCommand() override {}
+
+		// 设置插入的位置
+		void setInsertPos(int x, int y) { m_reX = x; m_relY = y; }
+		// 设置插入的序号
+		void setInsertIdx(size_t idx) { m_idx = idx; }
 
 		// 是否可以回退
 		bool CanUndo() const override { return true; }
@@ -30,8 +45,14 @@ namespace Command
 	protected:
 		// 用来记录创建的窗口
 		AbstractEditorWindow* m_insertWnd = nullptr;
-		// 用来记录窗口ID，Do时，表示父窗口的ID，Undo的时候，用来记录子窗口的ID
-		ID_TYPE m_id = -1;
+		// 用来记录插入的父窗口
+		AbstractEditorWindow* m_parentWnd = nullptr;
+		// 插入的位置
+		int m_relX = INSERT_POS_DEF_X;
+		// 插入的位置
+		int m_relY = INSERT_POS_DEF_Y;
+		// 插入的序号
+		size_t m_idx = INSERT_DEF_IDX;
 		// 操作的窗口类
 		T* m_winMgr = nullptr;
 	};
@@ -39,14 +60,20 @@ namespace Command
 	template <typename T>
 	inline bool InsertWindowCommand<T>::Do()
 	{
-		m_winMgr->pushBackWindow(m_id, m_insertWnd);
-		m_id = m_insertWnd->getId();
+		if (m_idx == INSERT_DEF_IDX)
+		{
+			return m_winMgr->pushBackWindow(m_parentWnd, m_insertWnd);
+		}
+		else
+		{
+			return m_winMgr->insertWindow(m_parentWnd, m_idx, m_insertWnd);
+		}
 	}
 
 	template <typename T>
 	inline bool InsertWindowCommand<T>::Undo()
 	{
-		return false;
+		m_winMgr->removeWindow(m_insertWnd);
 	}
 }
 

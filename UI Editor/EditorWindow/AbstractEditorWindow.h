@@ -13,6 +13,8 @@ namespace inner
 		using SimpleWindow<EditorFunc>::SimpleWindow;
 		~SimpleWindow<EditorEditableFunc>() override = default;
 
+		// 设置该窗口是否编辑时显示
+
 	};
 }
 

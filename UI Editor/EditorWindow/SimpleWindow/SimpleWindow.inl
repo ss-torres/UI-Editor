@@ -46,6 +46,14 @@ namespace inner
 		return false;
 	}
 
+	// 用来在iter之前添加子窗口
+	template<typename T>
+	inline bool SimpleWindow<T>::insertChild(SIMPLE_WINDOW_TYPE * child, ConstChildIterator iter)
+	{
+		throw std::runtime_error(std::string("SimpleWindow can't invoke ") + __func__);
+		return false;
+	}
+
 	// 用来移除一个子窗口
 	template <typename T>
 	bool SimpleWindow<T>::removeChild(SIMPLE_WINDOW_TYPE* child)

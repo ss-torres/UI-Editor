@@ -3,6 +3,7 @@
 #include "../CopyDrop/CopyWinObject.h"
 #include "../EditorWindow/WindowInterface.h"
 #include "../EditorWindow/WindowFactory.h"
+#include "EditorWorkAreaHelp.h"
 
 const int MANAGE_WINDOW_WIDTH = 1200;
 const int MANAGE_WINDOW_HEIGHT = 900;
@@ -71,29 +72,39 @@ wxWindow * EditorWorkArea::getBench()
 }
 
 // 为ID的窗口添加一个子窗口
-bool EditorWorkArea::pushBackWindow(ID_TYPE parentId, AbstractEditorWindow *insertWnd)
+bool EditorWorkArea::pushBackWindow(AbstractEditorWindow* parentWnd, AbstractEditorWindow *insertWnd)
 {
-	auto wnd = m_editorWins->findMatchWnd(parentId);
-	if (wnd == nullptr || !wnd->isContainerWnd())
+	if (!parentWnd->isContainerWnd())
+	{
+		return false;
+	}
+
+	parentWnd->addChild(insertWnd);
+	return true;
+}
+
+// 为parentWnd在指定位置添加一个子窗口
+bool EditorWorkArea::insertWindow(AbstractEditorWindow* parentWnd, size_t idx, AbstractEditorWindow * insertWnd)
+{
+	if (!parentWnd->isContainerWnd())
 	{
 		return false;
 	}
 	
-	wnd->addChild(insertWnd);
+	if (idx > parentWnd->getChildrenSize())
+	{
+		return false;
+	}
+	auto iter = parentWnd->getChildrencConstBeg() + idx;
+	parentWnd->insertChild(insertWnd, iter);
 	return true;
 }
 
 // 将特定ID的子窗口移除
-bool EditorWorkArea::removeWindow(ID_TYPE removeId)
+bool EditorWorkArea::removeWindow(AbstractEditorWindow* removeWnd)
 {
-	auto wnd = m_editorWins->findMatchWnd(removeId);
-	if (wnd == nullptr)
-	{
-		return false;
-	}
-
-	auto parenWnd = wnd->getParent();
-	parenWnd->removeChild(wnd);
+	auto parenWnd = removeWnd->getParent();
+	parenWnd->removeChild(removeWnd);
 	return true;
 }
 
@@ -113,7 +124,9 @@ void EditorWorkArea::updateFrame(float dt)
 // 用来处理Drop事件
 void EditorWorkArea::onDrop(wxCoord x, wxCoord y, const CopyWindowInfo& winValue)
 {
-	createWndObject(nullptr, x, y, winValue);
+	// 查看父窗口对象
+	AbstractEditorWindow* parentWnd = WorkAreaHelp::getMatchWindow(m_winMgr, x, y);
+	createWndObject(parentWnd, x, y, winValue);
 }
 
 // 用来处理场景更新的计算
@@ -161,5 +174,5 @@ void EditorWorkArea::createWndObject(AbstractEditorWindow* parent, int absX, int
 void EditorWorkArea::initManageWnd()
 {
 	AbstractWindowFactory* wndFac = WindowFactory::winFactoryInst();
-	m_editorWins = wndFac->createManageWnd(MANAGE_WINDOW_WIDTH, MANAGE_WINDOW_HEIGHT);
+	m_winMgr = wndFac->createManageWnd(MANAGE_WINDOW_WIDTH, MANAGE_WINDOW_HEIGHT);
 }

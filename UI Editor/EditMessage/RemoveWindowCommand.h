@@ -22,9 +22,6 @@ namespace Command
 		// 重构Undo函数，与InsertWindowCommand正好相反
 		bool Undo() override { return false; }
 
-	private:
-		// 用来记录在父窗口中的位置
-		int m_index = 0;
 	};
 }
 

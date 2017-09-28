@@ -35,7 +35,7 @@ namespace inner
 			child->getParent()->removeChild(child);
 		}
 		m_children.push_back(child);
-		child->setParent(this);
+		setParent(this, child);
 		incrMsgRegion(child->getMsgRegion());
 	}
 
@@ -54,13 +54,20 @@ namespace inner
 		const auto it = std::find(m_children.cbegin(), m_children.cend(), before);
 		if (it != m_children.cend())
 		{
-			m_children.insert(it, child);
-			child->setParent(this);
-			incrMsgRegion(child->getMsgRegion());
-			return true;
+			return insertChild(child, it);
 		}
 
 		return false;
+	}
+
+	// 用来在iter之前添加子窗口
+	template<typename T>
+	inline bool ContainerWindow<T>::insertChild(SIMPLE_WINDOW_TYPE* child, ConstChildIterator iter)
+	{
+		m_children.insert(iter, child);
+		setParent(this, child);
+		incrMsgRegion(child->getMsgRegion());
+		return true;
 	}
 
 	// 用来移除一个子窗口
@@ -74,7 +81,7 @@ namespace inner
 			if (*it == child)
 			{
 				m_children.erase(it);
-				child->setParent(nullptr);
+				setParent(nullptr, child);
 				resetMsgRegion();
 				return true;
 			}

@@ -23,10 +23,14 @@ namespace inner
 		virtual ConstChildIterator getChildrencConstBeg() const { return m_children.cbegin(); }
 		// 获取子窗口列表中cend对应的iterator
 		virtual ConstChildIterator getChildrenConstEnd() const { return m_children.cend(); }
+		// 获取子窗口个数
+		virtual ChildrenSize getChildrenSize() const { return m_children.size(); }
 		// 用来添加一个子窗口
 		void addChild(SIMPLE_WINDOW_TYPE* child) override;
 		// 用来在before窗口之前添加一个子窗口
 		bool insertChild(SIMPLE_WINDOW_TYPE* child, const SIMPLE_WINDOW_TYPE* before) override;
+		// 用来在iter之前添加子窗口
+		bool insertChild(SIMPLE_WINDOW_TYPE* child, ConstChildIterator iter) override;
 		// 用来移除一个子窗口
 		bool removeChild(SIMPLE_WINDOW_TYPE* child) override;
 

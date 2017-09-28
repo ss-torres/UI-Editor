@@ -22,10 +22,12 @@ public:
 
 	// 获取该对象中的主窗口
 	wxWindow* getBench() override;
-	// 为ID的窗口添加一个子窗口
-	bool pushBackWindow(ID_TYPE parentId, AbstractEditorWindow* insertWnd);
+	// 为parentWnd添加一个子窗口
+	bool pushBackWindow(AbstractEditorWindow* parenWnd, AbstractEditorWindow* insertWnd);
+	// 为parentWnd在指定位置添加一个子窗口
+	bool insertWindow(AbstractEditorWindow* parentWnd, size_t idx, AbstractEditorWindow* insertWnd);
 	// 将特定ID的子窗口移除
-	bool removeWindow(ID_TYPE removeId);
+	bool removeWindow(AbstractEditorWindow* removeWnd);
 
 public:
 	// 用来每帧处理
@@ -58,7 +60,7 @@ private:
 	// 绘制D3D的引擎
 	D3DEngine* m_d3dEngine;
 	// 用来存储创建的窗口
-	AbstractEditorWindow* m_editorWins = nullptr;
+	AbstractEditorWindow* m_winMgr = nullptr;
 };
 
 // 获取窗口句柄，该函数必须在初始化bench之后调用

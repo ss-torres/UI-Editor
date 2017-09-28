@@ -25,6 +25,7 @@ namespace inner
 		using CHILDREN_CONTAINER = std::vector<SIMPLE_WINDOW_TYPE*>;
 		using ConstChildIterator = typename CHILDREN_CONTAINER::const_iterator;
 		using ChildIterator = typename CHILDREN_CONTAINER::iterator;
+		using ChildrenSize = typename CHILDREN_CONTAINER::size_type;
 	public:
 		SimpleWindow(SIMPLE_WINDOW_TYPE* parent, int relX, int relY, int width, int height);
 		virtual ~SimpleWindow();
@@ -39,19 +40,21 @@ namespace inner
 		SIMPLE_WINDOW_TYPE* getParent() const { return m_parent; }
 		// 标识窗口没有父窗口，简化判断
 		bool hasParent() const { return m_parent != nullptr; }
-		// 设置该窗口的父窗口对象
-		void setParent(SIMPLE_WINDOW_TYPE* parent);
 
 		// 用来添加一个子窗口
 		virtual void addChild(SIMPLE_WINDOW_TYPE* child);
 		// 用来在before窗口之前添加一个子窗口
 		virtual bool insertChild(SIMPLE_WINDOW_TYPE* child, const SIMPLE_WINDOW_TYPE* before);
+		// 用来在iter之前添加子窗口
+		virtual bool insertChild(SIMPLE_WINDOW_TYPE* child, ConstChildIterator iter);
 		// 用来移除一个子窗口
 		virtual bool removeChild(SIMPLE_WINDOW_TYPE* child);
 		// 获取子窗口列表中cbegin对应的iterator
 		virtual ConstChildIterator getChildrencConstBeg() const { return s_defChildrenRet.cbegin(); }
 		// 获取子窗口列表中cend对应的iterator
 		virtual ConstChildIterator getChildrenConstEnd() const { return s_defChildrenRet.cend(); }
+		// 获取子窗口个数
+		virtual ChildrenSize getChildrenSize() const { return 0; }
 
 
 		// 获取该窗口父对象的上一个子窗口，如果该窗口为第一个子窗口，则返回nullptr
@@ -112,6 +115,8 @@ namespace inner
 
 
 	protected:
+		// 设置该窗口的父窗口对象
+		void setParent(SIMPLE_WINDOW_TYPE* parent, SIMPLE_WINDOW_TYPE* child);
 		// 用来添加一个子窗口对象，该函数不会检测插入的对象是否已经有了父对象
 		virtual void pushChild(SIMPLE_WINDOW_TYPE* child);
 		// 更新该窗口判断消息的范围，将childRect的消息处理范围添加到该窗口中
@@ -152,13 +157,13 @@ namespace inner
 
 	// 设置该窗口的父窗口对象
 	template <typename T>
-	inline void SimpleWindow<T>::setParent(SIMPLE_WINDOW_TYPE* parent)
+	inline void SimpleWindow<T>::setParent(SIMPLE_WINDOW_TYPE* parent, SIMPLE_WINDOW_TYPE* child)
 	{
-		if (!parent->isContainerWnd())
+		if (parent && !parent->isContainerWnd())
 		{
 			throw std::runtime_error("parent is not a Container window");
 		}
-		m_parent = parent;
+		child->m_parent = parent;
 	}
 
 
@@ -249,9 +254,7 @@ namespace inner
 	template <typename T>
 	inline wxRegion SimpleWindow<T>::getMsgRegion() const 
 	{
-		return wxRegion(
-			narrow_cast<wxCoord>(m_relX), narrow_cast<wxCoord>(m_relY),
-			narrow_cast<wxCoord>(m_width), narrow_cast<wxCoord>(m_height));
+		return wxRegion(0, 0, narrow_cast<wxCoord>(m_width), narrow_cast<wxCoord>(m_height));
 	}
 
 	// 更新父窗口消息处理范围
