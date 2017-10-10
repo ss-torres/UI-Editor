@@ -204,6 +204,18 @@
     <ClInclude Include="EditorWindow\AbstractEditorWindow.h">
       <Filter>EditorWindow</Filter>
     </ClInclude>
+    <ClInclude Include="EditMessage\CurrentWindowCommand.h">
+      <Filter>EditMessage</Filter>
+    </ClInclude>
+    <ClInclude Include="EditMessage\DropWindowCommand.h">
+      <Filter>EditMessage</Filter>
+    </ClInclude>
+    <ClInclude Include="EditMessage\CommandFactory.h">
+      <Filter>EditMessage</Filter>
+    </ClInclude>
+    <ClInclude Include="Form\EditorToolObjectViewDefine.h">
+      <Filter>Form</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PropertyEditor\PropertySequence.cpp">
@@ -287,13 +299,7 @@
     <ClCompile Include="EditMessage\CommandStack.cpp">
       <Filter>EditMessage</Filter>
     </ClCompile>
-    <ClCompile Include="EditMessage\InsertWindowCommand.cpp">
-      <Filter>EditMessage</Filter>
-    </ClCompile>
     <ClCompile Include="EditMessage\ChangeManager.cpp">
-      <Filter>EditMessage</Filter>
-    </ClCompile>
-    <ClCompile Include="EditMessage\RemoveWindowCommand.cpp">
       <Filter>EditMessage</Filter>
     </ClCompile>
     <ClCompile Include="EditorWindow\EditorManageWindow.cpp">
@@ -307,6 +313,9 @@
     </ClCompile>
     <ClCompile Include="Form\EditorWorkAreaHelp.cpp">
       <Filter>Form</Filter>
+    </ClCompile>
+    <ClCompile Include="EditMessage\CommandFactory.cpp">
+      <Filter>EditMessage</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

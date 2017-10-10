@@ -3,11 +3,9 @@
 
 #include "WorkArea.h"
 #include <wx/msw/wrapwin.h>		// 在wxWidgets中替代<Windows.h>
-#include <wx/mdi.h>
 #include <wx/panel.h>
 #include <wx/dnd.h>
 #include "../EditorWindow/WindowInterface.h"
-#include "../EditorWindow/EditorWindowCheck.h"
 
 class D3DEngine;
 class CopyWindowInfo;
@@ -22,6 +20,12 @@ public:
 
 	// 获取该对象中的主窗口
 	wxWindow* getBench() override;
+	// 获取窗口管理对象的ID
+	ID_TYPE getManageWindowId() const;
+	// 设置当前选中的窗口
+	void setCurrentWindow(AbstractEditorWindow* currentWnd) { m_currentWnd = currentWnd; }
+	// 获取当前选中的窗口
+	AbstractEditorWindow* getCurrentWindow() const { return m_currentWnd; }
 	// 为parentWnd添加一个子窗口
 	bool pushBackWindow(AbstractEditorWindow* parenWnd, AbstractEditorWindow* insertWnd);
 	// 为parentWnd在指定位置添加一个子窗口
@@ -51,16 +55,21 @@ private:
 	AbstractEditorWindow* findWnd(wxCoord x, wxCoord y);
 	// 创建一个窗口对象
 	void createWndObject(AbstractEditorWindow* parent, int absX, int absY, const CopyWindowInfo& winValue);
+
+	// 初始化显示窗口
+	void initFrameWnd(wxMDIParentFrame* parent, const wxString& captionName, const wxPoint& position, const wxSize &size);
 	// 初始化管理窗口
 	void initManageWnd();
 
 private:
-	wxMDIChildFrame *m_bench;
+	wxPanel *m_bench;
 
 	// 绘制D3D的引擎
 	D3DEngine* m_d3dEngine;
 	// 用来存储创建的窗口
 	AbstractEditorWindow* m_winMgr = nullptr;
+	// 当前选中的窗口
+	AbstractEditorWindow* m_currentWnd;
 };
 
 // 获取窗口句柄，该函数必须在初始化bench之后调用

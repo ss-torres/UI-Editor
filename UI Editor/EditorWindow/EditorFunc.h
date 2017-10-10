@@ -16,15 +16,13 @@
 #include <wx/any.h>
 #include <wx/gdicmn.h>
 #include "EditorFuncDefine.h"
+#include "../Form/EditorToolWidgetSelectDefine.h"
 
 namespace inner
 {
 	template <typename T>
 	class SimpleWindow;
 }
-
-// 编辑窗口的起始ID
-const ID_TYPE ID_BEG = 10;
 
 class Visitor;
 
@@ -42,10 +40,14 @@ namespace inner
 		// 用来获取构建的窗口类型，继承的窗口返回自身
 		virtual SimpleWindow<EditorFunc>* getConstructWindow() = 0;
 
+		// 用来获取窗口类名字
+		virtual wxString getWindowClassName() const { return EDITOR_WINDOW_TYPE; }
 		// 获取窗口ID，用来标识窗口
 		ID_TYPE getId() const { return m_id; }
 		// 用来判断窗口在编辑器是否可以编辑
 		bool isUiEditable() const { return m_editShow; }
+		// 用来获取属性是否可以编辑，对于窗口管理类，属性不可以编辑
+		virtual bool isAttrEditable() { return true; }
 		// 用来查看对应ID的窗口
 		virtual SimpleWindow<EditorFunc>* findMatchWnd(ID_TYPE findId);
 
@@ -54,6 +56,11 @@ namespace inner
 		// 重新设置整个属性表，当前只会更新列表信息，不会修改Window中的数据
 		template <typename ATTR_MAP_TYPE = WIN_ATTR_MAP>
 		void resetWinAttrs(ATTR_MAP_TYPE&& allTypes = ATTR_MAP_TYPE());
+		// 获取整个属性表中的全部信息
+		const WIN_ATTR_MAP& getWinAttrs() const { return m_allWinAttrs; }
+
+		// 设置窗口在编辑时是否显示
+		virtual void setEditShow(bool editShow) { m_editShow = editShow; }
 
 	protected:
 		// 定义处理消息的类型，返回值表示是否修改了属性，true表示修改，false表示未修改
@@ -74,14 +81,12 @@ namespace inner
 		static const ATTR_HANDLE_MAP& getEditorAttrHandles();
 
 	protected:
-		// 设置窗口在编辑时是否显示
-		virtual void setEditShow(bool editShow) { m_editShow = editShow; }
 		bool getEditShow() const { return m_editShow; }
+		// 设置窗口ID
+		void setId(ID_TYPE id) { m_id = id; }
 
 		// 更新整个属性表中的信息
 		void updateAttrValue(const wxString& name, const wxAny& value);
-		// 获取整个属性表中的全部信息
-		const WIN_ATTR_MAP& getWinAttrs() const { return m_allWinAttrs;  }
 
 	private:
 		// 用来生成新的窗口ID
@@ -143,7 +148,7 @@ namespace inner
 	// 获取一个窗口ID，获取的窗口ID从10开始，如果新的窗口ID为负值，则提示错误
 	inline int EditorFunc::getNewId()
 	{
-		auto newId = s_id_generator++;
+		auto newId = ++s_id_generator;
 		if (newId < 0)
 		{
 			throw std::runtime_error("EditorFunc::getNewId will return negative id");

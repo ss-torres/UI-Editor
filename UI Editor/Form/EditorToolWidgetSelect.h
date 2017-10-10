@@ -8,6 +8,7 @@
 
 #include "EditorToolWindow.h"
 #include <wx/treectrl.h>
+#include <vector>
 
 class EditorToolWidgetSelect : public EditorToolWindow
 {
@@ -15,6 +16,8 @@ public:
 	EditorToolWidgetSelect(wxAuiManager &manager, wxWindow * parent, int direction = wxLEFT, const wxString & paneName= wxEmptyString);
 	~EditorToolWidgetSelect() override;
 
+	// 用来获取所有能创建的窗口
+	std::vector<wxString> getAllWinNames() const;
 
 private:
 	// 用来处理拖拉窗口类型图标

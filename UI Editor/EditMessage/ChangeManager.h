@@ -9,33 +9,74 @@
  */
 
 #include <memory>
+#include "CommandStack.h"
+#include "../EditorWindow/WindowInterface.h"
 
 class EditorWorkArea;
 class EditorToolPropertyEditor;
 class EditorToolObjectView;
+class WindowAttributeManager;
 
 namespace Command
 {
 	class ChangeManager
 	{
 	public:
-		ChangeManager() {}
-		~ChangeManager() {}
+		ChangeManager();
+		~ChangeManager();
+
+		// 创建改变管理对象
+		static ChangeManager * const createInstance();
+		// 用来获取改变管理对象
+		static ChangeManager * const instance() { return s_changeManager; }
+
+		// 用来获取命令列表
+		wxCommandProcessor& getCommandStack() { return m_commandStack; }
+		const wxCommandProcessor& getCommandStack() const { return m_commandStack; }
+		// 用来查看命令列表
+		const wxCommandProcessor& checkCommandStack() const { return m_commandStack; }
+		// 添加一个窗口
+		bool pushBackWindow(AbstractEditorWindow* parentWnd, AbstractEditorWindow* insertWnd);
+		// 插入一个窗口
+		bool insertWindow(AbstractEditorWindow* parentWnd, size_t idx, AbstractEditorWindow* insertWnd);
+		// 移除一个窗口
+		bool removeWindow(AbstractEditorWindow* removeWnd);
+		// 修改当前选中的窗口
+		void changeSelectWnd(AbstractEditorWindow* lastCurWnd, AbstractEditorWindow* newCurWnd);
 
 		// 设置主工作区和工具窗口
 		void setWorkArea(std::shared_ptr<EditorWorkArea> workArea) { m_workArea = workArea; }
 		void setPropertyEditor(std::shared_ptr<EditorToolPropertyEditor> propertyEditor) { m_propertyEditor = propertyEditor; }
 		void setObjectView(std::shared_ptr<EditorToolObjectView> objectView) { m_objectView = objectView; }
+		void setWindowAttrMgr(std::shared_ptr<WindowAttributeManager> winAttrMgr) { m_winAttrMgr = winAttrMgr; }
 		// 获取主工作区和工具窗口
 		std::shared_ptr<EditorWorkArea> getWorkArea() const { return m_workArea; }
 		std::shared_ptr<EditorToolPropertyEditor> getPropertyEditor() const { return m_propertyEditor; }
 		std::shared_ptr<EditorToolObjectView> getObjectView() const { return m_objectView; }
 
 	private:
+		static ChangeManager* s_changeManager;
+	private:
 		std::shared_ptr<EditorWorkArea> m_workArea;
 		std::shared_ptr<EditorToolPropertyEditor> m_propertyEditor;
 		std::shared_ptr<EditorToolObjectView> m_objectView;
+		// 属性列表
+		std::shared_ptr<WindowAttributeManager> m_winAttrMgr;
+
+		// 用来存储命令列表
+		CommandStack m_commandStack;
 	};
+
+	// 创建改变管理对象
+	inline ChangeManager * const ChangeManager::createInstance()
+	{
+		if (s_changeManager == nullptr)
+		{
+			s_changeManager = new ChangeManager;
+		}
+
+		return s_changeManager;
+	}
 }
 
 

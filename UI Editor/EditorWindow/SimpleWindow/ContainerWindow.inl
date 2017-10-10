@@ -36,7 +36,10 @@ namespace inner
 		}
 		m_children.push_back(child);
 		setParent(this, child);
-		incrMsgRegion(child->getMsgRegion());
+		if (child->isHandleMsg())
+		{
+			incrMsgRegion(child->getMsgRegion());
+		}
 	}
 
 	// 用来在某个窗口之前添加一个子窗口
@@ -66,7 +69,10 @@ namespace inner
 	{
 		m_children.insert(iter, child);
 		setParent(this, child);
-		incrMsgRegion(child->getMsgRegion());
+		if (child->isHandleMsg())
+		{
+			incrMsgRegion(child->getMsgRegion());
+		}
 		return true;
 	}
 
@@ -82,7 +88,10 @@ namespace inner
 			{
 				m_children.erase(it);
 				setParent(nullptr, child);
-				resetMsgRegion();
+				if (child->isHandleMsg())
+				{
+					resetMsgRegion();
+				}
 				return true;
 			}
 		}
@@ -97,7 +106,10 @@ namespace inner
 		assert(child != nullptr);
 
 		m_children.push_back(child);
-		incrMsgRegion(child->getMsgRegion());
+		if (child->isHandleMsg())
+		{
+			incrMsgRegion(child->getMsgRegion());
+		}
 	}
 
 	// 更新父窗口判断消息的范围
@@ -128,7 +140,10 @@ namespace inner
 		wxRegion region;
 		for (auto chp : m_children)
 		{
-			region.Union(chp->getMsgRegion());
+			if (chp->isHandleMsg())
+			{
+				region.Union(chp->getMsgRegion());
+			}
 		}
 		region.Union(wxRect(0, 0, narrow_cast<wxCoord>(m_width), narrow_cast<wxCoord>(m_height)));
 		m_msgRegion = std::move(region);

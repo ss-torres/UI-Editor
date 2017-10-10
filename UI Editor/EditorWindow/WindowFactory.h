@@ -1,6 +1,7 @@
 #ifndef WINDOW_FACTORY_H
 #define WINDOW_FACTORY_H
 
+#include <map>
 #include "AbstractWindowFactory.h"
 
 namespace inner
@@ -35,6 +36,8 @@ public:
 
 private:
 	static AbstractWindowFactory* s_factoryInst;
+	// 用来记录每种类型的创建的数量（不考虑删除）
+	std::map<wxString, long> m_winTypeToNums;
 };
 
 namespace WindowFactoryImpl

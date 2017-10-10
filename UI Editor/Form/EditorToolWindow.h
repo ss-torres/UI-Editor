@@ -21,16 +21,16 @@ public:
 	// 用来设置标题
 	void setCaption(const wxString& captionName);
 	// 用来设置各种停靠属性
-	void setPanelInfo(const wxAuiPaneInfo& paneInfo);
+	void setPaneInfo(const wxAuiPaneInfo& paneInfo);
 	// 获取各种停靠属性
-	wxAuiPaneInfo& getPanelInfo();
+	wxAuiPaneInfo& getPaneInfo();
 
-	// 设置窗口属性列表
-	void setWinAttrManager(std::shared_ptr<WindowAttributeManager> winAttrMgr) { m_winAttrMgr = winAttrMgr;  }
+	//// 设置窗口属性列表
+	//void setWinAttrManager(std::shared_ptr<WindowAttributeManager> winAttrMgr) { m_winAttrMgr = winAttrMgr;  }
 
-protected:
-	// 用来获取窗口属性列表
-	std::shared_ptr<WindowAttributeManager> m_winAttrMgr;
+//protected:
+//	// 用来获取窗口属性列表
+//	std::shared_ptr<WindowAttributeManager> m_winAttrMgr;
 private:
 	wxAuiManager& m_auiManager;
 	// 用来记录该区域管理的窗口类

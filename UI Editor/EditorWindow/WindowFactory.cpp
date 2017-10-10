@@ -13,6 +13,8 @@ AbstractEditorWindow * WindowFactory::createCopyObjectWnd(CopyWindowInfo winObje
 {
 	AbstractEditorWindow* editorWnd = WindowFactoryImpl::createEditorWnd(winObject.getWinName(),
 		parent, relX, relY, width, height);
+	long winTypeNum = ++m_winTypeToNums[editorWnd->getWindowClassName()];
+	editorWnd->setWindowObjectName(editorWnd->getWindowClassName() + (wxString() << winTypeNum));
 
 	editorWnd->resetWinAttrs();
 	auto& winAttrs = winObject.getWinAttrValues();

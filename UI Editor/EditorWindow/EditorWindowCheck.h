@@ -9,36 +9,40 @@
 #include "WindowInterface.h"
 
 // 总是成功的判断
-template <typename T>
+template <typename CheckType = AbstractEditorWindow>
 class UiNoCheck
 {
 public:
 	UiNoCheck() = default;
 	~UiNoCheck() = default;
 
-	bool operator()(T* window) { return true; }
+	bool operator()(CheckType* window) { return true; }
 };
 
 // 判断在编辑器中是否可以编辑
-template <typename T>
-class UiEditable
+template <typename DecoType, typename CheckType = AbstractEditorWindow>
+class UiEditable : public DecoType
 {
 public:
 	UiEditable() = default;
 	~UiEditable() {}
 
-	bool operator()(T* window) { return window->isUiEditable(); }
+	bool operator()(CheckType* window) { return window->isUiEditable() && DecoType::DecoType()(window); }
 };
 
-// 判断在编辑器中是否为：可编辑而且可以有子对象
-template <typename T>
-class UiEditableContainer
+// 判断是否可以有子对象
+template <typename DecoType, typename CheckType = AbstractEditorWindow>
+class UiContainer : public DecoType
 {
 public:
-	UiEditableContainer() = default;
-	~UiEditableContainer() {}
+	UiContainer() = default;
+	~UiContainer() = default;
 
-	bool operator()(T* window) { return window->isUiEditable() && window->isContainerWnd(); }
+	bool operator()(CheckType* window) { return window->isContainerWnd() && DecoType::DecoType()(window); }
 };
+
+// 定义一些常用类型
+using Check_UiEditable = UiEditable<UiNoCheck<>>;
+using Check_UiContainer = UiContainer<UiNoCheck<>>;
 
 #endif	// EDITOR_WINDOW_CHECK_H

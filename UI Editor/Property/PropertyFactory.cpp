@@ -41,7 +41,7 @@ wxPGProperty * PropertyFactory::createProperty(const AttributeProperty& attrProp
 
 	if (property == nullptr)
 	{
-		throw ExtraException::unexpected_situation(__func__ + std::string("some Attribute's EditorProperty is wrong"));
+		throw ExtraExcept::unexpected_situation(__func__ + std::string("some Attribute's EditorProperty is wrong"));
 	}
 
 	setPropertyEditor(property, attrProperty.editorName);
@@ -65,7 +65,7 @@ wxPGProperty * PropertyFactory::createDefaultProperty(const AttributeProperty & 
 
 	if (property == nullptr)
 	{
-		throw ExtraException::unexpected_situation(__func__ + std::string("some Attribute's EditorProperty is wrong"));
+		throw ExtraExcept::unexpected_situation(__func__ + std::string("some Attribute's EditorProperty is wrong"));
 	}
 
 	setInitialValue(property, attrProperty.initialValue);

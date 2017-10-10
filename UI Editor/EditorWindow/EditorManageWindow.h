@@ -15,10 +15,14 @@ public:
 	EditorManageWindow(int relX, int relY, int width, int height);
 	~EditorManageWindow();
 
+	// 设置属性是否可以编辑
+	bool isAttrEditable() override { return false; }
 	// 用来获取构建的窗口类型，继承的窗口返回自身
 	virtual SimpleWindow<EditorFunc>* getConstructWindow() { return this; }
 	// 获取消息处理的范围，获取自身设置的范围，超过该范围的消息不处理
 	wxRegion getMsgRegion() const override;
+	// 设置窗口在编辑时是否显示
+	void setEditShow(bool editShow) override { EditorFunc::setEditShow(editShow); }
 
 	// 用来获取窗口类名字
 	virtual wxString getWindowClassName() const { return wxS("EditorManageWindow"); }
@@ -31,6 +35,9 @@ protected:
 	void incrMsgRegion(const wxRegion& childRange) override {}
 	// 设置窗口消息范围为所有子窗口范围，用来子窗口发生变化，例如改变
 	void resetMsgRegion() override {}
+
+	// 该窗口是否处理窗口消息
+	bool isHandleMsg() const override { return true; }
 };
 
 // 获取消息处理的范围

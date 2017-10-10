@@ -65,7 +65,7 @@ inline const wxString& PropertyFactory::getwxAttrFromXmlAttr(const wxString& xml
 		return it->second;
 	}
 
-	throw ExtraException::unexpected_situation("PropertyFactory::getwxAttrFromXmlAttr: wxAttr should be found.");
+	throw ExtraExcept::unexpected_situation("PropertyFactory::getwxAttrFromXmlAttr: wxAttr should be found.");
 	thread_local wxString errorRet = wxString("");
 	return errorRet;
 }

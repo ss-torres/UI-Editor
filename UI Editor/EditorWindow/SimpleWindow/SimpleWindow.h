@@ -69,8 +69,6 @@ namespace inner
 		void setWindowObjectName(const wxString& objectName) { m_windowObjectName = objectName; }
 		// 用来获取窗口对象名字
 		wxString getWindowObjectName() { return m_windowObjectName; }
-		// 用来获取窗口类名字
-		virtual wxString getWindowClassName() const { return wxS("SimpleWindow"); }
 
 		// 编辑窗口范围
 		// 更新相对坐标X
@@ -100,19 +98,13 @@ namespace inner
 		// 更新窗口范围
 		void updateRange(int x, int y, int width, int height);
 
-		// 设置窗口是否为Enable
-		void setEnable(bool enable) { m_enable = enable; }
-		// 设置窗口是否可见
-		void setVisible(bool visible) { m_visible = visible; }
-		// 设置窗口是否能够可见
-		void setVisibleEnable(bool visibleEnable) { m_visibleEnable = visibleEnable; }
-
 		// 在界面上绘制
 		virtual void draw() = 0;
 
 		// 获取消息处理的范围，相对范围
 		virtual wxRegion getMsgRegion() const;
-
+		// 该窗口是否处理窗口消息
+		virtual bool isHandleMsg() const { return true; }
 
 	protected:
 		// 设置该窗口的父窗口对象
@@ -120,9 +112,9 @@ namespace inner
 		// 用来添加一个子窗口对象，该函数不会检测插入的对象是否已经有了父对象
 		virtual void pushChild(SIMPLE_WINDOW_TYPE* child);
 		// 更新该窗口判断消息的范围，将childRect的消息处理范围添加到该窗口中
-		virtual void incrMsgRegion(const wxRegion& childRect) { if (hasParent()) { getParent()->incrMsgRegion(childRect); } }
+		virtual void incrMsgRegion(const wxRegion& childRect) { if (hasParent() && isHandleMsg()) { getParent()->incrMsgRegion(childRect); } }
 		// 设置窗口消息范围为所有子窗口范围，用来子窗口发生变化，例如改变
-		virtual void resetMsgRegion() { if (hasParent()) { getParent()->resetMsgRegion(); } }
+		virtual void resetMsgRegion() { if (hasParent() && isHandleMsg()) { getParent()->resetMsgRegion(); } }
 
 		// 获取子窗口列表
 		virtual const CHILDREN_CONTAINER& getConstChildren() const;
@@ -140,13 +132,6 @@ namespace inner
 		int m_relY;
 		int m_width;
 		int m_height;
-
-		// 窗口是否Enable
-		bool m_enable;
-		// 设置窗口是否可见
-		bool m_visible;
-		// 设置窗口是否能够可见
-		bool m_visibleEnable;
 
 		const static CHILDREN_CONTAINER s_defChildrenRet;
 

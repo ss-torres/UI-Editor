@@ -28,6 +28,24 @@ EditorToolWidgetSelect::~EditorToolWidgetSelect()
 
 }
 
+// 用来获取所有能创建的窗口
+std::vector<wxString> EditorToolWidgetSelect::getAllWinNames() const
+{
+	auto rootId = m_widget_tree->GetRootItem();
+	std::vector<wxString> winNames;
+
+	wxTreeItemIdValue cookie = nullptr;
+	for (auto id = m_widget_tree->GetFirstChild(rootId, cookie); id.IsOk(); id = m_widget_tree->GetNextChild(rootId, cookie))
+	{
+		WidgetSelectItemName* itemName = dynamic_cast<WidgetSelectItemName*>(m_widget_tree->GetItemData(id));
+		if (itemName != nullptr)
+		{
+			winNames.push_back(itemName->getWidgetName());
+		}
+	}
+	return winNames;
+}
+
 // 用来处理拖拉窗口类型图标
 void EditorToolWidgetSelect::OnDragWidgetIcon(wxTreeEvent& event)
 {
@@ -41,13 +59,7 @@ void EditorToolWidgetSelect::OnDragWidgetIcon(wxTreeEvent& event)
 	}
 
 	// 使用拖拉
-	std::vector<wxPGProperty*> attrList = m_winAttrMgr->getWinAttr(itemWidgetName->getWidgetName());
 	CopyWindowInfo winValue(itemWidgetName->getWidgetName());
-	
-	//for (auto prop : attrList)
-	//{
-	//	winValue.add(prop->GetBaseName(), prop->GetValue());
-	//}
 	
 	CopyWinObject dropData(getCopyDataFormat());
 	dropData.SetData(sizeof(winValue), &winValue);

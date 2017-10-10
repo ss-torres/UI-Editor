@@ -29,7 +29,7 @@ void EditorToolWindow::setDirection(int direction)
 	}
 	else
 	{
-		throw ExtraException::unexpected_situation("myPaneInfo's IsOk() should be true.");
+		throw ExtraExcept::unexpected_situation("myPaneInfo's IsOk() should be true.");
 	}
 }
 
@@ -44,12 +44,12 @@ void EditorToolWindow::setCaption(const wxString & captionName)
 	}
 	else
 	{
-		throw ExtraException::unexpected_situation("myPaneInfo's IsOk() should be true.");
+		throw ExtraExcept::unexpected_situation("myPaneInfo's IsOk() should be true.");
 	}
 }
 
 // 用来设置各种停靠属性
-void EditorToolWindow::setPanelInfo(const wxAuiPaneInfo & paneInfo)
+void EditorToolWindow::setPaneInfo(const wxAuiPaneInfo & paneInfo)
 {
 	wxAuiPaneInfo& myPaneInfo = m_auiManager.GetPane(getBench());
 	if (myPaneInfo.IsOk())
@@ -59,11 +59,11 @@ void EditorToolWindow::setPanelInfo(const wxAuiPaneInfo & paneInfo)
 	}
 	else
 	{
-		throw ExtraException::unexpected_situation("myPaneInfo's IsOk() should be true.");
+		throw ExtraExcept::unexpected_situation("myPaneInfo's IsOk() should be true.");
 	}
 }
 
-wxAuiPaneInfo & EditorToolWindow::getPanelInfo()
+wxAuiPaneInfo & EditorToolWindow::getPaneInfo()
 {
 	wxAuiPaneInfo& myPaneInfo = m_auiManager.GetPane(getBench());
 	if (myPaneInfo.IsOk())
@@ -72,7 +72,7 @@ wxAuiPaneInfo & EditorToolWindow::getPanelInfo()
 	}
 	else
 	{
-		throw ExtraException::unexpected_situation("myPaneInfo's IsOk() should be true.");
+		throw ExtraExcept::unexpected_situation("myPaneInfo's IsOk() should be true.");
 		return myPaneInfo;
 	}
 }

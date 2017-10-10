@@ -16,6 +16,10 @@ namespace inner
 
 		// 用来查看对应ID的窗口
 		SimpleWindow<EditorFunc>* findMatchWnd(ID_TYPE findId) override;
+
+	protected:
+		// 设置该窗口是否编辑时显示
+		void setEditShow(bool editShow) override;
 	};
 }
 

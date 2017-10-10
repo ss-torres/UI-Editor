@@ -22,4 +22,15 @@ namespace inner
 
 		return nullptr;
 	}
+
+	// 设置该窗口是否编辑时显示，该实现可以优化，减少resetMsgRegion调用
+	void ContainerWindow<EditorContainerFunc>::setEditShow(bool editShow)
+	{
+		for (auto chp : getConstChildren())
+		{
+			chp->setEditShow(editShow);
+		}
+
+		ContainerWindow<EditorEditableFunc>::setEditShow(editShow);
+	}
 }

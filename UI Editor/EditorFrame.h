@@ -17,6 +17,7 @@
 #include "Form/EditorWindowFactory.h"
 
 class EditorToolWindow;
+class EditorToolWidgetSelect;
 class EditorToolObjectView;
 class EditorToolPropertyEditor;
 class EditorWorkArea;
@@ -58,7 +59,7 @@ private:
 	EditorWindowFactory m_manager;
 	// 工具窗口
 	// 窗口类型选择
-	std::shared_ptr<EditorToolWindow> m_tool_widget_select;
+	std::shared_ptr<EditorToolWidgetSelect> m_tool_widget_select;
 	// 创建窗口对象父子级关系
 	std::shared_ptr<EditorToolObjectView> m_tool_object_view;
 	// 窗口属性修改

@@ -8,10 +8,7 @@ namespace inner
 	template <typename T>
 	SimpleWindow<T>::SimpleWindow(SIMPLE_WINDOW_TYPE* parent, int relX, int relY, int width, int height)
 		: T(),
-		m_parent(parent), m_relX(relX), m_relY(relY), m_width(width), m_height(height),
-		m_enable(true),
-		m_visible(true),
-		m_visibleEnable(true)
+		m_parent(parent), m_relX(relX), m_relY(relY), m_width(width), m_height(height)
 	{
 		if (parent == nullptr)
 		{

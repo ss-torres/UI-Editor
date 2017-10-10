@@ -4,7 +4,7 @@
 #include <exception>
 #include <stdexcept>
 
-namespace ExtraException
+namespace ExtraExcept
 {
 
 /*
@@ -24,6 +24,30 @@ public:
 	}
 
 	explicit unexpected_situation(const char* const msg)
+		: std::logic_error(msg)
+	{
+
+	}
+};
+
+/*
+ * 类名：invoke_too_early
+ * 使用：在相关初始化还未完成就调用了该函数
+ */
+
+class invoke_too_early : public std::logic_error
+{
+public:
+	using _Mybase = std::logic_error;
+
+	explicit invoke_too_early(const std::string& msg)
+		: std::logic_error(msg)
+
+	{
+
+	}
+
+	explicit invoke_too_early(const char* const msg)
 		: std::logic_error(msg)
 	{
 

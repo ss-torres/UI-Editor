@@ -15,7 +15,7 @@ namespace WorkAreaHelp
 	// 判断时，需要父窗口满足条件，才会判断子窗口是否满足条件，如果父窗口不满足，则子窗口不判断
 	// 该函数实现考虑了消息处理范围，如果查找点不在窗口消息处理范围，则不处理
 	// 传入的坐标为父窗口参考坐标
-	template <typename T = UiEditable<AbstractEditorWindow>/*, bool = std::is_class<T>::value*/>
+	template <typename T = Check_UiEditable/*, bool = std::is_class<T>::value*/>
 	AbstractEditorWindow* getMatchWindow(AbstractEditorWindow* searchWnd, wxCoord x, wxCoord y, T&& t = T());
 }
 

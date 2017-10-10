@@ -1,9 +1,14 @@
 #include "EditorWorkArea.h"
+#include "EditorWorkAreaHelp.h"
+#include <wx/sizer.h>
+#include <wx/panel.h>
+#include <wx/mdi.h>
 #include "../DrawEngine/d3dEngine.h"
 #include "../CopyDrop/CopyWinObject.h"
 #include "../EditorWindow/WindowInterface.h"
 #include "../EditorWindow/WindowFactory.h"
-#include "EditorWorkAreaHelp.h"
+#include "../EditMessage/CommandFactory.h"
+#include "../EditMessage/ChangeManager.h"
 
 const int MANAGE_WINDOW_WIDTH = 1200;
 const int MANAGE_WINDOW_HEIGHT = 900;
@@ -51,10 +56,11 @@ private:
 	EditorWorkArea* m_workArea;
 };
 
-EditorWorkArea::EditorWorkArea(wxMDIParentFrame* parent, const wxString& captionName = wxEmptyString, const wxPoint& position = wxDefaultPosition, const wxSize &size = wxDefaultSize)
+EditorWorkArea::EditorWorkArea(wxMDIParentFrame* parent, const wxString& captionName = wxEmptyString, 
+	const wxPoint& position = wxDefaultPosition, const wxSize &size = wxDefaultSize)
 	: WorkArea(parent)
 {
-	m_bench = new wxMDIChildFrame(parent, wxID_ANY, captionName, position, size);
+	initFrameWnd(parent, captionName, position, size);
 	m_d3dEngine = new D3DEngine(getHandle(), D3DDEVTYPE_HAL, D3DCREATE_HARDWARE_VERTEXPROCESSING);
 	initManageWnd();
 
@@ -69,6 +75,17 @@ EditorWorkArea::~EditorWorkArea()
 wxWindow * EditorWorkArea::getBench()
 {
 	return m_bench;
+}
+
+// 获取窗口管理对象的ID
+ID_TYPE EditorWorkArea::getManageWindowId() const
+{
+	if (m_winMgr == nullptr)
+	{
+		throw ExtraExcept::invoke_too_early("EditorWorkArea::getManageWindowId was been invoked when m_winMgr is nullptr");
+	}
+
+	return m_winMgr->getId();
 }
 
 // 为ID的窗口添加一个子窗口
@@ -125,7 +142,7 @@ void EditorWorkArea::updateFrame(float dt)
 void EditorWorkArea::onDrop(wxCoord x, wxCoord y, const CopyWindowInfo& winValue)
 {
 	// 查看父窗口对象
-	AbstractEditorWindow* parentWnd = WorkAreaHelp::getMatchWindow(m_winMgr, x, y);
+	AbstractEditorWindow* parentWnd = WorkAreaHelp::getMatchWindow(m_winMgr, x, y, Check_UiContainer());
 	createWndObject(parentWnd, x, y, winValue);
 }
 
@@ -167,12 +184,26 @@ void EditorWorkArea::createWndObject(AbstractEditorWindow* parent, int absX, int
 		relY -= parent->getAbsY();
 	}
 	auto createdWnd = wndFac->createCopyObjectWnd(winValue, parent, relX, relY);
+	using namespace Command;
+	auto dropWndCommand = CommandFactory::instance()->createDropWindowCommand(createdWnd, parent, getCurrentWindow());
+	bool containerWnd = parent->isContainerWnd();
+	ChangeManager::instance()->getCommandStack().Submit(dropWndCommand);
 }
 
+
+// 初始化显示窗口
+void EditorWorkArea::initFrameWnd(wxMDIParentFrame* parent, const wxString& captionName, const wxPoint& position, const wxSize &size)
+{
+	wxMDIChildFrame* childFrame = new wxMDIChildFrame(parent, wxID_ANY, captionName, position, size);
+	m_bench = new wxPanel(childFrame);
+	wxBoxSizer* vBoxSizer = new wxBoxSizer(wxVERTICAL);
+	vBoxSizer->Add(m_bench, 1);
+}
 
 // 初始化管理窗口
 void EditorWorkArea::initManageWnd()
 {
 	AbstractWindowFactory* wndFac = WindowFactory::winFactoryInst();
 	m_winMgr = wndFac->createManageWnd(MANAGE_WINDOW_WIDTH, MANAGE_WINDOW_HEIGHT);
+	setCurrentWindow(m_winMgr);
 }

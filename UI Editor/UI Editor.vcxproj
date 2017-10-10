@@ -24,7 +24,10 @@
     <ClInclude Include="DrawEngine\d3dUtil.h" />
     <ClInclude Include="DrawEngine\GameTimer.h" />
     <ClInclude Include="EditMessage\ChangeManager.h" />
+    <ClInclude Include="EditMessage\CommandFactory.h" />
     <ClInclude Include="EditMessage\CommandStack.h" />
+    <ClInclude Include="EditMessage\CurrentWindowCommand.h" />
+    <ClInclude Include="EditMessage\DropWindowCommand.h" />
     <ClInclude Include="EditMessage\InsertWindowCommand.h" />
     <ClInclude Include="EditMessage\RemoveWindowCommand.h" />
     <ClInclude Include="EditorApp.h" />
@@ -48,6 +51,7 @@
     <ClInclude Include="ErrorHandle\ErrorHandle.h" />
     <ClInclude Include="ErrorHandle\ErrorMessage.h" />
     <ClInclude Include="Form\EditorToolObjectView.h" />
+    <ClInclude Include="Form\EditorToolObjectViewDefine.h" />
     <ClInclude Include="Form\EditorToolPropertyEditor.h" />
     <ClInclude Include="Form\EditorToolWidgetSelect.h" />
     <ClInclude Include="Form\EditorToolWidgetSelectDefine.h" />
@@ -77,9 +81,8 @@
     <ClCompile Include="DrawEngine\d3dUtil.cpp" />
     <ClCompile Include="DrawEngine\GameTimer.cpp" />
     <ClCompile Include="EditMessage\ChangeManager.cpp" />
+    <ClCompile Include="EditMessage\CommandFactory.cpp" />
     <ClCompile Include="EditMessage\CommandStack.cpp" />
-    <ClCompile Include="EditMessage\InsertWindowCommand.cpp" />
-    <ClCompile Include="EditMessage\RemoveWindowCommand.cpp" />
     <ClCompile Include="EditorApp.cpp" />
     <ClCompile Include="EditorFrame.cpp" />
     <ClCompile Include="EditorWindow\EditorButton.cpp" />
@@ -165,8 +168,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>D:\wxWidgets-3.0.3\lib\vc_lib\mswd;D:\wxWidgets-3.0.3\include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\wxWidgets-3.0.3\lib\vc_lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>D:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;D:\wxWidgets-3.0.3\lib\vc_lib\mswd;D:\wxWidgets-3.0.3\include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x86;D:\wxWidgets-3.0.3\lib\vc_lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

@@ -4,6 +4,8 @@
 /*
  * 文件名：InsertWindowCommand
  * 作用：添加一个窗口对象
+ * 说明：如果子窗口被添加到父窗口中，则父窗口负责管理子窗口的删除，
+ * 否则该命令负责子窗口的删除，判断条件hasParent
  */
 
 #include <wx/cmdproc.h>
@@ -12,28 +14,28 @@
 
 namespace Command
 {
-	const int INSERT_POS_DEF_X = 5;
-	const int INSERT_POS_DEF_Y = 5;
-	const int INSERT_DEF_IDX = -1;		// 表示插入到最后
+	class ChangeManager;
+
+	const size_t INSERT_DEF_IDX = -1;		// 表示插入到最后
 
 	template <typename T>
 	class InsertWindowCommand : public wxCommand
 	{
 	public:
-		InsertWindowCommand(T* winMgr, AbstractEditorWindow* insertWnd, AbstractEditorWindow* parentWnd)
+		InsertWindowCommand(T winMgr, AbstractEditorWindow* insertWnd, AbstractEditorWindow* parentWnd)
 			: m_winMgr(winMgr), m_insertWnd(insertWnd), m_parentWnd(parentWnd)
 		{
 			if (winMgr == NULL || insertWnd == NULL || parentWnd == NULL)
 			{
-				throw std::invalid_argument("InsertWindowCommand: winMgr, insertWnd and parentWnd shouldn't be nullptr");
+				throw std::invalid_argument(__func__ + std::string(": winMgr, insertWnd and parentWnd shouldn't be nullptr"));
 			}
 		}
-		~InsertWindowCommand() override {}
+		~InsertWindowCommand() override;
 
-		// 设置插入的位置
-		void setInsertPos(int x, int y) { m_reX = x; m_relY = y; }
 		// 设置插入的序号
 		void setInsertIdx(size_t idx) { m_idx = idx; }
+		// 获取插入的序号
+		size_t getInsertIdx() const { return m_idx; }
 
 		// 是否可以回退
 		bool CanUndo() const override { return true; }
@@ -47,14 +49,10 @@ namespace Command
 		AbstractEditorWindow* m_insertWnd = nullptr;
 		// 用来记录插入的父窗口
 		AbstractEditorWindow* m_parentWnd = nullptr;
-		// 插入的位置
-		int m_relX = INSERT_POS_DEF_X;
-		// 插入的位置
-		int m_relY = INSERT_POS_DEF_Y;
 		// 插入的序号
 		size_t m_idx = INSERT_DEF_IDX;
 		// 操作的窗口类
-		T* m_winMgr = nullptr;
+		T m_winMgr;
 	};
 
 	template <typename T>
@@ -73,7 +71,19 @@ namespace Command
 	template <typename T>
 	inline bool InsertWindowCommand<T>::Undo()
 	{
-		m_winMgr->removeWindow(m_insertWnd);
+		return m_winMgr->removeWindow(m_insertWnd);
+	}
+
+
+	template <typename T>
+	InsertWindowCommand<T>::~InsertWindowCommand()
+	{
+		// 析构函数，如果插入的窗口为独立窗口，则可以删除
+		if (!m_insertWnd->hasParent())
+		{
+			delete m_insertWnd;
+			m_insertWnd = nullptr;
+		}
 	}
 }
 

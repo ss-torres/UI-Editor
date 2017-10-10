@@ -25,7 +25,7 @@
 		<Attribute name="sizeY" EditorProperty="int" />
 		
 		<Window name="GLabel">
-			<Attribute name="text" />
+			<Attribute name="icon" />
 		</Window>
 		<Window name="GButton">
 		</Window>

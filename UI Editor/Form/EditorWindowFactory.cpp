@@ -36,7 +36,7 @@ EditorToolWindow * EditorWindowFactory::createToolWindow(ToolWindowType type, wx
 		return new EditorToolPropertyEditor(manager, parent, direction, paneName);
 
 	default:
-		throw ExtraException::unexpected_situation("createToolWindow'default is a branch that should not be invoked.");
+		throw ExtraExcept::unexpected_situation("createToolWindow'default is a branch that should not be invoked.");
 		break;
 	}
 }

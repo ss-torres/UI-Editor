@@ -80,7 +80,7 @@ inline ID3DXFont* D3DEngine::getFont(FONT_TYPE fontType) const
 		return it->second;
 	}
 
-	throw ExtraException::unexpected_situation("D3DEngine::getFont: font should be found here.");
+	throw ExtraExcept::unexpected_situation("D3DEngine::getFont: font should be found here.");
 }
 
 #endif	// D3D_ENGINE_H
