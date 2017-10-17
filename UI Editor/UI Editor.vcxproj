@@ -20,7 +20,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CopyDrop\CopyWinObject.h" />
+    <ClInclude Include="DrawEngine\CGrowableArray.h" />
+    <ClInclude Include="DrawEngine\d3d9ResourceDefine.h" />
     <ClInclude Include="DrawEngine\d3dEngine.h" />
+    <ClInclude Include="DrawEngine\d3d9ResourceManager.h" />
+    <ClInclude Include="DrawEngine\d3dEngineImpl.h" />
     <ClInclude Include="DrawEngine\d3dUtil.h" />
     <ClInclude Include="DrawEngine\GameTimer.h" />
     <ClInclude Include="EditMessage\ChangeManager.h" />
@@ -78,6 +82,8 @@
   <ItemGroup>
     <ClCompile Include="CopyDrop\CopyWinObject.cpp" />
     <ClCompile Include="DrawEngine\d3dEngine.cpp" />
+    <ClCompile Include="DrawEngine\d3d9ResourceManager.cpp" />
+    <ClCompile Include="DrawEngine\d3dEngineImpl.cpp" />
     <ClCompile Include="DrawEngine\d3dUtil.cpp" />
     <ClCompile Include="DrawEngine\GameTimer.cpp" />
     <ClCompile Include="EditMessage\ChangeManager.cpp" />
@@ -179,7 +185,7 @@
       <AdditionalOptions>/D _CRT_SECURE_NO_WARNINGS %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>wxmsw30d_core.lib;wxmsw30ud_core.lib;wxbase30d.lib;wxbase30ud.lib;wxtiffd.lib;wxjpegd.lib;wxpngd.lib;wxzlibd.lib;wxregexd.lib;wxexpatd.lib;winmm.lib;comctl32.lib;rpcrt4.lib;wsock32.lib;wininet.lib;wxmsw30d_aui.lib;wxbase30d_xml.lib;wxbase30d_net.lib;wxmsw30d_adv.lib;wxmsw30d_propgrid.lib;d3d9.lib;d3dx9d.lib;DxErr.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>wxmsw30d_core.lib;wxmsw30ud_core.lib;wxbase30d.lib;wxbase30ud.lib;wxtiffd.lib;wxjpegd.lib;wxpngd.lib;wxzlibd.lib;wxregexd.lib;wxexpatd.lib;winmm.lib;comctl32.lib;rpcrt4.lib;wsock32.lib;wininet.lib;wxmsw30d_aui.lib;wxmsw30ud_aui.lib;wxbase30d_xml.lib;wxbase30ud_xml.lib;wxbase30d_net.lib;wxbase30ud_net.lib;wxmsw30d_adv.lib;wxmsw30ud_adv.lib;wxmsw30d_propgrid.lib;wxmsw30ud_propgrid.lib;d3d9.lib;d3dx9d.lib;DxErr.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

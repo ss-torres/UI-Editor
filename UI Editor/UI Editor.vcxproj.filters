@@ -216,6 +216,18 @@
     <ClInclude Include="Form\EditorToolObjectViewDefine.h">
       <Filter>Form</Filter>
     </ClInclude>
+    <ClInclude Include="DrawEngine\CGrowableArray.h">
+      <Filter>DrawEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawEngine\d3d9ResourceManager.h">
+      <Filter>DrawEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawEngine\d3d9ResourceDefine.h">
+      <Filter>DrawEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawEngine\d3dEngineImpl.h">
+      <Filter>DrawEngine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PropertyEditor\PropertySequence.cpp">
@@ -316,6 +328,12 @@
     </ClCompile>
     <ClCompile Include="EditMessage\CommandFactory.cpp">
       <Filter>EditMessage</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawEngine\d3d9ResourceManager.cpp">
+      <Filter>DrawEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawEngine\d3dEngineImpl.cpp">
+      <Filter>DrawEngine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -157,18 +157,18 @@ void EditorWorkArea::drawScene()
 {
 	IDirect3DDevice9* d3dDevice = m_d3dEngine->getDevice();
 
-	HR(d3dDevice->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(255, 255, 255), 1.0f, 0));
-	RECT formatRect;
-	GetClientRect(getHandle(), &formatRect);
+	//HR(d3dDevice->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(255, 255, 255), 1.0f, 0));
+	//RECT formatRect;
+	//GetClientRect(getHandle(), &formatRect);
 
-	HR(d3dDevice->BeginScene());
+	//HR(d3dDevice->BeginScene());
 
-	//m_d3dEngine->getFont()->DrawText(0, _T("Hello Direct3D"), -1,
-	//	&formatRect, DT_CENTER | DT_VCENTER,
-	//	D3DCOLOR_XRGB(rand() % 256, rand() % 256, rand() % 256));
+	////m_d3dEngine->getFont()->DrawText(0, _T("Hello Direct3D"), -1,
+	////	&formatRect, DT_CENTER | DT_VCENTER,
+	////	D3DCOLOR_XRGB(rand() % 256, rand() % 256, rand() % 256));
 
-	HR(d3dDevice->EndScene());
-	HR(d3dDevice->Present(0, 0, 0, 0));
+	//HR(d3dDevice->EndScene());
+	//HR(d3dDevice->Present(0, 0, 0, 0));
 }
 
 // 创建一个窗口对象

@@ -13,6 +13,7 @@
 #include <d3d9.h>
 #include <d3dx9.h>
 #include <DxErr.h>
+#include <Windows.h>
 
 // Globals for convenient access
 class D3DApp;
@@ -21,7 +22,17 @@ extern IDirect3DDevice9* gd3dDevice;
 
 // Clean up
 template <typename T>
-void ReleaseCOM(T* p)
+inline void SAFE_DELETE(T& p)
+{
+	if (p)
+	{
+		delete p;
+		p = NULL;
+	}
+}
+
+template <typename T>
+inline void ReleaseCOM(T* p)
 {
 	if (p)
 	{
@@ -30,9 +41,20 @@ void ReleaseCOM(T* p)
 	}
 }
 
+template<typename T>
+inline void SAFE_RELEASE(T* p)
+{
+	ReleaseCOM(p);
+}
+
 #if defined(DEBUG) | defined(_DEBUG)
 	#ifndef HR
-#define HR(x)		HR_impl(x, #x, __FILE__, __LINE__);
+	#define HR(x)		HR_impl(x, #x, __FILE__, __LINE__, true)
+	#define HR_RETURN(x)	{ HRESULT hr = HR_impl(x, #x, __FILE__, __LINE__, true); if (FAILED(hr)) return hr; }
+	#endif
+	#ifndef HR_ERR
+	#define HR_ERR(str, hr)		HR_impl(hr, str, __FILE__, __LINE__, false)
+	#define HR_ERR_MSGBOX(str, hr)	HR_impl(hr, str, __FILE__, __LINE__, true)
 	#endif
 #else
 	#ifndef HR
@@ -40,13 +62,16 @@ void ReleaseCOM(T* p)
 	#endif
 #endif
 
-inline void HR_impl(HRESULT x, const char* const funcDesc, const char* const fileName, const int fileLine)
+inline HRESULT HR_impl(HRESULT x, const TCHAR* funcDesc, const char* const fileName, 
+	const int fileLine, bool showBox = true)
 {
 	HRESULT hr = x;
 	if (FAILED(hr))
 	{
-		DXTraceA(fileName, fileLine, hr, funcDesc, TRUE);
+		DXTrace(fileName, fileLine, hr, funcDesc, showBox);
 	}
+
+	return hr;
 }
 
 #endif	// D3D_UTIL_H
