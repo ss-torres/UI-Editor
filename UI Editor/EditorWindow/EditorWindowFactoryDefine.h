@@ -1,5 +1,5 @@
-#ifndef WINDOW_FACTORY_DEFINE_H
-#define WINDOW_FACTORY_DEFINE_H
+#ifndef EDITOR_WINDOW_FACTORY_DEFINE_H
+#define EDITOR_WINDOW_FACTORY_DEFINE_H
 
 /*
  * ÎÄ¼þÃû£ºWindowFactoryDefine

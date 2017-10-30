@@ -1,4 +1,4 @@
-#include "EditorWindowFactory.h"
+#include "EditorFormFactory.h"
 #include <wx/image.h>
 
 #include "EditorToolWidgetSelect.h"
@@ -7,7 +7,7 @@
 #include "EditorWorkArea.h"
 #include "../ErrorHandle/ErrorHandle.h"
 
-EditorWindowFactory::EditorWindowFactory()
+EditorFormFactory::EditorFormFactory()
 {
 	// 初始化贴图加载
 	if (wxImage::FindHandler(wxBITMAP_TYPE_PNG) == nullptr)
@@ -16,12 +16,12 @@ EditorWindowFactory::EditorWindowFactory()
 	}
 }
 
-EditorWindowFactory::~EditorWindowFactory()
+EditorFormFactory::~EditorFormFactory()
 {
 	wxImage::CleanUpHandlers();
 }
 
-EditorToolWindow * EditorWindowFactory::createToolWindow(ToolWindowType type, wxAuiManager &manager, wxWindow * parent,
+EditorToolWindow * EditorFormFactory::createToolWindow(ToolWindowType type, wxAuiManager &manager, wxWindow * parent,
 	int direction, const wxString & paneName) const
 {
 	switch (type)
@@ -42,21 +42,21 @@ EditorToolWindow * EditorWindowFactory::createToolWindow(ToolWindowType type, wx
 }
 
 // 销毁对应的ToolWindow
-void EditorWindowFactory::destroyToolWindow(EditorToolWindow* &toolWnd) const
+void EditorFormFactory::destroyToolWindow(EditorToolWindow* &toolWnd) const
 {
 	delete toolWnd;
 	toolWnd = NULL;
 }
 
 // 创建主工作区
-EditorWorkArea * EditorWindowFactory::createWorkArea(wxMDIParentFrame* parent, 
+EditorWorkArea * EditorFormFactory::createWorkArea(wxMDIParentFrame* parent,
 	const wxString& captionName, const wxPoint& position, const wxSize& size) const
 {
 	return new EditorWorkArea(parent, captionName, position, size);
 }
 
 // 销毁主工作区
-void EditorWindowFactory::destroyWorkArea(EditorWorkArea* &workArea) const
+void EditorFormFactory::destroyWorkArea(EditorWorkArea* &workArea) const
 {
 	delete workArea;
 	workArea = NULL;

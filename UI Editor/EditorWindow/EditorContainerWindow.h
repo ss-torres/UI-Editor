@@ -2,7 +2,7 @@
 #define EDITOR_CONTAINER_WINDOW_H
 
 #include "EditorFunc.h"
-#include "AbstractEditorWindow.h"
+#include "EditorAbstractWindow.h"
 #include "SimpleWindow/ContainerWindow.h"
 
 namespace inner

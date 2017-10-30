@@ -7,7 +7,7 @@
  */
 
 #include <type_traits>
-#include "../EditorWindow/WindowInterface.h"
+#include "../EditorWindow/EditorWindowInterface.h"
 #include "../EditorWindow/EditorWindowCheck.h"
 
 namespace WorkAreaHelp
@@ -16,11 +16,11 @@ namespace WorkAreaHelp
 	// 该函数实现考虑了消息处理范围，如果查找点不在窗口消息处理范围，则不处理
 	// 传入的坐标为父窗口参考坐标
 	template <typename T = Check_UiEditable/*, bool = std::is_class<T>::value*/>
-	AbstractEditorWindow* getMatchWindow(AbstractEditorWindow* searchWnd, wxCoord x, wxCoord y, T&& t = T());
+	EditorAbstractWindow* getMatchWindow(EditorAbstractWindow* searchWnd, wxCoord x, wxCoord y, T&& t = T());
 }
 
 template <typename T>
-AbstractEditorWindow* WorkAreaHelp::getMatchWindow(AbstractEditorWindow* searchWnd, wxCoord x, wxCoord y, T&& t)
+EditorAbstractWindow* WorkAreaHelp::getMatchWindow(EditorAbstractWindow* searchWnd, wxCoord x, wxCoord y, T&& t)
 {
 	x -= narrow_cast<wxCoord>(searchWnd->getRelX());
 	y -= narrow_cast<wxCoord>(searchWnd->getRelY());

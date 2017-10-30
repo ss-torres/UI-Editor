@@ -1,17 +1,16 @@
-#include "WindowFactory.h"
+#include "EditorWindowFactory.h"
 #include "../Form/EditorToolWidgetSelectDefine.h"
-#include "WindowFactoryDefine.h"
 #include "EditorLabel.h"
 #include "EditorButton.h"
 #include "EditorManageWindow.h"
 
-AbstractWindowFactory* WindowFactory::s_factoryInst = nullptr;
+AbstractWindowFactory* EditorWindowFactory::s_factoryInst = nullptr;
 
 // 根据拷贝的窗口数据，构造窗口
-AbstractEditorWindow * WindowFactory::createCopyObjectWnd(CopyWindowInfo winObject,
-	AbstractEditorWindow* parent, int relX, int relY, int width, int height)
+EditorAbstractWindow * EditorWindowFactory::createCopyObjectWnd(CopyWindowInfo winObject,
+	EditorAbstractWindow* parent, int relX, int relY, int width, int height)
 {
-	AbstractEditorWindow* editorWnd = WindowFactoryImpl::createEditorWnd(winObject.getWinName(),
+	EditorAbstractWindow* editorWnd = WindowFactoryImpl::createEditorWnd(winObject.getWinName(),
 		parent, relX, relY, width, height);
 	long winTypeNum = ++m_winTypeToNums[editorWnd->getWindowClassName()];
 	editorWnd->setWindowObjectName(editorWnd->getWindowClassName() + (wxString() << winTypeNum));
@@ -27,14 +26,14 @@ AbstractEditorWindow * WindowFactory::createCopyObjectWnd(CopyWindowInfo winObje
 }
 
 // 创建一个管理窗口
-AbstractEditorWindow * WindowFactory::createManageWnd(int width, int height)
+EditorAbstractWindow * EditorWindowFactory::createManageWnd(int width, int height)
 {
 	return new EditorManageWindow(0, 0, width, height);
 }
 
 // 根据窗口名获取对应的窗口对象
-AbstractEditorWindow * WindowFactoryImpl::createEditorWnd(const wxString & winName,
-	AbstractEditorWindow* parent, int relX, int relY, int width, int height)
+EditorAbstractWindow * WindowFactoryImpl::createEditorWnd(const wxString & winName,
+	EditorAbstractWindow* parent, int relX, int relY, int width, int height)
 {
 	if (winName == EDITOR_LABEL_TYPE)
 	{

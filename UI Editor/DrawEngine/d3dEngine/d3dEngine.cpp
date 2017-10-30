@@ -1,5 +1,10 @@
 #include "d3dEngine.h"
+#include "../../ErrorHandle/ErrorHandle.h"
+#include "d3d9ResourceManager.h"
+#include "d3dEngineImpl.h"
 #include <tchar.h>
+
+const char* ENGINE_IMPL_TEX_FILE = "dxutcontrols.dds";
 
 D3DEngine::D3DEngine(HWND mainWndId, D3DDEVTYPE devType, DWORD requestedVP)
 	: m_d3dObject(nullptr),
@@ -17,10 +22,31 @@ D3DEngine::D3DEngine(HWND mainWndId, D3DDEVTYPE devType, DWORD requestedVP)
 
 	initDirect3D();
 	initD3DFont();
+
+	initEngineImpl();
 }
 
 D3DEngine::~D3DEngine()
 {
+	SAFE_DELETE(m_resourceManager);
+	for (auto& val_pair : m_fonts)
+	{
+		ReleaseCOM(val_pair.second);
+	}
+	ReleaseCOM(m_d3dObject);
+	ReleaseCOM(m_d3dDevice);
+}
+
+// 获取对应的字体
+inline ID3DXFont* D3DEngine::getFont(FONT_TYPE fontType) const
+{
+	auto it = m_fonts.find(fontType);
+	if (it != m_fonts.cend())
+	{
+		return it->second;
+	}
+
+	throw ExtraExcept::unexpected_situation("D3DEngine::getFont: font should be found here.");
 }
 
 // 处理对应窗口大小改变
@@ -73,11 +99,21 @@ bool D3DEngine::checkDeviceLost()
 // 重设设备前的清理
 void D3DEngine::onLostDevice()
 {
+	for (auto& val_pair : m_fonts)
+	{
+		val_pair.second->OnLostDevice();
+	}
+	m_resourceManager->OnD3DLostDevice();
 }
 
 // 重设设备后的处理
 void D3DEngine::onResetDevice()
 {
+	for (auto& val_pair : m_fonts)
+	{
+		val_pair.second->OnResetDevice();
+	}
+	m_resourceManager->OnD3DResetDevice();
 }
 
 // 计算设备帧数信息
@@ -181,6 +217,17 @@ void D3DEngine::initD3DFont()
 	createHeightWeightFont(FONT_16_BOLD,	16, FW_BOLD,	fontDesc);
 	createHeightWeightFont(FONT_18_BOLD,	18, FW_BOLD,	fontDesc);
 	createHeightWeightFont(FONT_24_BOLD,	24, FW_BOLD,	fontDesc);
+}
+
+// 初始化EngineImpl
+void D3DEngine::initEngineImpl()
+{
+	m_resourceManager = new D3D9ResourceManager();
+	m_resourceManager->OnD3DCreateDevice(m_d3dDevice);
+
+	D3DEngineImpl* engineImpl = new D3DEngineImpl();
+	engineImpl->Init(m_resourceManager, ENGINE_IMPL_TEX_FILE);
+	SetEngineImpl(engineImpl);
 }
 
 // 创建不同大小和粗细的字体

@@ -16,7 +16,7 @@ namespace Command
 	class RemoveWindowCommand : public InsertWindowCommand<T>
 	{
 	public:
-		RemoveWindowCommand(T* winMgr, AbstractEditorWindow* removeWnd, AbstractEditorWindow* parentWnd)
+		RemoveWindowCommand(T* winMgr, EditorAbstractWindow* removeWnd, EditorAbstractWindow* parentWnd)
 			: InsertWindowCommand<T>(winMgr, removeWnd, parentWnd) { }
 		~RemoveWindowCommand() override {}
 

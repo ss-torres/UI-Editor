@@ -10,7 +10,7 @@
 
 #include <d3dx9.h>
 #include "d3d9ResourceDefine.h"
-#include "CGrowableArray.h"
+#include "../CGrowableArray.h"
 
 class D3D9ResourceManager
 {
@@ -26,6 +26,18 @@ public:
 	IDirect3DDevice9* GetD3DDevice()
 	{
 		return m_pd3d9Device;
+	}
+
+	// 用来获取绘制的Sprite
+	ID3DXSprite* GetSprite()
+	{
+		return m_pSprite;
+	}
+
+	// 用来记录状态的对象
+	IDirect3DStateBlock9* GetStateBlock()
+	{
+		return m_pStateBlock;
 	}
 
 	FontNode9* GetFontNode(int iIndex)

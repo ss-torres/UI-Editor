@@ -10,7 +10,7 @@
 
 #include <memory>
 #include "CommandStack.h"
-#include "../EditorWindow/WindowInterface.h"
+#include "../EditorWindow/EditorWindowInterface.h"
 
 class EditorWorkArea;
 class EditorToolPropertyEditor;
@@ -36,13 +36,13 @@ namespace Command
 		// 用来查看命令列表
 		const wxCommandProcessor& checkCommandStack() const { return m_commandStack; }
 		// 添加一个窗口
-		bool pushBackWindow(AbstractEditorWindow* parentWnd, AbstractEditorWindow* insertWnd);
+		bool pushBackWindow(EditorAbstractWindow* parentWnd, EditorAbstractWindow* insertWnd);
 		// 插入一个窗口
-		bool insertWindow(AbstractEditorWindow* parentWnd, size_t idx, AbstractEditorWindow* insertWnd);
+		bool insertWindow(EditorAbstractWindow* parentWnd, size_t idx, EditorAbstractWindow* insertWnd);
 		// 移除一个窗口
-		bool removeWindow(AbstractEditorWindow* removeWnd);
+		bool removeWindow(EditorAbstractWindow* removeWnd);
 		// 修改当前选中的窗口
-		void changeSelectWnd(AbstractEditorWindow* lastCurWnd, AbstractEditorWindow* newCurWnd);
+		void changeSelectWnd(EditorAbstractWindow* lastCurWnd, EditorAbstractWindow* newCurWnd);
 
 		// 设置主工作区和工具窗口
 		void setWorkArea(std::shared_ptr<EditorWorkArea> workArea) { m_workArea = workArea; }

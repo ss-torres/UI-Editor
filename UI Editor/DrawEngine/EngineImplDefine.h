@@ -1,22 +1,14 @@
-#ifndef D3D_ENGINE_IMPL_H
-#define D3D_ENGINE_IMPL_H
-
-/*
- * 文件名：d3dEngineImpl
- * 作用：提供一些实现d3dEngine的功能函数
- * 说明：该部分文件的实现，使用了Microsoft的DXUT中的相关实现，并加以修改
- * 使用者可以移除该部分代码，同时增加自己的主工作区的渲染代码
- */
+#ifndef ENGINE_IMPL_DEFINE_H
+#define ENGINE_IMPL_DEFINE_H
 
 #include <array>
-#include "d3d9ResourceManager.h"
-
-class D3D9ResourceManager;
+#include <d3d9.h>
+#include <d3dx9.h>
 
 // Enums for pre-defined control types
 enum CONTROL_TYPE
 {
-	CONTROL_BUTTON,
+	CONTROL_BUTTON = 0,
 	CONTROL_STATIC,
 	CONTROL_CHECKBOX,
 	CONTROL_RADIOBUTTON,
@@ -78,36 +70,16 @@ struct ElementHolder
 	FontTexElement Element;
 };
 
-class D3DEngineImpl
+// 获取矩形的宽
+inline int RectWidth(const RECT& rc)
 {
-public:
-	D3DEngineImpl();
-	~D3DEngineImpl();
+	return (rc.right - rc.left);
+}
 
-	// 初始化实现的信息
-	void Init(D3D9ResourceManager* pManager, LPCTSTR pszTextureFilename);
+// 获取矩形的高
+inline int RectHeight(const RECT& rc)
+{
+	return (rc.bottom - rc.top);
+}
 
-	// Access the default display Elments used when adding new controls
-	HRESULT SetDefaultElement(CONTROL_TYPE nControlType, UINT iElement, FontTexElement* pElement);
-	FontTexElement* GetDefaultElement(CONTROL_TYPE nControlType, UINT iElement);
-
-private:
-	// 初始化默认使用的字体和贴图信息
-	void                InitDefaultElements();
-	// 添加共享的字体信息
-	HRESULT SetFont(UINT index, LPCTSTR strFaceName, LONG height, LONG weight);
-	FontNode9* GetFont(UINT index);
-	// 添加共享的贴图信息
-	HRESULT SetTexture(UINT index, LPCTSTR strFilename);
-	TextureNode9* GetTexture(UINT index);
-private:
-	D3D9ResourceManager* m_pManager = nullptr;
-	// m_TextureCache中的序号
-	CGrowableArray<int> m_Textures;
-	// m_FontCache中的序号
-	CGrowableArray<int> m_Fonts;
-	// 用来记录所有不同控件类型默认的字体贴图信息
-	CGrowableArray <ElementHolder*> m_DefaultElements;
-};
-
-#endif	// D3D_ENGINE_IMPL_H
+#endif	// ENGINE_IMPL_DEFINE_H

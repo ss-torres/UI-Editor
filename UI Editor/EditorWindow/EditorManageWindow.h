@@ -6,7 +6,7 @@
  * 作用：用在EditorWorkArea上，作为最上层的窗口，用来简化处理
  */
 
-#include "WindowInterface.h"
+#include "EditorWindowInterface.h"
 #include "SimpleWindow/ContainerWindow.h"
 
 class EditorManageWindow : public inner::ContainerWindow<inner::EditorContainerFunc>

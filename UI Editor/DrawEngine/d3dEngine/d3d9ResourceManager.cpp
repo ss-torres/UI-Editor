@@ -8,16 +8,7 @@ D3D9ResourceManager::D3D9ResourceManager()
 
 D3D9ResourceManager::~D3D9ResourceManager()
 {
-	for (auto& value : m_FontCache)
-	{
-		SAFE_DELETE(value);
-	}
-	m_FontCache.RemoveAll();
-	for (auto& value : m_TextureCache)
-	{
-		SAFE_DELETE(value);
-	}
-	m_TextureCache.RemoveAll();
+	OnD3DDestroyDevice();
 }
 
 HRESULT D3D9ResourceManager::OnD3DCreateDevice(LPDIRECT3DDEVICE9 pd3dDevice)
@@ -80,7 +71,7 @@ void D3D9ResourceManager::OnD3DLostDevice()
 	if (m_pSprite)
 		m_pSprite->OnLostDevice();
 
-	SAFE_DELETE(m_pStateBlock);
+	SAFE_RELEASE(m_pStateBlock);
 }
 
 void D3D9ResourceManager::OnD3DDestroyDevice()
@@ -89,19 +80,21 @@ void D3D9ResourceManager::OnD3DDestroyDevice()
 
 	// Release the resources but don't clear the cache, as these will need to be
 	// recreated if the device is recreated
-	for (int i = 0; i < m_FontCache.GetSize(); ++i)
+	for (auto& value : m_FontCache)
 	{
-		auto pFontNode = m_FontCache.GetAt(i);
-		SAFE_RELEASE(pFontNode->pFont9);
+		SAFE_RELEASE(value->pFont9);
+		SAFE_DELETE(value);
 	}
 
-	for (int i = 0; i < m_TextureCache.GetSize(); ++i)
+	for (auto& value : m_TextureCache)
 	{
-		auto pTextureNode = m_TextureCache.GetAt(i);
-		SAFE_RELEASE(pTextureNode->pTexture9);
+		SAFE_RELEASE(value->pTexture9);
+		SAFE_DELETE(value);
 	}
 
 	SAFE_RELEASE(m_pSprite);
+
+	SAFE_RELEASE(m_pStateBlock);
 }
 
 int D3D9ResourceManager::AddFont(LPCTSTR strFacename, LONG height, LONG weight)

@@ -7,7 +7,7 @@
  */
 
 #include "SimpleWindow/SimpleLabel.h"
-#include "WindowInterface.h"
+#include "EditorWindowInterface.h"
 
 
 //using EditorLabel = inner::SimpleLabel<inner::EditorFunc>;

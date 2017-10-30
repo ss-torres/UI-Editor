@@ -1,13 +1,21 @@
 #ifndef D3D_ENGINE_H
 #define D3D_ENGINE_H
 
-#include <map>
-#include "d3dUtil.h"
-#include "GameTimer.h"
-#include "../Settings/WindowEnumAttrDefine.h"
-#include "../ErrorHandle/ErrorHandle.h"
+/*
+* 文件名：DefaultEngine
+* 作用：提供D3D9方式的绘制功能实现
+*/
 
-class D3DEngine
+#include "../AbstractEngine.h"
+#include <map>
+#include <memory>
+#include "d3dUtil.h"
+#include "../GameTimer.h"
+#include "../../Settings/WindowEnumAttrDefine.h"
+
+class D3D9ResourceManager;
+
+class D3DEngine : public AbstractEngine
 {
 public:
 	D3DEngine(HWND mainWndId, D3DDEVTYPE devType, DWORD requestedVP);
@@ -38,6 +46,8 @@ private:
 	void initDirect3D();
 	// 初始化D3D字体
 	void initD3DFont();
+	// 初始化EngineImpl
+	void initEngineImpl();
 	// 创建不同大小和粗细的字体
 	void createHeightWeightFont(FONT_TYPE fontType, int height, int weight, D3DXFONT_DESC& fontDesc);
 
@@ -63,24 +73,15 @@ private:
 	float m_fps;
 	// 每帧所用毫秒数
 	float m_mspf;
+
+	// 字体和贴图管理
+	D3D9ResourceManager* m_resourceManager;
 };
 
 // 获取D3D对应窗口
 inline HWND D3DEngine::getMainWnd() const
 {
 	return m_mainWnd;
-}
-
-// 获取对应的字体
-inline ID3DXFont* D3DEngine::getFont(FONT_TYPE fontType) const
-{
-	auto it = m_fonts.find(fontType);
-	if (it != m_fonts.cend())
-	{
-		return it->second;
-	}
-
-	throw ExtraExcept::unexpected_situation("D3DEngine::getFont: font should be found here.");
 }
 
 #endif	// D3D_ENGINE_H

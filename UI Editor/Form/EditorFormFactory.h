@@ -7,11 +7,11 @@
 class EditorWorkArea;
 class wxMDIParentFrame;
 
-class EditorWindowFactory
+class EditorFormFactory
 {
 public:
-	EditorWindowFactory();
-	~EditorWindowFactory();
+	EditorFormFactory();
+	~EditorFormFactory();
 
 	// 创建对应的ToolWindow
 	EditorToolWindow* createToolWindow(ToolWindowType type, wxAuiManager &manager, wxWindow * parent, 

@@ -11,7 +11,7 @@
 #include <type_traits>
 #include <wx/string.h>
 #include <wx/dataobj.h>
-#include "../EditorWindow/WindowFactoryDefine.h"
+#include "../EditorWindow/EditorWindowFactoryDefine.h"
 
 const wxString COPY_DATA_FORMAT = wxS("CopyWinValue");
 

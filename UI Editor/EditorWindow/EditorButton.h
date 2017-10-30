@@ -7,7 +7,7 @@
 */
 
 #include "SimpleWindow/SimpleButton.h"
-#include "WindowInterface.h"
+#include "EditorWindowInterface.h"
 
 namespace inner
 {

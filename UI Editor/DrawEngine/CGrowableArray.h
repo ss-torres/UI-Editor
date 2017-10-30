@@ -11,10 +11,9 @@
 #include <vector>
 #include <algorithm>
 #include <stdexcept>
-#include <winnt.h>
-#include <winerror.h>
+#include <windows.h>
 #include <assert.h>
-#include "../Util/ArithmeticUtil.h"
+#include "../../Util/ArithmeticUtil.h"
 
 template <typename TYPE>
 class CGrowableArray
@@ -39,8 +38,8 @@ public:
 
 	HRESULT SetSize(int nNewMaxSize);
 	HRESULT Add(const TYPE& value);
-	HRESULT Insert(int nIndex, const TYPE& value);
-	HRESULT SetAt(int nIndex, const TYPE& value);
+	HRESULT Insert(UINT nIndex, const TYPE& value);
+	HRESULT SetAt(UINT nIndex, const TYPE& value);
 	TYPE& GetAt(int nIndex) { assert(nIndex >= 0 && nIndex < narrow_cast<int>(m_arrayData.size())); return m_arrayData[nIndex]; }
 	const TYPE& GetAt(int nIndex) const { assert(nIndex >= 0 && nIndex < m_arrayData.size()); return m_arrayData[nIndex]; }
 	int GetSize() const { return m_arrayData.size(); }
@@ -91,7 +90,7 @@ HRESULT CGrowableArray<TYPE>::Add(const TYPE& value)
 }
 
 template <typename TYPE>
-HRESULT CGrowableArray<TYPE>::Insert(int nIndex, const TYPE& value)
+HRESULT CGrowableArray<TYPE>::Insert(UINT nIndex, const TYPE& value)
 {
 	// Validate index
 	if (nIndex < 0 ||
@@ -112,7 +111,7 @@ HRESULT CGrowableArray<TYPE>::Insert(int nIndex, const TYPE& value)
 }
 
 template <typename TYPE>
-HRESULT CGrowableArray<TYPE>::SetAt(int nIndex, const TYPE& value)
+HRESULT CGrowableArray<TYPE>::SetAt(UINT nIndex, const TYPE& value)
 {
 	// Validate arguments
 	if (nIndex < 0 ||

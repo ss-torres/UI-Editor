@@ -1,5 +1,5 @@
-#ifndef WINDOW_FACTORY_H
-#define WINDOW_FACTORY_H
+#ifndef EDITOR_WINDOW_FACTORY_H
+#define EDITOR_WINDOW_FACTORY_H
 
 #include <map>
 #include "AbstractWindowFactory.h"
@@ -12,22 +12,22 @@ namespace inner
 
 class EditorLabel;
 
-class WindowFactory : AbstractWindowFactory
+class EditorWindowFactory : AbstractWindowFactory
 {
 public:
 	using EditorLabel = inner::SimpleLabel<inner::EditorFunc>;
 public:
 	static AbstractWindowFactory* winFactoryInst();
 
-	WindowFactory() {}
-	~WindowFactory() {}
+	EditorWindowFactory() {}
+	~EditorWindowFactory() {}
 
 	// 根据拷贝的窗口数据，构造窗口
-	AbstractEditorWindow* createCopyObjectWnd(CopyWindowInfo winObject,
-		AbstractEditorWindow* parent, int relX, int relY, int width = -1, int height = -1) override;
+	EditorAbstractWindow* createCopyObjectWnd(CopyWindowInfo winObject,
+		EditorAbstractWindow* parent, int relX, int relY, int width = -1, int height = -1) override;
 
 	// 创建一个管理窗口
-	AbstractEditorWindow* createManageWnd(int width, int height) override;
+	EditorAbstractWindow* createManageWnd(int width, int height) override;
 
 	//// 创建一个Static
 	//EditorLabel* createStatic() const override;
@@ -43,18 +43,18 @@ private:
 namespace WindowFactoryImpl
 {
 	// 根据窗口名获取对应的窗口对象
-	AbstractEditorWindow* createEditorWnd(const wxString& winName,
-		AbstractEditorWindow* parent, int relX, int relY, int width, int height);
+	EditorAbstractWindow* createEditorWnd(const wxString& winName,
+		EditorAbstractWindow* parent, int relX, int relY, int width, int height);
 }
 
-inline AbstractWindowFactory* WindowFactory::winFactoryInst()
+inline AbstractWindowFactory* EditorWindowFactory::winFactoryInst()
 {
 	if (s_factoryInst == nullptr)
 	{
-		s_factoryInst = new WindowFactory();
+		s_factoryInst = new EditorWindowFactory();
 	}
 
 	return s_factoryInst;
 }
 
-#endif	// WINDOW_FACTORY_H
+#endif	// EDITOR_WINDOW_FACTORY_H

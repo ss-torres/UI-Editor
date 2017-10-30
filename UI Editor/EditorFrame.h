@@ -14,7 +14,7 @@
 #include <wx/wx.h>
 #endif
 
-#include "Form/EditorWindowFactory.h"
+#include "Form/EditorFormFactory.h"
 
 class EditorToolWindow;
 class EditorToolWidgetSelect;
@@ -56,7 +56,7 @@ private:
 	std::shared_ptr<WindowAttributeManager> m_winAttrManager;
 
 	// 创建主工作区和工具窗口
-	EditorWindowFactory m_manager;
+	EditorFormFactory m_manager;
 	// 工具窗口
 	// 窗口类型选择
 	std::shared_ptr<EditorToolWidgetSelect> m_tool_widget_select;

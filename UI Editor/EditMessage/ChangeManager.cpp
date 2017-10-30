@@ -22,7 +22,7 @@ namespace Command
 	ChangeManager* ChangeManager::s_changeManager = nullptr;
 
 	// 添加一个窗口
-	bool ChangeManager::pushBackWindow(AbstractEditorWindow * parentWnd, AbstractEditorWindow * insertWnd)
+	bool ChangeManager::pushBackWindow(EditorAbstractWindow * parentWnd, EditorAbstractWindow * insertWnd)
 	{
 		// 修改主工作区
 		bool flag = m_workArea->pushBackWindow(parentWnd, insertWnd);
@@ -32,7 +32,7 @@ namespace Command
 	}
 
 	// 插入一个窗口
-	bool ChangeManager::insertWindow(AbstractEditorWindow * parentWnd, size_t idx, AbstractEditorWindow * insertWnd)
+	bool ChangeManager::insertWindow(EditorAbstractWindow * parentWnd, size_t idx, EditorAbstractWindow * insertWnd)
 	{
 		// 修改主工作区
 		bool flag = m_workArea->insertWindow(parentWnd, idx, insertWnd);
@@ -40,7 +40,7 @@ namespace Command
 	}
 
 	// 移除一个窗口
-	bool ChangeManager::removeWindow(AbstractEditorWindow * removeWnd)
+	bool ChangeManager::removeWindow(EditorAbstractWindow * removeWnd)
 	{
 		// 修改主工作区
 		bool flag = m_workArea->removeWindow(removeWnd);
@@ -48,7 +48,7 @@ namespace Command
 	}
 
 	// 修改当前选中的窗口
-	void ChangeManager::changeSelectWnd(AbstractEditorWindow * lastCurWnd, AbstractEditorWindow * newCurWnd)
+	void ChangeManager::changeSelectWnd(EditorAbstractWindow * lastCurWnd, EditorAbstractWindow * newCurWnd)
 	{
 		// 修改主工作区
 		m_workArea->setCurrentWindow(newCurWnd);

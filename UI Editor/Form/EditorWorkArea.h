@@ -5,7 +5,7 @@
 #include <wx/msw/wrapwin.h>		// 在wxWidgets中替代<Windows.h>
 #include <wx/panel.h>
 #include <wx/dnd.h>
-#include "../EditorWindow/WindowInterface.h"
+#include "../EditorWindow/EditorWindowInterface.h"
 
 class D3DEngine;
 class CopyWindowInfo;
@@ -23,15 +23,15 @@ public:
 	// 获取窗口管理对象的ID
 	ID_TYPE getManageWindowId() const;
 	// 设置当前选中的窗口
-	void setCurrentWindow(AbstractEditorWindow* currentWnd) { m_currentWnd = currentWnd; }
+	void setCurrentWindow(EditorAbstractWindow* currentWnd) { m_currentWnd = currentWnd; }
 	// 获取当前选中的窗口
-	AbstractEditorWindow* getCurrentWindow() const { return m_currentWnd; }
+	EditorAbstractWindow* getCurrentWindow() const { return m_currentWnd; }
 	// 为parentWnd添加一个子窗口
-	bool pushBackWindow(AbstractEditorWindow* parenWnd, AbstractEditorWindow* insertWnd);
+	bool pushBackWindow(EditorAbstractWindow* parenWnd, EditorAbstractWindow* insertWnd);
 	// 为parentWnd在指定位置添加一个子窗口
-	bool insertWindow(AbstractEditorWindow* parentWnd, size_t idx, AbstractEditorWindow* insertWnd);
+	bool insertWindow(EditorAbstractWindow* parentWnd, size_t idx, EditorAbstractWindow* insertWnd);
 	// 将特定ID的子窗口移除
-	bool removeWindow(AbstractEditorWindow* removeWnd);
+	bool removeWindow(EditorAbstractWindow* removeWnd);
 
 public:
 	// 用来每帧处理
@@ -51,10 +51,10 @@ private:
 
 private:
 	// 查找指定位置接受消息的窗口
-	template <typename T = UiEditable<AbstractEditorWindow>>
-	AbstractEditorWindow* findWnd(wxCoord x, wxCoord y);
+	template <typename T = UiEditable<EditorAbstractWindow>>
+	EditorAbstractWindow* findWnd(wxCoord x, wxCoord y);
 	// 创建一个窗口对象
-	void createWndObject(AbstractEditorWindow* parent, int absX, int absY, const CopyWindowInfo& winValue);
+	void createWndObject(EditorAbstractWindow* parent, int absX, int absY, const CopyWindowInfo& winValue);
 
 	// 初始化显示窗口
 	void initFrameWnd(wxMDIParentFrame* parent, const wxString& captionName, const wxPoint& position, const wxSize &size);
@@ -67,9 +67,9 @@ private:
 	// 绘制D3D的引擎
 	D3DEngine* m_d3dEngine;
 	// 用来存储创建的窗口
-	AbstractEditorWindow* m_winMgr = nullptr;
+	EditorAbstractWindow* m_winMgr = nullptr;
 	// 当前选中的窗口
-	AbstractEditorWindow* m_currentWnd;
+	EditorAbstractWindow* m_currentWnd;
 };
 
 // 获取窗口句柄，该函数必须在初始化bench之后调用
@@ -80,7 +80,7 @@ inline HWND EditorWorkArea::getHandle()
 
 // 查找指定位置接受消息的窗口
 template<typename T>
-inline AbstractEditorWindow * EditorWorkArea::findWnd(wxCoord x, wxCoord y)
+inline EditorAbstractWindow * EditorWorkArea::findWnd(wxCoord x, wxCoord y)
 {
 	int relX = narrow_cast<int>(x);
 	int relY = narrow_cast<int>(y);

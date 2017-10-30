@@ -1,5 +1,5 @@
-#ifndef ABSTRACT_EDITOR_WINDOW_H
-#define ABSTRACT_EDITOR_WINDOW_H
+#ifndef EDITOR_ABSTRACT_WINDOW_H
+#define EDITOR_ABSTRACT_WINDOW_H
 
 #include "EditorFunc.h"
 #include "SimpleWindow/SimpleWindow.h"
@@ -30,4 +30,4 @@ namespace inner
 	}
 }
 
-#endif	// ABSTRACT_EDITOR_WINDOW_H
+#endif	// EDITOR_ABSTRACT_WINDOW_H

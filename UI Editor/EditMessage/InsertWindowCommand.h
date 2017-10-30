@@ -10,7 +10,7 @@
 
 #include <wx/cmdproc.h>
 #include <stdexcept>
-#include "../EditorWindow/WindowInterface.h"
+#include "../EditorWindow/EditorWindowInterface.h"
 
 namespace Command
 {
@@ -22,7 +22,7 @@ namespace Command
 	class InsertWindowCommand : public wxCommand
 	{
 	public:
-		InsertWindowCommand(T winMgr, AbstractEditorWindow* insertWnd, AbstractEditorWindow* parentWnd)
+		InsertWindowCommand(T winMgr, EditorAbstractWindow* insertWnd, EditorAbstractWindow* parentWnd)
 			: m_winMgr(winMgr), m_insertWnd(insertWnd), m_parentWnd(parentWnd)
 		{
 			if (winMgr == NULL || insertWnd == NULL || parentWnd == NULL)
@@ -46,9 +46,9 @@ namespace Command
 
 	protected:
 		// 用来记录创建的窗口
-		AbstractEditorWindow* m_insertWnd = nullptr;
+		EditorAbstractWindow* m_insertWnd = nullptr;
 		// 用来记录插入的父窗口
-		AbstractEditorWindow* m_parentWnd = nullptr;
+		EditorAbstractWindow* m_parentWnd = nullptr;
 		// 插入的序号
 		size_t m_idx = INSERT_DEF_IDX;
 		// 操作的窗口类

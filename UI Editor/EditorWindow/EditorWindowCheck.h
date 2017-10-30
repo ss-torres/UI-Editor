@@ -6,10 +6,10 @@
  * 作用：用来在查找时提供各种比较条件
  */
 
-#include "WindowInterface.h"
+#include "EditorWindowInterface.h"
 
 // 总是成功的判断
-template <typename CheckType = AbstractEditorWindow>
+template <typename CheckType = EditorAbstractWindow>
 class UiNoCheck
 {
 public:
@@ -20,7 +20,7 @@ public:
 };
 
 // 判断在编辑器中是否可以编辑
-template <typename DecoType, typename CheckType = AbstractEditorWindow>
+template <typename DecoType, typename CheckType = EditorAbstractWindow>
 class UiEditable : public DecoType
 {
 public:
@@ -31,7 +31,7 @@ public:
 };
 
 // 判断是否可以有子对象
-template <typename DecoType, typename CheckType = AbstractEditorWindow>
+template <typename DecoType, typename CheckType = EditorAbstractWindow>
 class UiContainer : public DecoType
 {
 public:

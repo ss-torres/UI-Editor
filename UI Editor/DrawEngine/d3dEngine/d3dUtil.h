@@ -13,7 +13,6 @@
 #include <d3d9.h>
 #include <d3dx9.h>
 #include <DxErr.h>
-#include <Windows.h>
 
 // Globals for convenient access
 class D3DApp;
@@ -27,7 +26,17 @@ inline void SAFE_DELETE(T& p)
 	if (p)
 	{
 		delete p;
-		p = NULL;
+		p = nullptr;
+	}
+}
+
+template <typename T>
+inline void SAFE_DELETE_ARRAY(T* p)
+{
+	if (p)
+	{
+		delete[] p;
+		p = nullptr;
 	}
 }
 

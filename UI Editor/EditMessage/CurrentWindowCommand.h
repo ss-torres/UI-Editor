@@ -10,7 +10,7 @@
 
 #include <wx/cmdproc.h>
 #include <stdexcept>
-#include "../EditorWindow/WindowInterface.h"
+#include "../EditorWindow/EditorWindowInterface.h"
 
 namespace Command
 {
@@ -18,7 +18,7 @@ namespace Command
 	class CurrentWindowCommand : public wxCommand
 	{
 	public:
-		CurrentWindowCommand(T winMgr, AbstractEditorWindow* lastCurWnd, AbstractEditorWindow* newCurWnd)
+		CurrentWindowCommand(T winMgr, EditorAbstractWindow* lastCurWnd, EditorAbstractWindow* newCurWnd)
 			: m_winMgr(winMgr), m_lastCurWnd(lastCurWnd), m_newCurWnd(newCurWnd)
 		{
 			if (winMgr == nullptr || lastCurWnd == nullptr || newCurWnd == nullptr)
@@ -38,8 +38,8 @@ namespace Command
 
 	private:
 		T m_winMgr;
-		AbstractEditorWindow* m_lastCurWnd = nullptr;
-		AbstractEditorWindow* m_newCurWnd = nullptr;
+		EditorAbstractWindow* m_lastCurWnd = nullptr;
+		EditorAbstractWindow* m_newCurWnd = nullptr;
 	};
 
 	template <typename T>

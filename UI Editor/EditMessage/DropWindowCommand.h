@@ -17,7 +17,7 @@ namespace Command
 	class DropWindowCommand : public wxCommand
 	{
 	public:
-		DropWindowCommand(T t, AbstractEditorWindow* insertWnd, AbstractEditorWindow* parentWnd, AbstractEditorWindow* lastCurWnd)
+		DropWindowCommand(T t, EditorAbstractWindow* insertWnd, EditorAbstractWindow* parentWnd, EditorAbstractWindow* lastCurWnd)
 			: m_insertCommand(t, insertWnd, parentWnd), m_curWinCommand(t, lastCurWnd, insertWnd)
 		{
 

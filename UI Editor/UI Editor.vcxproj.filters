@@ -49,6 +49,12 @@
     <Filter Include="EditorWindow\SimpleWindow">
       <UniqueIdentifier>{338522e5-0db4-4ffe-849e-bc945b2ab007}</UniqueIdentifier>
     </Filter>
+    <Filter Include="DrawEngine\Controls">
+      <UniqueIdentifier>{bbd4573c-5a27-49f6-bbdf-ac98be6ecfaf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DrawEngine\d3dEngine">
+      <UniqueIdentifier>{2cc353f0-183b-4c3c-903b-ec20abf285b9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PropertyEditor\PropertySequence.h">
@@ -108,9 +114,6 @@
     <ClInclude Include="Form\WorkAreaDefine.h">
       <Filter>Form</Filter>
     </ClInclude>
-    <ClInclude Include="Form\EditorWindowFactory.h">
-      <Filter>Form</Filter>
-    </ClInclude>
     <ClInclude Include="Property\ImageProperty.h">
       <Filter>Property</Filter>
     </ClInclude>
@@ -119,15 +122,6 @@
     </ClInclude>
     <ClInclude Include="Property\PropertyFactory.h">
       <Filter>Property</Filter>
-    </ClInclude>
-    <ClInclude Include="DrawEngine\d3dUtil.h">
-      <Filter>DrawEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="DrawEngine\d3dEngine.h">
-      <Filter>DrawEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="DrawEngine\GameTimer.h">
-      <Filter>DrawEngine</Filter>
     </ClInclude>
     <ClInclude Include="Settings\WindowEnumAttrDefine.h">
       <Filter>Settings</Filter>
@@ -138,13 +132,7 @@
     <ClInclude Include="EditorWindow\AbstractWindowFactory.h">
       <Filter>EditorWindow</Filter>
     </ClInclude>
-    <ClInclude Include="EditorWindow\WindowFactory.h">
-      <Filter>EditorWindow</Filter>
-    </ClInclude>
     <ClInclude Include="EditorWindow\EditorButton.h">
-      <Filter>EditorWindow</Filter>
-    </ClInclude>
-    <ClInclude Include="EditorWindow\WindowInterface.h">
       <Filter>EditorWindow</Filter>
     </ClInclude>
     <ClInclude Include="Util\ArithmeticUtil.h">
@@ -157,9 +145,6 @@
       <Filter>Settings</Filter>
     </ClInclude>
     <ClInclude Include="EditorWindow\EditorLabel.h">
-      <Filter>EditorWindow</Filter>
-    </ClInclude>
-    <ClInclude Include="EditorWindow\WindowFactoryDefine.h">
       <Filter>EditorWindow</Filter>
     </ClInclude>
     <ClInclude Include="EditMessage\CommandStack.h">
@@ -201,9 +186,6 @@
     <ClInclude Include="Form\EditorWorkAreaHelp.h">
       <Filter>Form</Filter>
     </ClInclude>
-    <ClInclude Include="EditorWindow\AbstractEditorWindow.h">
-      <Filter>EditorWindow</Filter>
-    </ClInclude>
     <ClInclude Include="EditMessage\CurrentWindowCommand.h">
       <Filter>EditMessage</Filter>
     </ClInclude>
@@ -216,17 +198,62 @@
     <ClInclude Include="Form\EditorToolObjectViewDefine.h">
       <Filter>Form</Filter>
     </ClInclude>
+    <ClInclude Include="DrawEngine\Controls\WindowControl.h">
+      <Filter>DrawEngine\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawEngine\Controls\StaticControl.h">
+      <Filter>DrawEngine\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawEngine\Controls\ButtonControl.h">
+      <Filter>DrawEngine\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawEngine\d3dEngine\d3d9ResourceDefine.h">
+      <Filter>DrawEngine\d3dEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawEngine\d3dEngine\d3d9ResourceManager.h">
+      <Filter>DrawEngine\d3dEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawEngine\d3dEngine\d3dEngine.h">
+      <Filter>DrawEngine\d3dEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawEngine\d3dEngine\d3dEngineImpl.h">
+      <Filter>DrawEngine\d3dEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawEngine\d3dEngine\d3dUtil.h">
+      <Filter>DrawEngine\d3dEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawEngine\GameTimer.h">
+      <Filter>DrawEngine</Filter>
+    </ClInclude>
     <ClInclude Include="DrawEngine\CGrowableArray.h">
       <Filter>DrawEngine</Filter>
     </ClInclude>
-    <ClInclude Include="DrawEngine\d3d9ResourceManager.h">
+    <ClInclude Include="DrawEngine\AbstractEngineImpl.h">
       <Filter>DrawEngine</Filter>
     </ClInclude>
-    <ClInclude Include="DrawEngine\d3d9ResourceDefine.h">
+    <ClInclude Include="DrawEngine\EngineImplDefine.h">
       <Filter>DrawEngine</Filter>
     </ClInclude>
-    <ClInclude Include="DrawEngine\d3dEngineImpl.h">
+    <ClInclude Include="DrawEngine\AbstractEngine.h">
       <Filter>DrawEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorWindow\EditorAbstractWindow.h">
+      <Filter>EditorWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorWindow\EditorWindowFactory.h">
+      <Filter>EditorWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="Form\EditorFormFactory.h">
+      <Filter>Form</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawEngine\DrawManager.h">
+      <Filter>DrawEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorWindow\EditorWindowInterface.h">
+      <Filter>EditorWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorWindow\EditorWindowFactoryDefine.h">
+      <Filter>EditorWindow</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -266,9 +293,6 @@
     <ClCompile Include="Form\EditorToolObjectView.cpp">
       <Filter>Form</Filter>
     </ClCompile>
-    <ClCompile Include="Form\EditorWindowFactory.cpp">
-      <Filter>Form</Filter>
-    </ClCompile>
     <ClCompile Include="Property\ImageProperty.cpp">
       <Filter>Property</Filter>
     </ClCompile>
@@ -278,23 +302,11 @@
     <ClCompile Include="Property\PropertyFactory.cpp">
       <Filter>Property</Filter>
     </ClCompile>
-    <ClCompile Include="DrawEngine\d3dUtil.cpp">
-      <Filter>DrawEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="DrawEngine\d3dEngine.cpp">
-      <Filter>DrawEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="DrawEngine\GameTimer.cpp">
-      <Filter>DrawEngine</Filter>
-    </ClCompile>
     <ClCompile Include="EditorFrame.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Util\StringUtil.cpp">
       <Filter>Util</Filter>
-    </ClCompile>
-    <ClCompile Include="EditorWindow\WindowFactory.cpp">
-      <Filter>EditorWindow</Filter>
     </ClCompile>
     <ClCompile Include="Util\ArithmeticUtil.cpp">
       <Filter>Util</Filter>
@@ -329,10 +341,40 @@
     <ClCompile Include="EditMessage\CommandFactory.cpp">
       <Filter>EditMessage</Filter>
     </ClCompile>
-    <ClCompile Include="DrawEngine\d3d9ResourceManager.cpp">
+    <ClCompile Include="DrawEngine\Controls\WindowControl.cpp">
+      <Filter>DrawEngine\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawEngine\Controls\StaticControl.cpp">
+      <Filter>DrawEngine\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawEngine\Controls\ButtonControl.cpp">
+      <Filter>DrawEngine\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawEngine\d3dEngine\d3d9ResourceManager.cpp">
+      <Filter>DrawEngine\d3dEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawEngine\d3dEngine\d3dEngine.cpp">
+      <Filter>DrawEngine\d3dEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawEngine\d3dEngine\d3dEngineImpl.cpp">
+      <Filter>DrawEngine\d3dEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawEngine\d3dEngine\d3dUtil.cpp">
+      <Filter>DrawEngine\d3dEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawEngine\GameTimer.cpp">
       <Filter>DrawEngine</Filter>
     </ClCompile>
-    <ClCompile Include="DrawEngine\d3dEngineImpl.cpp">
+    <ClCompile Include="DrawEngine\EngineImplDefine.cpp">
+      <Filter>DrawEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorWindow\EditorWindowFactory.cpp">
+      <Filter>EditorWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="Form\EditorFormFactory.cpp">
+      <Filter>Form</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawEngine\DrawManager.cpp">
       <Filter>DrawEngine</Filter>
     </ClCompile>
   </ItemGroup>
