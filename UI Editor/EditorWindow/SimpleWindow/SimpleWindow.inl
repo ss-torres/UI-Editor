@@ -8,7 +8,8 @@ namespace inner
 	template <typename T>
 	SimpleWindow<T>::SimpleWindow(SIMPLE_WINDOW_TYPE* parent, int relX, int relY, int width, int height)
 		: T(),
-		m_parent(parent), m_relX(relX), m_relY(relY), m_width(width), m_height(height)
+		m_parent(parent), m_relX(relX), m_relY(relY), m_width(width), m_height(height),
+		m_enable(true)
 	{
 		if (parent == nullptr)
 		{
@@ -115,10 +116,205 @@ namespace inner
 		return s_defChildrenRet;
 	}
 
-
 	// 需要子窗口列表相关的默认返回值
 	template<typename T>
 	const typename SimpleWindow<T>::CHILDREN_CONTAINER SimpleWindow<T>::s_defChildrenRet;
+
+
+	// 设置该窗口的父窗口对象
+	template <typename T>
+	inline void SimpleWindow<T>::setParent(SIMPLE_WINDOW_TYPE* parent, SIMPLE_WINDOW_TYPE* child)
+	{
+		if (parent && !parent->isContainerWnd())
+		{
+			throw std::runtime_error("parent is not a Container window");
+		}
+		child->m_parent = parent;
+	}
+
+
+	// 更新相对坐标X
+	template <typename T>
+	inline void SimpleWindow<T>::updateRelX(int x)
+	{
+		// 先判断是否发生改变
+		if (m_relX == x)
+		{
+			return;
+		}
+
+		m_relX = x;
+		if (isHandleMsg())
+		{
+			// 非虚函数
+			updateParentMsgRect();
+		}
+	}
+
+	// 更新相对坐标Y
+	template <typename T>
+	inline void SimpleWindow<T>::updateRelY(int y)
+	{
+		// 先判断是否发生改变
+		if (m_relY == y)
+		{
+			return;
+		}
+
+		m_relY = y;
+
+		if (isHandleMsg())
+		{
+			// 非虚函数
+			updateParentMsgRect();
+		}
+	}
+
+	// 更新相对坐标X和Y
+	template <typename T>
+	inline void SimpleWindow<T>::updateRelPos(int x, int y)
+	{
+		// 先判断是否发生改变
+		if (make_tuple(m_relX, m_relY) == make_tuple(x, y))
+		{
+			return;
+		}
+
+		m_relX = x;
+		m_relY = y;
+		if (isHandleMsg())
+		{
+			// 非虚函数
+			updateParentMsgRect();
+		}
+	}
+
+	// 获取绝对坐标X
+	template <typename T>
+	inline int SimpleWindow<T>::getAbsX() const
+	{
+		if (hasParent())
+		{
+			return getParent()->getAbsX() + getRelX();
+		}
+		return getRelX();
+	}
+
+	// 获取绝对坐标Y
+	template <typename T>
+	inline int SimpleWindow<T>::getAbsY() const
+	{
+		if (hasParent())
+		{
+			return getParent()->getAbsY() + getRelY();
+		}
+		return getRelY();
+	}
+
+	// 更新窗口宽度大小
+	template <typename T>
+	inline void SimpleWindow<T>::updateWidth(int width)
+	{
+		// 先判断是否发生改变
+		if (m_width == width)
+		{
+			return;
+		}
+
+		m_width = width;
+
+		if (isHandleMsg())
+		{
+			// 非虚函数
+			updateParentMsgRect();
+		}
+	}
+
+	// 更新窗口高度大小
+	template <typename T>
+	inline void SimpleWindow<T>::updateHeight(int height)
+	{
+		// 先判断是否发生改变
+		if (m_height == height)
+		{
+			return;
+		}
+
+		m_height = height;
+
+		if (isHandleMsg())
+		{
+			// 非虚函数
+			updateParentMsgRect();
+		}
+	}
+
+	// 更新窗口大小
+	template <typename T>
+	inline void SimpleWindow<T>::updateSize(int width, int height)
+	{
+		// 先判断是否发生改变
+		if (make_tuple(m_width, m_height) == make_tuple(width, height))
+		{
+			return;
+		}
+
+		m_width = width;
+		m_height = height;
+
+		if (isHandleMsg())
+		{
+			// 非虚函数
+			updateParentMsgRect();
+		}
+	}
+
+	// 更新窗口范围
+	template <typename T>
+	inline void SimpleWindow<T>::updateRange(int x, int y, int width, int height)
+	{
+		// 先判断是否发生改变
+		if (make_tuple(m_relX, m_relY, m_width, m_height)
+			== make_tuple(x, y, width, height))
+		{
+			return;
+		}
+
+		m_relX = x;
+		m_relY = y;
+		m_width = width;
+		m_height = height;
+
+		if (isHandleMsg())
+		{
+			// 非虚函数
+			updateParentMsgRect();
+		}
+	}
+
+	// 获取消息处理的范围，相对范围
+	template <typename T>
+	inline wxRegion SimpleWindow<T>::getMsgRegion() const
+	{
+		if (isHandleMsg())
+		{
+			return wxRegion(0, 0, narrow_cast<wxCoord>(m_width), narrow_cast<wxCoord>(m_height));
+		}
+		else
+		{
+			return wxRegion();
+		}
+	}
+
+	// 更新父窗口消息处理范围
+	template <typename T>
+	inline void SimpleWindow<T>::updateParentMsgRect()
+	{
+		if (hasParent())
+		{
+			getParent()->resetMsgRegion();
+		}
+	}
 }
 
 #endif		// SIMPLE_WINDOW_INL

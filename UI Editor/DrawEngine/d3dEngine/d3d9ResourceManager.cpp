@@ -35,6 +35,8 @@ HRESULT D3D9ResourceManager::OnD3DCreateDevice(LPDIRECT3DDEVICE9 pd3dDevice)
 	if (FAILED(hr))
 		return HR_ERR_MSGBOX(TEXT("D3DXCreateSprite"), hr);
 
+	HR_RETURN(m_pd3d9Device->CreateStateBlock(D3DSBT_ALL, &m_pStateBlock));
+
 	return S_OK;
 }
 

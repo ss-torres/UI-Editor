@@ -1,8 +1,10 @@
-#include "EditorToolPropertyEditor.h"
-
 #include <wx/propgrid/propgrid.h>
+#include <wx/log.h>
+#include "EditorToolPropertyEditor.h"
 #include "../Property/ImageProperty.h"
 #include "../ErrorHandle/ErrorHandle.h"
+#include "../EditMessage/CommandFactory.h"
+#include "../EditMessage/ChangeManager.h"
 
 const int PROPERTY_EDITOR_WIDTH = 300;
 const int PROPERTY_EDITOR_HEIGHT = 600;
@@ -17,7 +19,7 @@ EditorToolPropertyEditor::~EditorToolPropertyEditor()
 {
 }
 
-// 重新设置编辑属性
+// 显示对应类型的编辑框
 void EditorToolPropertyEditor::resetAttrs(const wxString& winTypeName)
 {
 	// 如果当前打开的和之前的一致，则不操作
@@ -46,7 +48,41 @@ void EditorToolPropertyEditor::resetAttrs(const wxString& winTypeName)
 // 设置属性列表的值
 void EditorToolPropertyEditor::updateAttrs(const std::map<wxString, wxAny>& propAttrs)
 {
+	const char* const PRE_FUNC_NAME = "EditorToolPropertyEditor::resetAttrs";
+	const char* const CUR_FUNC_NAME = "EditorToolPropertyEditor::updateAttrs";
 
+	if (m_curPropertyGrid == nullptr)
+	{
+		throw ExtraExcept::wrong_invoke_seq(PRE_FUNC_NAME, CUR_FUNC_NAME);
+	}
+
+	for (const auto& attr : propAttrs)
+	{
+		auto prop = m_curPropertyGrid->GetProperty(attr.first);
+		if (prop == nullptr)
+		{
+			throw ExtraExcept::wrong_invoke_seq(PRE_FUNC_NAME, CUR_FUNC_NAME);
+		}
+		// 修改属性值
+		prop->SetValue(attr.second);
+	}
+	// 刷新属性列表
+	m_curPropertyGrid->Update();
+}
+
+// 用来处理属性改变
+void EditorToolPropertyEditor::OnPropertyGridChanged(wxPropertyGridEvent & event)
+{
+	wxPGProperty* prop = event.GetProperty();
+
+	if (prop->GetGrid() != m_curPropertyGrid)
+	{
+		throw ExtraExcept::unexpected_situation("The wxPGProperty changed is not in current wxPropertyGrid");
+	}
+	using namespace Command;
+	auto changeWinAttrCmd = CommandFactory::instance()->createChangeWinAttrCommand(
+		event.GetPropertyName(), event.GetPropertyValue());
+	ChangeManager::instance()->getCommandStack().Submit(changeWinAttrCmd);
 }
 
 // 初始化编辑属性窗口
@@ -69,6 +105,8 @@ void EditorToolPropertyEditor::initSubWindows(const std::vector<wxString>& windo
 		vBoxSizer->Add(propertyGrid, 1, wxALL, 5);
 		// 添加窗口名和编辑界面的map
 		m_propertyGrids.insert(std::make_pair(winType, propertyGrid));
+
+		propertyGrid->Bind(wxEVT_PG_CHANGED, &EditorToolPropertyEditor::OnPropertyGridChanged, this);
 	}
 	// 查看是否存在可以编辑的窗口类型
 	if (m_propertyGrids.empty())

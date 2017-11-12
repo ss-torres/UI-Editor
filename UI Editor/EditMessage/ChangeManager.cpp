@@ -2,6 +2,7 @@
 #include "../Form/EditorWorkArea.h"
 #include "../Form/EditorToolObjectView.h"
 #include "../Form/EditorToolPropertyEditor.h"
+#include "../Settings/UsedWinAttrDefine.h"
 #include "../Settings/WindowAttributeManager.h"
 
 namespace Command
@@ -27,7 +28,7 @@ namespace Command
 		// 修改主工作区
 		bool flag = m_workArea->pushBackWindow(parentWnd, insertWnd);
 		flag = flag && m_objectView->addWindowItem(parentWnd->getId(), insertWnd->getId(),
-			insertWnd->getWindowObjectName(), insertWnd->getWindowClassName());
+			insertWnd->getWinAttr(OBJECT_NAME).As<wxString>(), insertWnd->getWindowClassName());
 		return flag;
 	}
 
@@ -52,7 +53,7 @@ namespace Command
 	{
 		// 修改主工作区
 		m_workArea->setCurrentWindow(newCurWnd);
-		// 修改属性编辑框
+		// 显示对应类型的属性编辑框
 		m_propertyEditor->resetAttrs(newCurWnd->getWindowClassName());
 		// 先设置对应窗口属性的默认值
 		const auto& winAttrDefValues = m_winAttrMgr->getWinDefValues(newCurWnd->getWindowClassName());
@@ -60,6 +61,19 @@ namespace Command
 		// 设置对应窗口的修改的属性值
 		m_propertyEditor->updateAttrs(newCurWnd->getWinAttrs());
 		// 修改对象查看中当前选中项
+		m_objectView->setCurSelect(newCurWnd->getId());
+	}
 
+	// 修改当前选中的窗口属性，将原属性保存到传入的参数中
+	void ChangeManager::changeSelectWndAttr(const wxString& attrName, wxAny& toSetValue)
+	{
+		auto curSelectWnd = m_workArea->getCurrentWindow();
+		wxAny origValue = curSelectWnd->getWinAttr(attrName);
+		// 在这里不判断新旧值是否相同，因为编辑过程中已经判断
+		curSelectWnd->updateWinAttr(attrName, toSetValue);
+		// 修改对象查看器的显示
+		m_objectView->changeWinAttr(curSelectWnd->getId(), attrName, toSetValue);
+		// 将之前的值复制给
+		toSetValue = origValue;
 	}
 }

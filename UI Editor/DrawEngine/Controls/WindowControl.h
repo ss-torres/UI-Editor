@@ -9,8 +9,10 @@
  * 使用者可以移除该部分代码，同时增加自己的主工作区的渲染代码
  */
 
-#include "../CGrowableArray.h"
 #include <d3d9.h>
+#include "../EngineImplDefine.h"
+#include "../CGrowableArray.h"
+#include "../../EditorFuncDefine.h"
 
 class AbstractEngine;
 class FontTexElement;
@@ -21,14 +23,22 @@ public:
 	WindowControl();
 	virtual ~WindowControl();
 
+	virtual HRESULT OnInit()
+	{
+		return S_OK;
+	}
+
 	virtual void Refresh();
 	// 渲染函数
 	virtual void Render(AbstractEngine* engine, float fElapsedTime) { }
 
+	// 获取窗口类型
+	virtual CONTROL_TYPE GetControlType() const { return CONTROL_NULL; }
+
 	void SetX(int x) { m_rcBoundingBox.left = x; }
 	void SetY(int y) { m_rcBoundingBox.top = y; }
 	void SetWidth(int width) { m_rcBoundingBox.right = m_rcBoundingBox.left + width; }
-	void SetHeight(int height) { m_rcBoundingBox.bottom = m_rcBoundingBox.top = height; }
+	void SetHeight(int height) { m_rcBoundingBox.bottom = m_rcBoundingBox.top + height; }
 	void SetEnable(bool enable) { m_bEnabled = enable; }
 	void SetRect(const RECT& boundingBox) { m_rcBoundingBox = boundingBox; }
 

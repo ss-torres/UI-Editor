@@ -21,6 +21,9 @@ public:
 	D3DEngine(HWND mainWndId, D3DDEVTYPE devType, DWORD requestedVP);
 	~D3DEngine();
 
+	// 每帧检测状态
+	bool checkEveryFrame() { return !checkDeviceLost(); }
+
 	// 获取D3D引擎对应窗口
 	HWND getMainWnd() const;
 	// 处理对应窗口大小改变

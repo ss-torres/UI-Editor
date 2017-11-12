@@ -19,5 +19,7 @@ void StaticControl::Render(AbstractEngine* engine, float fElapsedTime)
 
 	pElement->FontColor.Blend(iState, fElapsedTime);
 
-	engine->DrawRectText(m_strText, pElement, &GetRect(), false, -1);
+	engine->DrawRectText(m_strText->c_str(), pElement, &GetRect(), false, -1);
+
+	engine->DrawRect(&GetRect(), D3DCOLOR_RGBA(255, 255, 255, 255));
 }

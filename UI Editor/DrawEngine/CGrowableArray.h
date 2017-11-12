@@ -11,9 +11,8 @@
 #include <vector>
 #include <algorithm>
 #include <stdexcept>
-#include <windows.h>
 #include <assert.h>
-#include "../../Util/ArithmeticUtil.h"
+#include "../Util/ArithmeticUtil.h"
 
 template <typename TYPE>
 class CGrowableArray

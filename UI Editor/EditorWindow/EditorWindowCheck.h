@@ -16,7 +16,7 @@ public:
 	UiNoCheck() = default;
 	~UiNoCheck() = default;
 
-	bool operator()(CheckType* window) { return true; }
+	bool operator()(const CheckType* window) const { return true; }
 };
 
 // 判断在编辑器中是否可以编辑
@@ -27,7 +27,7 @@ public:
 	UiEditable() = default;
 	~UiEditable() {}
 
-	bool operator()(CheckType* window) { return window->isUiEditable() && DecoType::DecoType()(window); }
+	bool operator()(const CheckType* window) const { return window->isUiEditable() && DecoType::DecoType()(window); }
 };
 
 // 判断是否可以有子对象
@@ -38,7 +38,7 @@ public:
 	UiContainer() = default;
 	~UiContainer() = default;
 
-	bool operator()(CheckType* window) { return window->isContainerWnd() && DecoType::DecoType()(window); }
+	bool operator()(const CheckType* window) const { return window->isContainerWnd() && DecoType::DecoType()(window); }
 };
 
 // 定义一些常用类型

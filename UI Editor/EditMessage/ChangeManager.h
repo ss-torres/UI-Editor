@@ -43,6 +43,8 @@ namespace Command
 		bool removeWindow(EditorAbstractWindow* removeWnd);
 		// 修改当前选中的窗口
 		void changeSelectWnd(EditorAbstractWindow* lastCurWnd, EditorAbstractWindow* newCurWnd);
+		// 修改当前选中的窗口属性，将原属性保存到传入的参数中
+		void changeSelectWndAttr(const wxString& attrName, wxAny& toSetValue);
 
 		// 设置主工作区和工具窗口
 		void setWorkArea(std::shared_ptr<EditorWorkArea> workArea) { m_workArea = workArea; }

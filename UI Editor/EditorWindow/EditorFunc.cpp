@@ -1,5 +1,4 @@
 #include "EditorFunc.h"
-#include <stdexcept>
 #include "../Settings/UsedWinAttrDefine.h"
 #include "SimpleWindow/SimpleWindow.h"
 
@@ -27,35 +26,35 @@ namespace inner
 	}
 
 	// 修改编辑时是否显示
-	bool EditorFunc::ChangeEditShow(const wxAny& value)
+	bool EditorFunc::changeEditShow(const wxAny& value)
 	{
 		return ChangeWndAttrValue<bool>(value, &SimpleWindow<EditorFunc>::getEditShow,
 			&SimpleWindow<EditorFunc>::setEditShow, __func__);
 	}
 
 	// 修改X坐标
-	bool EditorFunc::ChangePosX(const wxAny & value)
+	bool EditorFunc::changePosX(const wxAny & value)
 	{
 		return ChangeWndAttrValue<int>(value, &SimpleWindow<EditorFunc>::getRelX,
 			&SimpleWindow<EditorFunc>::updateRelX, __func__);
 	}
 
 	// 修改Y坐标
-	bool EditorFunc::ChangePosY(const wxAny &value)
+	bool EditorFunc::changePosY(const wxAny &value)
 	{
 		return ChangeWndAttrValue<int>(value, &SimpleWindow<EditorFunc>::getRelY,
 			&SimpleWindow<EditorFunc>::updateRelY, __func__);
 	}
 
 	// 修改sizeX
-	bool EditorFunc::ChangeSizeX(const wxAny & value)
+	bool EditorFunc::changeSizeX(const wxAny & value)
 	{
 		return ChangeWndAttrValue<int>(value, &SimpleWindow<EditorFunc>::getWidth,
 			&SimpleWindow<EditorFunc>::updateWidth, __func__);
 	}
 
 	// 修改sizeY
-	bool EditorFunc::ChangeSizeY(const wxAny & value)
+	bool EditorFunc::changeSizeY(const wxAny & value)
 	{
 		return ChangeWndAttrValue<int>(value, &SimpleWindow<EditorFunc>::getHeight,
 			&SimpleWindow<EditorFunc>::updateHeight, __func__);
@@ -75,7 +74,11 @@ namespace inner
 	EditorFunc::ATTR_HANDLE_MAP EditorFunc::initEditorAttrHanldes()
 	{
 		ATTR_HANDLE_MAP handles;
-		handles.insert(std::make_pair(EDITOR_SHOW, &EditorFunc::ChangeEditShow));
+		handles.insert(std::make_pair(EDITOR_SHOW, &EditorFunc::changeEditShow));
+		handles.insert(std::make_pair(WIN_POSX, &EditorFunc::changePosX));
+		handles.insert(std::make_pair(WIN_POSY, &EditorFunc::changePosY));
+		handles.insert(std::make_pair(WIN_SIZEX, &EditorFunc::changeSizeX));
+		handles.insert(std::make_pair(WIN_SIZEY, &EditorFunc::changeSizeY));
 		return handles;
 	}
 }

@@ -47,7 +47,7 @@ void ButtonControl::Render(AbstractEngine* engine, float fElapsedTime)
 	pElement->FontColor.Blend(iState, fElapsedTime, fBlendRate);
 
 	engine->DrawSprite(pElement, &rcWindow);
-	engine->DrawRectText(m_strText, pElement, &rcWindow, false, -1);
+	engine->DrawRectText(m_strText->c_str(), pElement, &rcWindow, false, -1);
 
 	// Main button
 	pElement = m_Elements.GetAt(1);
@@ -57,5 +57,5 @@ void ButtonControl::Render(AbstractEngine* engine, float fElapsedTime)
 	pElement->FontColor.Blend(iState, fElapsedTime, fBlendRate);
 
 	engine->DrawSprite(pElement, &rcWindow);
-	engine->DrawRectText(m_strText, pElement, &rcWindow, false, -1);
+	engine->DrawRectText(m_strText->c_str(), pElement, &rcWindow, false, -1);
 }

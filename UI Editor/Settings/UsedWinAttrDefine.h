@@ -11,11 +11,18 @@
 #include <wx/string.h>
 
 // GWindow
-// 窗口相对于父窗口位置
 const wxString EDITOR_SHOW = wxS("editShow");
+const wxString OBJECT_NAME = wxS("objectName");
+// 窗口相对于父窗口位置
 const wxString WIN_POSX = wxS("posX");
 const wxString WIN_POSY = wxS("posY");
 const wxString WIN_SIZEX = wxS("sizeX");
 const wxString WIN_SIZEY = wxS("sizeY");
+
+// GLabel
+const wxString LABEL_TEXT = wxS("text");
+
+// GButton
+const wxString BUTTON_TEXT = wxS("text");
 
 #endif	// USED_WIN_ATTR_DEFINE_H

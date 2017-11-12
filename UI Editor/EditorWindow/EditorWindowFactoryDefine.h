@@ -6,7 +6,7 @@
  * 作用：定义与创建窗口有关的数据
  */
 
-#include "EditorFuncDefine.h"
+#include "../EditorFuncDefine.h"
 
 // 定义各种类型默认的宽和高
 

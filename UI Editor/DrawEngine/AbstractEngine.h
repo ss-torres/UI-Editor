@@ -16,18 +16,36 @@ public:
 	AbstractEngine() { }
 	virtual ~AbstractEngine() {}
 
+	// 初始化控件的贴图字体属性
+	virtual HRESULT InitControl(WindowControl* pControl) 
+	{ 
+		return m_engineImpl->InitControl(pControl); 
+	}
 	// 绘制函数
+	virtual HRESULT DrawRectLine(RECT* pRect, D3DCOLOR color)
+	{
+		return m_engineImpl->DrawRectLine(pRect, color);
+	}
 	virtual HRESULT DrawRect(RECT* pRect, D3DCOLOR color)
-		{ return m_engineImpl->DrawRect(pRect, color); }
+	{ 
+		return m_engineImpl->DrawRect(pRect, color); 
+	}
 	virtual HRESULT DrawPolyLine(POINT* apPoints, UINT nNumPoints, D3DCOLOR color) 
-		{ return m_engineImpl->DrawPolyLine(apPoints, nNumPoints, color); }
+	{ 
+		return m_engineImpl->DrawPolyLine(apPoints, nNumPoints, color); 
+	}
 	virtual HRESULT DrawSprite(FontTexElement* pElement, RECT* prcDest) 
-		{ return m_engineImpl->DrawSprite(pElement, prcDest); }
+	{ 
+		return m_engineImpl->DrawSprite(pElement, prcDest); 
+	}
 	virtual HRESULT CalcTextRect(LPCTSTR strText, FontTexElement* pElement, RECT* prcDest, int nCount) 
-		{ return m_engineImpl->CalcTextRect(strText, pElement, prcDest, nCount); }
+	{ 
+		return m_engineImpl->CalcTextRect(strText, pElement, prcDest, nCount); 
+	}
 	// 在指定位置绘制文字
 	virtual HRESULT DrawRectText(LPCTSTR strText, FontTexElement* pElement, RECT* prcDest, bool bShadow = false,
-		int nCount = -1) {
+		int nCount = -1) 
+	{
 		return m_engineImpl->DrawRectText(strText, pElement, prcDest, bShadow, nCount);
 	}
 
@@ -41,6 +59,9 @@ public:
 	{
 		m_engineImpl->RenderControlsEnd();
 	}
+
+	// 每帧检测状态
+	virtual bool checkEveryFrame() { return true; }
 
 protected:
 	void SetEngineImpl(AbstractEngineImpl* engineImpl) { m_engineImpl.reset(engineImpl); }

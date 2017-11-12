@@ -18,26 +18,24 @@ namespace Command
 	class CurrentWindowCommand : public wxCommand
 	{
 	public:
-		CurrentWindowCommand(T winMgr, EditorAbstractWindow* lastCurWnd, EditorAbstractWindow* newCurWnd)
-			: m_winMgr(winMgr), m_lastCurWnd(lastCurWnd), m_newCurWnd(newCurWnd)
+		CurrentWindowCommand(T mgr, EditorAbstractWindow* lastCurWnd, EditorAbstractWindow* newCurWnd)
+			: wxCommand(true),
+			m_mgr(mgr), m_lastCurWnd(lastCurWnd), m_newCurWnd(newCurWnd)
 		{
-			if (winMgr == nullptr || lastCurWnd == nullptr || newCurWnd == nullptr)
+			if (mgr == nullptr || lastCurWnd == nullptr || newCurWnd == nullptr)
 			{
 				throw std::invalid_argument(__func__ + std::string(": winMgr, lastCurWnd and newCurWnd shouldn't be nullptr"));
 			}
 		}
 		~CurrentWindowCommand() { }
 
-		// 是否可以回退
-		bool CanUndo() const override { return true; }
-
 		// 重构执行函数
 		bool Do() override;
-		// 重构取消函数
+		// 重构取消执行函数
 		bool Undo() override;
 
 	private:
-		T m_winMgr;
+		T m_mgr;
 		EditorAbstractWindow* m_lastCurWnd = nullptr;
 		EditorAbstractWindow* m_newCurWnd = nullptr;
 	};
@@ -45,14 +43,14 @@ namespace Command
 	template <typename T>
 	bool CurrentWindowCommand<T>::Do()
 	{
-		m_winMgr->changeSelectWnd(m_lastCurWnd, m_newCurWnd);
+		m_mgr->changeSelectWnd(m_lastCurWnd, m_newCurWnd);
 		return true;
 	}
 
 	template <typename T>
 	bool CurrentWindowCommand<T>::Undo()
 	{
-		m_winMgr->changeSelectWnd(m_newCurWnd, m_lastCurWnd);
+		m_mgr->changeSelectWnd(m_newCurWnd, m_lastCurWnd);
 		return true;
 	}
 }

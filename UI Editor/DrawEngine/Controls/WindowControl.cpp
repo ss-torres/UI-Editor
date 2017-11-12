@@ -1,5 +1,6 @@
 #include "WindowControl.h"
-#include "../d3dEngine/d3dEngineImpl.h"
+#include "../AbstractEngineImpl.h"
+#include "../d3dEngine/d3dUtil.h"
 
 WindowControl::WindowControl()
 	: m_bEnabled(true)

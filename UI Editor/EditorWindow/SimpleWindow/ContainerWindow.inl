@@ -13,6 +13,20 @@ namespace inner
 	{
 	}
 
+	// 获取消息处理的范围
+	template<typename T>
+	inline wxRegion ContainerWindow<T>::getMsgRegion() const
+	{
+		if (isHandleMsg())
+		{
+			return m_msgRegion;
+		}
+		else
+		{
+			return wxRegion();
+		}
+	}
+
 	template <typename T>
 	ContainerWindow<T>::~ContainerWindow()
 	{
@@ -36,10 +50,8 @@ namespace inner
 		}
 		m_children.push_back(child);
 		setParent(this, child);
-		if (child->isHandleMsg())
-		{
-			incrMsgRegion(child->getMsgRegion());
-		}
+
+		incrMsgRegion(child->getMsgRegion());
 	}
 
 	// 用来在某个窗口之前添加一个子窗口
@@ -69,10 +81,9 @@ namespace inner
 	{
 		m_children.insert(iter, child);
 		setParent(this, child);
-		if (child->isHandleMsg())
-		{
-			incrMsgRegion(child->getMsgRegion());
-		}
+
+		incrMsgRegion(child->getMsgRegion());
+
 		return true;
 	}
 
@@ -106,13 +117,12 @@ namespace inner
 		assert(child != nullptr);
 
 		m_children.push_back(child);
-		if (child->isHandleMsg())
-		{
-			incrMsgRegion(child->getMsgRegion());
-		}
+
+		incrMsgRegion(child->getMsgRegion());
 	}
 
-	// 更新父窗口判断消息的范围
+	// 更新该窗口判断消息的范围，将childRange添加到该窗口的消息处理范围，调用该函数不判断该窗口是否处理消息，
+	// 会判断子窗口是否处理消息
 	template<typename T>
 	inline void ContainerWindow<T>::incrMsgRegion(const wxRegion& childRegion)
 	{
@@ -122,15 +132,16 @@ namespace inner
 		auto adjustRect = childRegion;
 		adjustRect.Offset(narrow_cast<wxCoord>(m_relX), narrow_cast<wxCoord>(m_relY));
 
-		// 子窗口范围不在父窗口之内
 		m_msgRegion.Union(adjustRect);
+		// 该窗口范围因为增加了childRegion而发生了改变
 		if (oldRange != m_msgRegion)
 		{
 			SimpleWindow<T>::incrMsgRegion(m_msgRegion);
 		}
 	}
 
-	// 设置窗口消息范围为所有子窗口范围
+	// 设置窗口消息范围为所有子窗口范围，用来子窗口发生变化，调用该函数不判断该窗口是否处理消息
+	// 会判断子窗口是否处理消息
 	template<typename T>
 	inline void ContainerWindow<T>::resetMsgRegion()
 	{
@@ -140,10 +151,7 @@ namespace inner
 		wxRegion region;
 		for (auto chp : m_children)
 		{
-			if (chp->isHandleMsg())
-			{
-				region.Union(chp->getMsgRegion());
-			}
+			region.Union(chp->getMsgRegion());
 		}
 		region.Union(wxRect(0, 0, narrow_cast<wxCoord>(m_width), narrow_cast<wxCoord>(m_height)));
 		m_msgRegion = std::move(region);

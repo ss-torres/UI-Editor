@@ -1,5 +1,6 @@
 #include "EditorToolObjectView.h"
 #include "EditorToolObjectViewDefine.h"
+#include "../Settings/UsedWinAttrDefine.h"
 
 EditorToolObjectView::EditorToolObjectView(wxAuiManager &manager, wxWindow * parent, int direction, const wxString & paneName)
 	: EditorToolWindow(manager, parent, direction, paneName)
@@ -27,6 +28,50 @@ bool EditorToolObjectView::addWindowItem(ID_TYPE parentId, ID_TYPE childId, cons
 	m_objectView->SetItemText(childItem, 1, winTypeName);
 	m_idToItems[childId] = childItem;
 	return true;
+}
+
+// 设置当前选中对象，会取消之前所有的选中
+void EditorToolObjectView::setCurSelect(ID_TYPE selectId) const
+{
+	m_objectView->UnselectAll();
+	m_objectView->Select(m_idToItems.at(selectId));
+}
+
+// 添加选中对象
+void EditorToolObjectView::addSelect(ID_TYPE selectId) const
+{
+	m_objectView->Select(m_idToItems.at(selectId));
+}
+
+// 取消选中对象
+void EditorToolObjectView::unSelect(ID_TYPE unSelectId) const
+{
+	m_objectView->Unselect(m_idToItems.at(unSelectId));
+}
+
+// 获取当前所有选中
+std::vector<ID_TYPE> EditorToolObjectView::getSelections() const
+{
+	std::vector<ID_TYPE> selections;
+	wxTreeListItems items;
+	m_objectView->GetSelections(items);
+	for (const auto& item : items)
+	{
+		auto data = dynamic_cast<EditorWindowID *>(m_objectView->GetItemData(item));
+		selections.push_back(data->getEditorWinId());
+	}
+
+	return selections;
+}
+
+// 修改对象编辑器中的显示，当前只设计修改对象
+void EditorToolObjectView::changeWinAttr(ID_TYPE changeId, const wxString &attrName, const wxAny &toSetValue) const
+{
+	if (attrName == OBJECT_NAME)
+	{
+		wxTreeListItem item = m_idToItems.at(changeId);
+		m_objectView->SetItemText(item, 0, toSetValue.As<wxString>());
+	}
 }
 
 // 初始化子窗口

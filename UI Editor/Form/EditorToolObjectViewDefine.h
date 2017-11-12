@@ -2,7 +2,7 @@
 #define EDITOR_TOOL_OBJECT_VIEW_DEFINE_H
 
 #include <wx/clntdata.h>
-#include "../EditorWindow/EditorFuncDefine.h"
+#include "../EditorFuncDefine.h"
 
 class EditorWindowID : public wxClientData
 {

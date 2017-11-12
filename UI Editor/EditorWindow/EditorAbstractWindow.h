@@ -2,6 +2,7 @@
 #define EDITOR_ABSTRACT_WINDOW_H
 
 #include "EditorFunc.h"
+#include "EditorWindowDefine.h"
 #include "SimpleWindow/SimpleWindow.h"
 
 namespace inner
@@ -13,6 +14,9 @@ namespace inner
 		using SimpleWindow<EditorFunc>::SimpleWindow;
 		~SimpleWindow<EditorEditableFunc>() override = default;
 
+		// 重写各种设置函数，将修改记录到属性列表中
+
+
 	protected:
 		// 设置该窗口是否编辑时显示
 		void setEditShow(bool editShow) override;
@@ -23,10 +27,13 @@ namespace inner
 	// 设置该窗口是否编辑时显示
 	inline void SimpleWindow<EditorEditableFunc>::setEditShow(bool editShow)
 	{
-		// 设置编辑时是否可以显示
-		EditorFunc::setEditShow(editShow);
-		// 调整父窗口的消息触发范围
-		SimpleWindow<EditorFunc>::resetMsgRegion();
+		if (editShow != getEditShow())
+		{
+			// 设置编辑时是否可以显示
+			EditorFunc::setEditShow(editShow);
+			// 调整父窗口的消息触发范围
+			SimpleWindow<EditorFunc>::resetMsgRegion();
+		}
 	}
 }
 

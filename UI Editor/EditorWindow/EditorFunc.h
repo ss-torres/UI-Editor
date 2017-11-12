@@ -4,19 +4,20 @@
 /*
  * 文件名：EditorFunc
  * 作用：用来实现窗口编辑相关的功能
- * 说明：如果采用C++ Programming Language 4th中的27.4.2: Linearizing Class Hierarchies中的设计方法，
+ * 说明：
+ * 1.如果采用C++ Programming Language 4th中的27.4.2: Linearizing Class Hierarchies中的设计方法，
  * 优化属性处理相关函数的实现
+ * 2.修改该类的子类属性，需要对应类的updateWinAttr函数，这样属性列表中的值才能与属性保持一致
  */
 
 #include <map>
 #include <utility>
 #include <functional>
-#include <stdexcept>
 #include <wx/string.h>
 #include <wx/any.h>
-#include <wx/gdicmn.h>
-#include "EditorFuncDefine.h"
+#include "../EditorFuncDefine.h"
 #include "../Form/EditorToolWidgetSelectDefine.h"
+#include "../ErrorHandle/ErrorHandle.h"
 
 namespace inner
 {
@@ -25,6 +26,7 @@ namespace inner
 }
 
 class Visitor;
+class DrawControlManager;
 
 namespace inner
 {
@@ -53,29 +55,37 @@ namespace inner
 
 		// 更新窗口对象属性信息
 		virtual void updateWinAttr(const wxString& attrName, const wxAny& value) { updateAttrValue(attrName, value); }
+		// 获取窗口对象属性列表中的信息
+		const wxAny& getWinAttr(const wxString& attrName) const;
 		// 重新设置整个属性表，当前只会更新列表信息，不会修改Window中的数据
 		template <typename ATTR_MAP_TYPE = WIN_ATTR_MAP>
 		void resetWinAttrs(ATTR_MAP_TYPE&& allTypes = ATTR_MAP_TYPE());
 		// 获取整个属性表中的全部信息
-		const WIN_ATTR_MAP& getWinAttrs() const { return m_allWinAttrs; }
+		const WIN_ATTR_MAP& getWinAttrs() const 
+		{ 
+			return m_allWinAttrs; 
+		}
 
 		// 设置窗口在编辑时是否显示
 		virtual void setEditShow(bool editShow) { m_editShow = editShow; }
+
+		//在编辑界面上绘制
+		virtual void editDraw(int absX, int absY, DrawControlManager* drawManager) {}
 
 	protected:
 		// 定义处理消息的类型，返回值表示是否修改了属性，true表示修改，false表示未修改
 		using CHANGE_ATTR_FUNC = std::function<bool(EditorFunc*, const wxAny&)>;
 		using ATTR_HANDLE_MAP = std::map<const wxString, CHANGE_ATTR_FUNC>;
 		// 修改编辑时是否显示
-		bool ChangeEditShow(const wxAny& value);
+		bool changeEditShow(const wxAny& value);
 		// 修改X坐标
-		bool ChangePosX(const wxAny& value);
+		bool changePosX(const wxAny& value);
 		// 修改Y坐标
-		bool ChangePosY(const wxAny& value);
+		bool changePosY(const wxAny& value);
 		// 修改sizeX
-		bool ChangeSizeX(const wxAny& value);
+		bool changeSizeX(const wxAny& value);
 		// 修改sizeY
-		bool ChangeSizeY(const wxAny& value);
+		bool changeSizeY(const wxAny& value);
 
 		// 获取属性与属性处理函数Map
 		static const ATTR_HANDLE_MAP& getEditorAttrHandles();
@@ -122,6 +132,22 @@ namespace inner
 		m_allWinAttrs[name] = value;
 	}
 
+	// 获取窗口对象属性列表中的信息
+	inline const wxAny& EditorFunc::getWinAttr(const wxString & attrName) const
+	{
+		auto it = m_allWinAttrs.find(attrName);
+		if (it != m_allWinAttrs.cend())
+		{
+			return it->second;
+		}
+
+		// 按照逻辑不应该出现的情况
+		throw ExtraExcept::unexpected_situation("EditorFunc::getWinAttr can't find " + attrName.ToStdString());
+
+		static wxAny value;
+		return value;
+	}
+
 	// 修改窗口中一个int型属性
 	template <typename T>
 	inline bool EditorFunc::ChangeWndAttrValue(const wxAny& value, std::function<T(SimpleWindow<EditorFunc>*)> getFunc,
@@ -134,12 +160,12 @@ namespace inner
 			if (v != getFunc(pThis))
 			{
 				setFunc(pThis, v);
+				return true;
 			}
-			return false;
 		}
 		else
 		{
-			throw std::runtime_error(funcName + std::string("'s parameter is not an int."));
+			throw std::runtime_error(funcName + std::string("'s parameter is not ") + typeid(T).name());
 		}
 
 		return false;

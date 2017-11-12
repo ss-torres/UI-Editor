@@ -174,9 +174,6 @@
     <ClInclude Include="EditorWindow\EditorFunc.h">
       <Filter>EditorWindow</Filter>
     </ClInclude>
-    <ClInclude Include="EditorWindow\EditorFuncDefine.h">
-      <Filter>EditorWindow</Filter>
-    </ClInclude>
     <ClInclude Include="EditorWindow\EditorContainerWindow.h">
       <Filter>EditorWindow</Filter>
     </ClInclude>
@@ -246,14 +243,23 @@
     <ClInclude Include="Form\EditorFormFactory.h">
       <Filter>Form</Filter>
     </ClInclude>
-    <ClInclude Include="DrawEngine\DrawManager.h">
-      <Filter>DrawEngine</Filter>
-    </ClInclude>
     <ClInclude Include="EditorWindow\EditorWindowInterface.h">
       <Filter>EditorWindow</Filter>
     </ClInclude>
     <ClInclude Include="EditorWindow\EditorWindowFactoryDefine.h">
       <Filter>EditorWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawEngine\DrawControlManager.h">
+      <Filter>DrawEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorFuncDefine.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorWindow\EditorWindowDefine.h">
+      <Filter>EditorWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="EditMessage\ChangeWinAttrCommand.h">
+      <Filter>EditMessage</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -374,7 +380,7 @@
     <ClCompile Include="Form\EditorFormFactory.cpp">
       <Filter>Form</Filter>
     </ClCompile>
-    <ClCompile Include="DrawEngine\DrawManager.cpp">
+    <ClCompile Include="DrawEngine\DrawControlManager.cpp">
       <Filter>DrawEngine</Filter>
     </ClCompile>
   </ItemGroup>

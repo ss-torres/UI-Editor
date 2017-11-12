@@ -2,8 +2,8 @@
 #define COMMAND_FACTORY_H
 
 #include "../EditorWindow/EditorWindowInterface.h"
-#include "ChangeManager.h"
 #include "DropWindowCommand.h"
+#include "ChangeWinAttrCommand.h"
 
 namespace Command
 {
@@ -21,6 +21,8 @@ namespace Command
 		// 创建一个DropWindowCommand命令
 		DropWindowCommand<ChangeManager*>* createDropWindowCommand(EditorAbstractWindow* insertWnd, 
 			EditorAbstractWindow* parentWnd, EditorAbstractWindow* lastCurWnd) const;
+		// 创建一个ChangeWinAttrCommand命令
+		ChangeWinAttrCommand<ChangeManager*>* createChangeWinAttrCommand(const wxString& attrName, const wxAny& toSetValue) const;
 
 	private:
 		static CommandFactory* s_factory;

@@ -1,5 +1,4 @@
 #include "CommandFactory.h"
-#include "DropWindowCommand.h"
 #include "ChangeManager.h"
 
 namespace Command
@@ -10,6 +9,12 @@ namespace Command
 		EditorAbstractWindow * parentWnd, EditorAbstractWindow * lastCurWnd) const
 	{
 		return new DropWindowCommand<ChangeManager*>(ChangeManager::instance(), insertWnd, parentWnd, lastCurWnd);
+	}
+
+	// 创建一个ChangeWinAttrCommand命令
+	ChangeWinAttrCommand<ChangeManager*>* CommandFactory::createChangeWinAttrCommand(const wxString& attrName, const wxAny& toSetValue) const
+	{
+		return new ChangeWinAttrCommand<ChangeManager*>(ChangeManager::instance(), attrName, toSetValue);
 	}
 }
 

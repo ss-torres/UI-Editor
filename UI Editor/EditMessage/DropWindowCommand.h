@@ -11,21 +11,18 @@
 
 namespace Command
 {
-	class ChangeManager;
-
 	template <typename T>
 	class DropWindowCommand : public wxCommand
 	{
 	public:
 		DropWindowCommand(T t, EditorAbstractWindow* insertWnd, EditorAbstractWindow* parentWnd, EditorAbstractWindow* lastCurWnd)
-			: m_insertCommand(t, insertWnd, parentWnd), m_curWinCommand(t, lastCurWnd, insertWnd)
+			: wxCommand(true),
+			m_insertCommand(t, insertWnd, parentWnd), m_curWinCommand(t, lastCurWnd, insertWnd)
 		{
 
 		}
 		~DropWindowCommand() override {}
 
-		// 是否可以回退
-		bool CanUndo() const override { return true; }
 		// 重构执行
 		bool Do() override;
 		// 重构取消执行

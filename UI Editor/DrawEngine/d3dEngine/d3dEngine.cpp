@@ -4,7 +4,11 @@
 #include "d3dEngineImpl.h"
 #include <tchar.h>
 
+#ifdef UNICODE
+const wchar_t* ENGINE_IMPL_TEX_FILE = L"dxutcontrols.dds";
+#else
 const char* ENGINE_IMPL_TEX_FILE = "dxutcontrols.dds";
+#endif	// UNICODE
 
 D3DEngine::D3DEngine(HWND mainWndId, D3DDEVTYPE devType, DWORD requestedVP)
 	: m_d3dObject(nullptr),
@@ -79,7 +83,11 @@ bool D3DEngine::checkDeviceLost()
 	// Driver error, exit.
 	else if (hr == D3DERR_DRIVERINTERNALERROR)
 	{
+#if UNICODE
+		MessageBox(0, L"Internal Driver Error...Exiting", 0, 0);
+#else
 		MessageBox(0, "Internal Driver Error...Exiting", 0, 0);
+#endif
 		PostQuitMessage(0);
 		return true;
 	}
@@ -146,7 +154,11 @@ void D3DEngine::initDirect3D()
 	m_d3dObject = Direct3DCreate9(D3D_SDK_VERSION);
 	if (!m_d3dObject)
 	{
+#if UNICODE
+		MessageBox(0, L"Direct3DCreate9 FAILED", 0, 0);
+#else
 		MessageBox(0, "Direct3DCreate9 FAILED", 0, 0);
+#endif	// UNICODE
 		PostQuitMessage(0);
 	}
 

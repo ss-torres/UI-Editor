@@ -58,8 +58,8 @@ inline void SAFE_RELEASE(T* p)
 
 #if defined(DEBUG) | defined(_DEBUG)
 	#ifndef HR
-	#define HR(x)		HR_impl(x, #x, __FILE__, __LINE__, true)
-	#define HR_RETURN(x)	{ HRESULT hr = HR_impl(x, #x, __FILE__, __LINE__, true); if (FAILED(hr)) return hr; }
+	#define HR(x)		HR_impl(x, L#x, __FILE__, __LINE__, true)
+	#define HR_RETURN(x)	{ HRESULT hr = HR_impl(x, L#x, __FILE__, __LINE__, true); if (FAILED(hr)) return hr; }
 	#endif
 	#ifndef HR_ERR
 	#define HR_ERR(str, hr)		HR_impl(hr, str, __FILE__, __LINE__, false)

@@ -22,10 +22,11 @@ namespace Command
 	class InsertWindowCommand : public wxCommand
 	{
 	public:
-		InsertWindowCommand(T winMgr, EditorAbstractWindow* insertWnd, EditorAbstractWindow* parentWnd)
-			: m_winMgr(winMgr), m_insertWnd(insertWnd), m_parentWnd(parentWnd)
+		InsertWindowCommand(T mgr, EditorAbstractWindow* insertWnd, EditorAbstractWindow* parentWnd)
+			: wxCommand(true),
+			m_mgr(mgr), m_insertWnd(insertWnd), m_parentWnd(parentWnd)
 		{
-			if (winMgr == NULL || insertWnd == NULL || parentWnd == NULL)
+			if (mgr == NULL || insertWnd == NULL || parentWnd == NULL)
 			{
 				throw std::invalid_argument(__func__ + std::string(": winMgr, insertWnd and parentWnd shouldn't be nullptr"));
 			}
@@ -37,8 +38,6 @@ namespace Command
 		// 获取插入的序号
 		size_t getInsertIdx() const { return m_idx; }
 
-		// 是否可以回退
-		bool CanUndo() const override { return true; }
 		// 执行
 		bool Do() override;
 		// 回退
@@ -51,8 +50,8 @@ namespace Command
 		EditorAbstractWindow* m_parentWnd = nullptr;
 		// 插入的序号
 		size_t m_idx = INSERT_DEF_IDX;
-		// 操作的窗口类
-		T m_winMgr;
+		// 操作的管理类
+		T m_mgr;
 	};
 
 	template <typename T>
@@ -60,18 +59,18 @@ namespace Command
 	{
 		if (m_idx == INSERT_DEF_IDX)
 		{
-			return m_winMgr->pushBackWindow(m_parentWnd, m_insertWnd);
+			return m_mgr->pushBackWindow(m_parentWnd, m_insertWnd);
 		}
 		else
 		{
-			return m_winMgr->insertWindow(m_parentWnd, m_idx, m_insertWnd);
+			return m_mgr->insertWindow(m_parentWnd, m_idx, m_insertWnd);
 		}
 	}
 
 	template <typename T>
 	inline bool InsertWindowCommand<T>::Undo()
 	{
-		return m_winMgr->removeWindow(m_insertWnd);
+		return m_mgr->removeWindow(m_insertWnd);
 	}
 
 

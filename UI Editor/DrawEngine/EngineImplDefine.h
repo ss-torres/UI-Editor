@@ -8,6 +8,7 @@
 // Enums for pre-defined control types
 enum CONTROL_TYPE
 {
+	CONTROL_NULL = -1,
 	CONTROL_BUTTON = 0,
 	CONTROL_STATIC,
 	CONTROL_CHECKBOX,

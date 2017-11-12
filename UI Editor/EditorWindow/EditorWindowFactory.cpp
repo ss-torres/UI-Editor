@@ -1,8 +1,8 @@
 #include "EditorWindowFactory.h"
-#include "../Form/EditorToolWidgetSelectDefine.h"
 #include "EditorLabel.h"
 #include "EditorButton.h"
 #include "EditorManageWindow.h"
+#include "../Settings/UsedWinAttrDefine.h"
 
 AbstractWindowFactory* EditorWindowFactory::s_factoryInst = nullptr;
 
@@ -12,10 +12,13 @@ EditorAbstractWindow * EditorWindowFactory::createCopyObjectWnd(CopyWindowInfo w
 {
 	EditorAbstractWindow* editorWnd = WindowFactoryImpl::createEditorWnd(winObject.getWinName(),
 		parent, relX, relY, width, height);
+	// 先给默认的名称
 	long winTypeNum = ++m_winTypeToNums[editorWnd->getWindowClassName()];
-	editorWnd->setWindowObjectName(editorWnd->getWindowClassName() + (wxString() << winTypeNum));
+	wxString objectName = editorWnd->getWindowClassName() + (wxString() << winTypeNum);
+	editorWnd->updateWinAttr(OBJECT_NAME, objectName);
 
-	editorWnd->resetWinAttrs();
+	//editorWnd->resetWinAttrs();
+	// 设置为拷贝对象的属性值
 	auto& winAttrs = winObject.getWinAttrValues();
 	for (const auto& value : winAttrs)
 	{
@@ -42,7 +45,7 @@ EditorAbstractWindow * WindowFactoryImpl::createEditorWnd(const wxString & winNa
 			width = EDITOR_LABEL_WIDTH;
 			height = EDITOR_LABEL_HEIGHT;
 		}
-		return new inner::EditorLabel(parent, relX, relY, width, height);
+		return new EditorLabel(parent, relX, relY, width, height);
 	}
 	else if (winName == EDITOR_BUTTON_TYPE)
 	{
@@ -51,7 +54,7 @@ EditorAbstractWindow * WindowFactoryImpl::createEditorWnd(const wxString & winNa
 			width = EDITOR_BUTTON_WIDTH;
 			height = EDITOR_BUTTON_HEIGHT;
 		}
-		return new inner::EditorButton(parent, relX, relY, width, height);
+		return new EditorButton(parent, relX, relY, width, height);
 	}
 
 	if (width < 0 || height < 0)

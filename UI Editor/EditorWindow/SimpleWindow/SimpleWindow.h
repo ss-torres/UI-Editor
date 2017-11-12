@@ -4,6 +4,10 @@
 /*
  * 文件名：EditorWindow
  * 作用：用来实现窗口的基本功能
+ * 说明：
+ * 1.窗口的消息响应范围由该窗口是否可以编辑决定，不受窗口是否激活影响
+ * 2.响应消息时，从父窗口到子窗口判断，如果父窗口不处理消息，或者处理消息范围不满足条件，则不判断子窗口是否处理
+ * 3.如果父窗口隐藏，则子窗口也一起隐藏
  */
 
 #include <vector>
@@ -50,7 +54,7 @@ namespace inner
 		// 用来移除一个子窗口
 		virtual bool removeChild(SIMPLE_WINDOW_TYPE* child);
 		// 获取子窗口列表中cbegin对应的iterator
-		virtual ConstChildIterator getChildrencConstBeg() const { return s_defChildrenRet.cbegin(); }
+		virtual ConstChildIterator getChildrenConstBeg() const { return s_defChildrenRet.cbegin(); }
 		// 获取子窗口列表中cend对应的iterator
 		virtual ConstChildIterator getChildrenConstEnd() const { return s_defChildrenRet.cend(); }
 		// 获取子窗口个数
@@ -98,8 +102,13 @@ namespace inner
 		// 更新窗口范围
 		void updateRange(int x, int y, int width, int height);
 
+		// 设置是否激活
+		void setEnable(bool enable) { m_enable = enable; }
+		// 获取是否激活
+		bool getEnable() const { return m_enable; }
+
 		// 在界面上绘制
-		virtual void draw() = 0;
+		virtual void draw(int x, int y) const = 0;
 
 		// 获取消息处理的范围，相对范围
 		virtual wxRegion getMsgRegion() const;
@@ -107,14 +116,14 @@ namespace inner
 		virtual bool isHandleMsg() const { return true; }
 
 	protected:
-		// 设置该窗口的父窗口对象
+		// 设置该窗口的父窗口对象，该函数调用不会改变父窗口的消息响应范围
 		void setParent(SIMPLE_WINDOW_TYPE* parent, SIMPLE_WINDOW_TYPE* child);
 		// 用来添加一个子窗口对象，该函数不会检测插入的对象是否已经有了父对象
 		virtual void pushChild(SIMPLE_WINDOW_TYPE* child);
 		// 更新该窗口判断消息的范围，将childRect的消息处理范围添加到该窗口中
-		virtual void incrMsgRegion(const wxRegion& childRect) { if (hasParent() && isHandleMsg()) { getParent()->incrMsgRegion(childRect); } }
-		// 设置窗口消息范围为所有子窗口范围，用来子窗口发生变化，例如改变
-		virtual void resetMsgRegion() { if (hasParent() && isHandleMsg()) { getParent()->resetMsgRegion(); } }
+		virtual void incrMsgRegion(const wxRegion& childRect) { if (hasParent()) { getParent()->incrMsgRegion(childRect); } }
+		// 设置窗口消息范围为所有子窗口范围，用来处理子窗口发生变化，例如改变
+		virtual void resetMsgRegion() { if (hasParent()) { getParent()->resetMsgRegion(); } }
 
 		// 获取子窗口列表
 		virtual const CHILDREN_CONTAINER& getConstChildren() const;
@@ -133,125 +142,15 @@ namespace inner
 		int m_width;
 		int m_height;
 
+		// 是否处于激活状态
+		bool m_enable;
+
 		const static CHILDREN_CONTAINER s_defChildrenRet;
 
 	private:
 		// 更新父窗口消息处理范围
 		void updateParentMsgRect();
 	};
-
-	// 设置该窗口的父窗口对象
-	template <typename T>
-	inline void SimpleWindow<T>::setParent(SIMPLE_WINDOW_TYPE* parent, SIMPLE_WINDOW_TYPE* child)
-	{
-		if (parent && !parent->isContainerWnd())
-		{
-			throw std::runtime_error("parent is not a Container window");
-		}
-		child->m_parent = parent;
-	}
-
-
-	// 更新相对坐标X
-	template <typename T>
-	inline void SimpleWindow<T>::updateRelX(int x)
-	{
-		m_relX = x;
-		updateParentMsgRect();
-	}
-
-	// 更新相对坐标Y
-	template <typename T>
-	inline void SimpleWindow<T>::updateRelY(int y)
-	{
-		m_relY = y;
-		updateParentMsgRect();
-	}
-
-	// 更新相对坐标X和Y
-	template <typename T>
-	inline void SimpleWindow<T>::updateRelPos(int x, int y)
-	{
-		m_relX = x;
-		m_relY = y;
-		updateParentMsgRect();
-	}
-
-	// 获取绝对坐标X
-	template <typename T>
-	inline int SimpleWindow<T>::getAbsX() const
-	{
-		if (hasParent())
-		{
-			return getParent()->getAbsX() + getRelX();
-		}
-		return getRelX();
-	}
-
-	// 获取绝对坐标Y
-	template <typename T>
-	inline int SimpleWindow<T>::getAbsY() const
-	{
-		if (hasParent())
-		{
-			return getParent()->getAbsY() + getRelY();
-		}
-		return getRelY();
-	}
-
-	// 更新窗口宽度大小
-	template <typename T>
-	inline void SimpleWindow<T>::updateWidth(int width)
-	{
-		m_width = width;
-		updateParentMsgRect();
-	}
-
-	// 更新窗口高度大小
-	template <typename T>
-	inline void SimpleWindow<T>::updateHeight(int height)
-	{
-		m_height = height;
-		updateParentMsgRect();
-	}
-
-	// 更新窗口大小
-	template <typename T>
-	inline void SimpleWindow<T>::updateSize(int width, int height)
-	{
-		m_width = width;
-		m_height = height;
-		updateParentMsgRect();
-	}
-
-	// 更新窗口范围
-	template <typename T>
-	inline void SimpleWindow<T>::updateRange(int x, int y, int width, int height)
-	{
-		m_relX = x;
-		m_relY = y;
-		m_width = width;
-		m_height = height;
-		updateParentMsgRect();
-	}
-
-	// 获取消息处理的范围，相对范围
-	template <typename T>
-	inline wxRegion SimpleWindow<T>::getMsgRegion() const 
-	{
-		return wxRegion(0, 0, narrow_cast<wxCoord>(m_width), narrow_cast<wxCoord>(m_height));
-	}
-
-	// 更新父窗口消息处理范围
-	template <typename T>
-	inline void SimpleWindow<T>::updateParentMsgRect()
-	{
-		if (hasParent())
-		{
-			getParent()->incrMsgRegion(getMsgRegion());
-		}
-	}
-
 
 	// 用在Editor模块中
 	class EditorEditableFunc;

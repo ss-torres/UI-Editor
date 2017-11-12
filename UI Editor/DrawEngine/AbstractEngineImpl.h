@@ -10,13 +10,18 @@
 #include <winerror.h>
 #include "EngineImplDefine.h"
 
+class WindowControl;
+
 class AbstractEngineImpl
 {
 public:
 	AbstractEngineImpl() {}
 	virtual ~AbstractEngineImpl() {}
 
+	// 初始化控件的贴图字体属性
+	virtual HRESULT InitControl(WindowControl* pControl) = 0;
 	// 绘制函数
+	virtual HRESULT DrawRectLine(RECT* pRect, D3DCOLOR color) { return S_OK; }
 	virtual HRESULT DrawRect(RECT* pRect, D3DCOLOR color) { return S_OK; }
 	virtual HRESULT DrawPolyLine(POINT* apPoints, UINT nNumPoints, D3DCOLOR color) { return S_OK; }
 	virtual HRESULT DrawSprite(FontTexElement* pElement, RECT* prcDest) { return S_OK; }

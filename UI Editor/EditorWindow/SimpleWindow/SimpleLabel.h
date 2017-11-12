@@ -6,8 +6,9 @@
  * 作用：用来实现简单label显示的窗口
  */
 
-#include "SimpleWindow.h"
 #include <wx/font.h>
+#include "SimpleWindow.h"
+#include "../EditorFuncDefine.h"
 
 namespace inner
 {
@@ -20,17 +21,20 @@ namespace inner
 		SimpleLabel(SIMPLE_WINDOW_TYPE* parent, int relX, int relY, int width, int height);
 		~SimpleLabel() override;
 
-		// 设置显示的文字
-		void setLabel(const wxString& label) { m_label = label; }
+		// 设置Label显示的文字
+		template <typename T>
+		void setText(T&& text) { m_text = text; }
+		// 获取Label显示的文字
+		const LABEL_TYPE& getText() const { return m_text; }
 		// 设置显示用的字体
 		void setFont(wxFont font) { m_font = font; }
 
 		// 重载绘制函数
-		void draw() override {}
+		void draw(int x, int y) const override {}
 
 	private:
-		// 显示的label
-		wxString m_label;
+		// 记录label的内容
+		LABEL_TYPE m_text;
 		// 显示使用的字体
 		wxFont m_font;
 	};

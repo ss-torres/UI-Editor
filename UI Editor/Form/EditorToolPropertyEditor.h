@@ -13,6 +13,7 @@
 class wxPropertyGrid;
 class wxPGProperty;
 class wxBoxSizer;
+class wxPropertyGridEvent;
 
 class EditorToolPropertyEditor : public EditorToolWindow
 {
@@ -25,12 +26,13 @@ public:
 	// 修改对应窗口的属性列表
 	void insertWindowTypeAttrs(const wxString& winType, const std::vector<wxPGProperty*>& attrs);
 
-	// 重新设置编辑属性
+	// 显示对应类型的编辑框
 	void resetAttrs(const wxString& winTypeName);
 	// 设置属性列表的值
 	void updateAttrs(const std::map<wxString, wxAny>& propAttrs);
 private:
-
+	// 用来处理属性改变
+	void OnPropertyGridChanged(wxPropertyGridEvent& event);
 private:
 	// 用来设置窗口属性的编辑器列表
 	std::map<wxString, wxPropertyGrid*> m_propertyGrids;

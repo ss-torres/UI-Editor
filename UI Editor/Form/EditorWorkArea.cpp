@@ -1,15 +1,17 @@
-#include "EditorWorkArea.h"
-#include "EditorWorkAreaHelp.h"
 #include <wx/sizer.h>
 #include <wx/panel.h>
 #include <wx/mdi.h>
-//#include "../DrawEngine/d3dEngine.h"
+#include "EditorWorkArea.h"
+#include "EditorWorkAreaHelp.h"
 #include "../ErrorHandle/ErrorHandle.h"
 #include "../CopyDrop/CopyWinObject.h"
 #include "../EditorWindow/EditorWindowInterface.h"
 #include "../EditorWindow/EditorWindowFactory.h"
 #include "../EditMessage/CommandFactory.h"
 #include "../EditMessage/ChangeManager.h"
+
+#include "../EditorWindow/EditorManageWindow.h"
+#include "../DrawEngine/DrawControlManager.h"
 
 const int MANAGE_WINDOW_WIDTH = 1200;
 const int MANAGE_WINDOW_HEIGHT = 900;
@@ -59,10 +61,11 @@ private:
 
 EditorWorkArea::EditorWorkArea(wxMDIParentFrame* parent, const wxString& captionName = wxEmptyString, 
 	const wxPoint& position = wxDefaultPosition, const wxSize &size = wxDefaultSize)
-	: WorkArea(parent)
+	: WorkArea(parent),
+	m_winMgr(EditorWindowFactory::winFactoryInst()->createManageWnd(MANAGE_WINDOW_WIDTH, MANAGE_WINDOW_HEIGHT))
 {
 	initFrameWnd(parent, captionName, position, size);
-	//m_d3dEngine = new D3DEngine(getHandle(), D3DDEVTYPE_HAL, D3DCREATE_HARDWARE_VERTEXPROCESSING);
+	m_drawManager.reset(new DrawControlManager(getHandle()));
 	initManageWnd();
 
 	getBench()->SetDropTarget(new DropWinTarget(this));
@@ -70,7 +73,7 @@ EditorWorkArea::EditorWorkArea(wxMDIParentFrame* parent, const wxString& caption
 
 EditorWorkArea::~EditorWorkArea()
 {
-	delete m_d3dEngine;
+	
 }
 
 wxWindow * EditorWorkArea::getBench()
@@ -83,7 +86,7 @@ ID_TYPE EditorWorkArea::getManageWindowId() const
 {
 	if (m_winMgr == nullptr)
 	{
-		throw ExtraExcept::invoke_too_early("EditorWorkArea::getManageWindowId was been invoked when m_winMgr is nullptr");
+		throw ExtraExcept::unexpected_situation("EditorWorkArea::getManageWindowId was been invoked when m_winMgr is nullptr");
 	}
 
 	return m_winMgr->getId();
@@ -113,7 +116,7 @@ bool EditorWorkArea::insertWindow(EditorAbstractWindow* parentWnd, size_t idx, E
 	{
 		return false;
 	}
-	auto iter = parentWnd->getChildrencConstBeg() + idx;
+	auto iter = parentWnd->getChildrenConstBeg() + idx;
 	parentWnd->insertChild(insertWnd, iter);
 	return true;
 }
@@ -130,13 +133,13 @@ bool EditorWorkArea::removeWindow(EditorAbstractWindow* removeWnd)
 void EditorWorkArea::updateFrame(float dt)
 {
 	// 查看设备是否丢失
-	if (m_d3dEngine->checkDeviceLost())
+	if (!m_drawManager->checkEveryFrame())
 	{
 		return;
 	}
 
 	updateScene(dt);
-	drawScene();
+	drawScene(dt);
 }
 
 // 用来处理Drop事件
@@ -154,22 +157,26 @@ void EditorWorkArea::updateScene(float dt)
 }
 
 // 用来每帧绘制
-void EditorWorkArea::drawScene()
+void EditorWorkArea::drawScene(float dt)
 {
-	IDirect3DDevice9* d3dDevice = m_d3dEngine->getDevice();
+	m_drawManager->drawWindowsBefore();
+	drawWindowRecur(m_winMgr, 0, 0);
+	m_drawManager->drawWindowsAfter();
+}
 
-	//HR(d3dDevice->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(255, 255, 255), 1.0f, 0));
-	//RECT formatRect;
-	//GetClientRect(getHandle(), &formatRect);
+//绘制子窗口
+void EditorWorkArea::drawWindowRecur(EditorAbstractWindow *editorWindow, int absX, int absY)
+{
+	absX += editorWindow->getRelX();
+	absY += editorWindow->getRelY();
 
-	//HR(d3dDevice->BeginScene());
-
-	////m_d3dEngine->getFont()->DrawText(0, _T("Hello Direct3D"), -1,
-	////	&formatRect, DT_CENTER | DT_VCENTER,
-	////	D3DCOLOR_XRGB(rand() % 256, rand() % 256, rand() % 256));
-
-	//HR(d3dDevice->EndScene());
-	//HR(d3dDevice->Present(0, 0, 0, 0));
+	editorWindow->editDraw(absX, absY, m_drawManager.get());
+	
+	auto end = editorWindow->getChildrenConstEnd();
+	for (auto beg = editorWindow->getChildrenConstBeg(); beg != end; ++beg)
+	{
+		drawWindowRecur(*beg, absX, absY);
+	}
 }
 
 // 创建一个窗口对象
@@ -187,7 +194,6 @@ void EditorWorkArea::createWndObject(EditorAbstractWindow* parent, int absX, int
 	auto createdWnd = wndFac->createCopyObjectWnd(winValue, parent, relX, relY);
 	using namespace Command;
 	auto dropWndCommand = CommandFactory::instance()->createDropWindowCommand(createdWnd, parent, getCurrentWindow());
-	bool containerWnd = parent->isContainerWnd();
 	ChangeManager::instance()->getCommandStack().Submit(dropWndCommand);
 }
 
@@ -196,7 +202,7 @@ void EditorWorkArea::createWndObject(EditorAbstractWindow* parent, int absX, int
 void EditorWorkArea::initFrameWnd(wxMDIParentFrame* parent, const wxString& captionName, const wxPoint& position, const wxSize &size)
 {
 	wxMDIChildFrame* childFrame = new wxMDIChildFrame(parent, wxID_ANY, captionName, position, size);
-	m_bench = new wxPanel(childFrame);
+	m_bench = new wxPanel(childFrame, -1, wxPoint(0,0), size);
 	wxBoxSizer* vBoxSizer = new wxBoxSizer(wxVERTICAL);
 	vBoxSizer->Add(m_bench, 1);
 }
@@ -204,7 +210,5 @@ void EditorWorkArea::initFrameWnd(wxMDIParentFrame* parent, const wxString& capt
 // 初始化管理窗口
 void EditorWorkArea::initManageWnd()
 {
-	AbstractWindowFactory* wndFac = EditorWindowFactory::winFactoryInst();
-	m_winMgr = wndFac->createManageWnd(MANAGE_WINDOW_WIDTH, MANAGE_WINDOW_HEIGHT);
 	setCurrentWindow(m_winMgr);
 }

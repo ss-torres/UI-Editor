@@ -16,6 +16,9 @@ public:
 
 	void Render(AbstractEngine* engine, float fElapsedTime) override;
 
+	// 获取窗口类型
+	CONTROL_TYPE GetControlType() const override { return CONTROL_BUTTON; }
+
 	// 设置当前是否处于按下状态
 	void SetPressed(bool pressed) { m_bPressed = pressed; }
 	bool GetPressed() const { return m_bPressed; }

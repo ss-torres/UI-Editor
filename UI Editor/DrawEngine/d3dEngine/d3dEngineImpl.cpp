@@ -1,5 +1,6 @@
 #include "d3dEngineImpl.h"
 #include "d3dUtil.h"
+#include "../Controls/WindowControl.h"
 
 struct SCREEN_VERTEX
 {
@@ -88,7 +89,36 @@ FontTexElement* D3DEngineImpl::GetDefaultElement(CONTROL_TYPE nControlType, UINT
 	return nullptr;
 }
 
+// 初始化控件的贴图字体属性
+HRESULT D3DEngineImpl::InitControl(WindowControl * pControl)
+{
+	if (pControl == nullptr)
+		return E_INVALIDARG;
+
+	// Look for a default Element entries
+	for (auto i = 0; i < m_DefaultElements.GetSize(); ++i)
+	{
+		auto pElementHolder = m_DefaultElements.GetAt(i);
+		if (pElementHolder->nControlType == pControl->GetControlType())
+			pControl->SetElement(pElementHolder->iElement, &pElementHolder->Element);
+	}
+
+	HR_RETURN(pControl->OnInit());
+
+	return S_OK;
+}
+
 // 绘制函数
+HRESULT D3DEngineImpl::DrawRectLine(RECT * pRect, D3DCOLOR color)
+{
+	POINT tl = { pRect->left, pRect->top };
+	POINT tr = { pRect->right, pRect->top };
+	POINT br = { pRect->right, pRect->bottom };
+	POINT bl = { pRect->left, pRect->bottom };
+	POINT points[5] = { tl, tr, br, bl, tl };
+	return DrawPolyLine(points, sizeof(points) / sizeof(points[0]), color);
+}
+
 HRESULT D3DEngineImpl::DrawRect(RECT* pRect, D3DCOLOR color)
 {
 	RECT rcScreen = *pRect;
@@ -106,11 +136,11 @@ HRESULT D3DEngineImpl::DrawRect(RECT* pRect, D3DCOLOR color)
 	// Since we're doing our own drawing here we need to flush the sprites
 	m_pManager->GetSprite()->Flush();
 	IDirect3DVertexDeclaration9* pDecl = nullptr;
-	pd3dDevice->GetVertexDeclaration(&pDecl);		// Preserve the sprite's current vertex decl
-	pd3dDevice->SetFVF(SCREEN_VERTEX::FVF);
+	HR(pd3dDevice->GetVertexDeclaration(&pDecl));		// Preserve the sprite's current vertex decl
+	HR(pd3dDevice->SetFVF(SCREEN_VERTEX::FVF));
 
-	pd3dDevice->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG2);
-	pd3dDevice->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG2);
+	HR(pd3dDevice->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG2));
+	HR(pd3dDevice->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG2));
 
 	pd3dDevice->DrawPrimitiveUP(D3DPT_TRIANGLEFAN, 2, vertices, sizeof(SCREEN_VERTEX));
 
@@ -212,7 +242,11 @@ HRESULT D3DEngineImpl::CalcTextRect(LPCTSTR strText, FontTexElement* pElement, R
 	// Since we are only computing the rectangle, we don't need  a sprite.
 	if (pFontNode->pFont9)
 	{
-		hr = pFontNode->pFont9->DrawText(nullptr, strText, nCount, prcDest, dwTextFormat, pElement->FontColor.Current);
+#if UNICODE
+		hr = pFontNode->pFont9->DrawTextW(nullptr, strText, nCount, prcDest, dwTextFormat, pElement->FontColor.Current);
+#else
+		hr = pFontNode->pFont9->DrawTextW(nullptr, strText, nCount, prcDest, dwTextFormat, pElement->FontColor.Current);
+#endif	// UNICODE
 		if (FAILED(hr))
 			return hr;
 	}
@@ -241,14 +275,24 @@ HRESULT D3DEngineImpl::DrawRectText(LPCTSTR strText, FontTexElement * pElement, 
 	{
 		RECT rcShadow = rcScreen;
 		OffsetRect(&rcShadow, 1, 1);
-		hr = pFontNode->pFont9->DrawText(m_pManager->GetSprite(), strText, nCount, &rcShadow, pElement->dwTextFormat,
+#if UNICODE
+		hr = pFontNode->pFont9->DrawTextW(m_pManager->GetSprite(), strText, nCount, &rcShadow, pElement->dwTextFormat,
 			D3DCOLOR_ARGB(DWORD(pElement->FontColor.Current.a * 255), 0, 0, 0));
+#else
+		hr = pFontNode->pFont9->DrawTextA(m_pManager->GetSprite(), strText, nCount, &rcShadow, pElement->dwTextFormat,
+			D3DCOLOR_ARGB(DWORD(pElement->FontColor.Current.a * 255), 0, 0, 0));
+#endif	// UNICODE
 		if (FAILED(hr))
 			return hr;
 	}
 
-	hr = pFontNode->pFont9->DrawText(m_pManager->GetSprite(), strText, nCount, &rcScreen, pElement->dwTextFormat,
+#if UNICODE
+	hr = pFontNode->pFont9->DrawTextW(m_pManager->GetSprite(), strText, nCount, &rcScreen, pElement->dwTextFormat,
 		pElement->FontColor.Current);
+#else
+	hr = pFontNode->pFont9->DrawTextA(m_pManager->GetSprite(), strText, nCount, &rcScreen, pElement->dwTextFormat,
+		pElement->FontColor.Current);
+#endif	// UNICODE
 	if (FAILED(hr))
 		return hr;
 
@@ -258,7 +302,11 @@ HRESULT D3DEngineImpl::DrawRectText(LPCTSTR strText, FontTexElement * pElement, 
 // 渲染控件之前准备
 void D3DEngineImpl::RenderControlsBefore()
 {
-	IDirect3DDevice9* pd3dDevice = m_pManager->GetD3DDevice();
+	auto pd3dDevice = m_pManager->GetD3DDevice();
+
+	HR(pd3dDevice->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 0xffffffff, 1.0f, 0));
+
+	HR(pd3dDevice->BeginScene());
 
 	// Set up a state block here and restore it when finished drawing all the controls
 	m_pManager->GetStateBlock()->Capture();
@@ -277,11 +325,6 @@ void D3DEngineImpl::RenderControlsBefore()
 	pd3dDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 	pd3dDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 
-	//pd3dDevice->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG2);
-	//pd3dDevice->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_DIFFUSE);
-	//pd3dDevice->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
-	//pd3dDevice->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_DIFFUSE);
-	//pd3dDevice->SetTextureStageState(0, D3DTSS_RESULTARG, D3DTA_CURRENT);
 	pd3dDevice->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);
 	pd3dDevice->SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
 
@@ -299,6 +342,16 @@ void D3DEngineImpl::RenderControlsBefore()
 	pd3dDevice->SetTexture(0, pTextureNode->pTexture9);
 
 	m_pManager->GetSprite()->Begin(D3DXSPRITE_DONOTSAVESTATE);
+
+	D3DVIEWPORT9 viewPort;
+	ZeroMemory(&viewPort, sizeof(viewPort));
+	pd3dDevice->GetViewport(&viewPort);
+	DWORD x = viewPort.X;
+	DWORD y = viewPort.Y;
+	DWORD width = viewPort.Width;
+	DWORD height = viewPort.Height;
+	float minZ = viewPort.MinZ;
+	float maxZ = viewPort.MaxZ;
 }
 
 // 渲染控件之后的处理
@@ -307,6 +360,13 @@ void D3DEngineImpl::RenderControlsEnd()
 	m_pManager->GetSprite()->End();
 
 	m_pManager->GetStateBlock()->Apply();
+
+	auto pd3dDevice = m_pManager->GetD3DDevice();
+
+	HR(pd3dDevice->EndScene());
+
+	// Present the backbuffer.
+	HR(pd3dDevice->Present(0, 0, 0, 0));
 }
 
 // 初始化默认使用的字体和贴图信息

@@ -54,6 +54,30 @@ public:
 	}
 };
 
+/*
+ * 类名: wrong_invoke_seq
+ * 使用：需要在调用该函数前调用另外的函数
+ */
+
+class wrong_invoke_seq : public std::logic_error
+{
+public:
+	using _Mybase = std::logic_error;
+
+	explicit wrong_invoke_seq(std::string preReqFunc, std::string curFunc)
+		: std::logic_error("You should invoke " + std::move(preReqFunc) + " before invoking " + std::move(curFunc))
+	{
+
+	}
+
+	explicit wrong_invoke_seq(const char* preReqFunc, const char* curFunc)
+		: std::logic_error(std::string().append("You should invoke ").append(preReqFunc)
+			.append(" before invoking ").append(curFunc))
+	{
+
+	}
+};
+
 }
 
 

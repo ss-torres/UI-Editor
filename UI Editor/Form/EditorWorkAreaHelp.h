@@ -16,11 +16,18 @@ namespace WorkAreaHelp
 	// 该函数实现考虑了消息处理范围，如果查找点不在窗口消息处理范围，则不处理
 	// 传入的坐标为父窗口参考坐标
 	template <typename T = Check_UiEditable/*, bool = std::is_class<T>::value*/>
-	EditorAbstractWindow* getMatchWindow(EditorAbstractWindow* searchWnd, wxCoord x, wxCoord y, T&& t = T());
+	const EditorAbstractWindow* getMatchWindow(const EditorAbstractWindow* searchWnd, wxCoord x, wxCoord y, T&& t = T());
+
+	template <typename T = Check_UiEditable>
+	EditorAbstractWindow* getMatchWindow(EditorAbstractWindow* searchWnd, wxCoord x, wxCoord y, T&& t = T())
+	{
+		const EditorAbstractWindow* ret = getMatchWindow(const_cast<const EditorAbstractWindow*>(searchWnd), x, y, t);
+		return const_cast<EditorAbstractWindow*>(ret);
+	}
 }
 
 template <typename T>
-EditorAbstractWindow* WorkAreaHelp::getMatchWindow(EditorAbstractWindow* searchWnd, wxCoord x, wxCoord y, T&& t)
+const EditorAbstractWindow* WorkAreaHelp::getMatchWindow(const EditorAbstractWindow* searchWnd, wxCoord x, wxCoord y, T&& t)
 {
 	x -= narrow_cast<wxCoord>(searchWnd->getRelX());
 	y -= narrow_cast<wxCoord>(searchWnd->getRelY());
@@ -38,7 +45,7 @@ EditorAbstractWindow* WorkAreaHelp::getMatchWindow(EditorAbstractWindow* searchW
 	// 如果查找的窗口是Container窗口，则先查看子窗口
 	if (searchWnd->isContainerWnd())
 	{
-		auto beg = searchWnd->getChildrencConstBeg();
+		auto beg = searchWnd->getChildrenConstBeg();
 		auto end = searchWnd->getChildrenConstEnd();
 		for (; beg != end; ++beg)
 		{

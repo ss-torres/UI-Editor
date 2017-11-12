@@ -16,15 +16,15 @@ namespace Command
 	class RemoveWindowCommand : public InsertWindowCommand<T>
 	{
 	public:
-		RemoveWindowCommand(T* winMgr, EditorAbstractWindow* removeWnd, EditorAbstractWindow* parentWnd)
-			: InsertWindowCommand<T>(winMgr, removeWnd, parentWnd) { }
+		RemoveWindowCommand(T* mgr, EditorAbstractWindow* removeWnd, EditorAbstractWindow* parentWnd)
+			: InsertWindowCommand<T>(mgr, removeWnd, parentWnd) { }
 		~RemoveWindowCommand() override {}
 
 
 		// 重构Do函数，与InsertWindowCommand正好相反
-		bool Do() override { return false; }
+		bool Do() override;
 		// 重构Undo函数，与InsertWindowCommand正好相反
-		bool Undo() override { return false; }
+		bool Undo() override;
 
 	};
 
@@ -34,8 +34,8 @@ namespace Command
 		return InsertWindowCommand<T>::Undo();
 	}
 
-	template <typename T>
-	inline bool InsertWindowCommand<T>::Do()
+	template<typename T>
+	inline bool RemoveWindowCommand<T>::Undo()
 	{
 		return InsertWindowCommand<T>::Do();
 	}

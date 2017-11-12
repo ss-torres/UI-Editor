@@ -7,7 +7,7 @@
 #include <wx/dnd.h>
 #include "../EditorWindow/EditorWindowInterface.h"
 
-class D3DEngine;
+class DrawControlManager;
 class CopyWindowInfo;
 class wxMDIParentFrame;
 class wxMDIChildFrame;
@@ -44,7 +44,9 @@ private:
 	// 用来处理场景更新的计算
 	void updateScene(float dt);
 	// 用来每帧绘制
-	void drawScene();
+	void drawScene(float dt);
+	//绘制子窗口
+	void drawWindowRecur(EditorAbstractWindow* editorWindow, int absX, int absY);
 
 	// 获取窗口句柄，该函数必须在初始化bench之后调用
 	HWND getHandle();
@@ -64,10 +66,10 @@ private:
 private:
 	wxPanel *m_bench;
 
-	// 绘制D3D的引擎
-	D3DEngine* m_d3dEngine;
+	// 绘制该编辑区域的窗口的对象
+	std::unique_ptr<DrawControlManager> m_drawManager;
 	// 用来存储创建的窗口
-	EditorAbstractWindow* m_winMgr = nullptr;
+	EditorAbstractWindow* const m_winMgr = nullptr;
 	// 当前选中的窗口
 	EditorAbstractWindow* m_currentWnd;
 };

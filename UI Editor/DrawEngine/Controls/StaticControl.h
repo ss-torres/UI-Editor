@@ -9,7 +9,6 @@
  */
 
 #include "WindowControl.h"
-#include <tchar.h>
 
 class StaticControl : public WindowControl
 {
@@ -20,44 +19,31 @@ public:
 	// 重写渲染函数
 	void Render(AbstractEngine* engine, float fElapsedTime) override;
 
-	HRESULT GetTextCopy(__out_ecount(bufferCount) LPTSTR strDest,
-		UINT bufferCount);
+	// 获取窗口类型
+	CONTROL_TYPE GetControlType() const override { return CONTROL_STATIC; }
 
-	LPCTSTR GetText()
+	const LABEL_TYPE* GetText()
 	{
 		return m_strText;
 	}
 
-	HRESULT SetText(LPCTSTR strText);
+	// 设置Static的内容，拷贝到对象中
+	// 注意：当前实现在DrawControlManager中可能存在性能问题
+	HRESULT SetText(const LABEL_TYPE* strText);
 
 protected:
-	TCHAR m_strText[MAX_PATH];		// Window text
+	const LABEL_TYPE* m_strText;		// Window text
 };
 
-inline HRESULT StaticControl::GetTextCopy(__out_ecount(bufferCount) LPTSTR strDest,
-	UINT bufferCount)
-{
-	// Validate incoming parameters
-	if (strDest == nullptr || bufferCount == 0)
-	{
-		return E_INVALIDARG;
-	}
-
-	// Copy the window text
-	_tcscpy_s(strDest, bufferCount, m_strText);
-
-	return S_OK;
-}
-
-inline HRESULT StaticControl::SetText(LPCTSTR strText)
+inline HRESULT StaticControl::SetText(const LABEL_TYPE* strText)
 {
 	if (strText == nullptr)
 	{
-		m_strText[0] = 0;
+		m_strText = nullptr;
 		return S_OK;
 	}
 
-	_tcscpy_s(m_strText, MAX_PATH, strText);
+	m_strText = strText;
 	return S_OK;
 }
 

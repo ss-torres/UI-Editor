@@ -26,7 +26,10 @@ public:
 	HRESULT SetDefaultElement(CONTROL_TYPE nControlType, UINT iElement, FontTexElement* pElement);
 	FontTexElement* GetDefaultElement(CONTROL_TYPE nControlType, UINT iElement);
 
+	// 初始化控件的贴图字体属性
+	HRESULT InitControl(WindowControl* pControl) override;
 	// 绘制函数
+	HRESULT DrawRectLine(RECT* pRect, D3DCOLOR color) override;
 	HRESULT DrawRect(RECT* pRect, D3DCOLOR color) override;
 	HRESULT DrawPolyLine(POINT* apPoints, UINT nNumPoints, D3DCOLOR color) override;
 	HRESULT DrawSprite(FontTexElement* pElement, RECT* prcDest) override;
@@ -49,6 +52,7 @@ private:
 	// 添加共享的贴图信息
 	HRESULT SetTexture(UINT index, LPCTSTR strFilename);
 	TextureNode9* GetTexture(UINT index);
+
 private:
 	D3D9ResourceManager* m_pManager = nullptr;
 	// m_TextureCache中的序号
@@ -57,6 +61,8 @@ private:
 	CGrowableArray<int> m_Fonts;
 	// 用来记录所有不同控件类型默认的字体贴图信息
 	CGrowableArray <ElementHolder*> m_DefaultElements;
+
+	ID3DXFont* mFont = nullptr;
 };
 
 #endif	// D3D_ENGINE_IMPL_H

@@ -15,12 +15,12 @@ namespace inner
 		~ContainerWindow() override;
 
 		// 获取消息处理的范围
-		wxRegion getMsgRegion() const override { return m_msgRegion; }
+		wxRegion getMsgRegion() const override;
 
 		// 获取窗口是否可以有子窗口对象
 		bool isContainerWnd() const override { return true; }
 		// 获取子窗口列表中cbegin对应的iterator
-		virtual ConstChildIterator getChildrencConstBeg() const { return m_children.cbegin(); }
+		virtual ConstChildIterator getChildrenConstBeg() const { return m_children.cbegin(); }
 		// 获取子窗口列表中cend对应的iterator
 		virtual ConstChildIterator getChildrenConstEnd() const { return m_children.cend(); }
 		// 获取子窗口个数
@@ -34,12 +34,17 @@ namespace inner
 		// 用来移除一个子窗口
 		bool removeChild(SIMPLE_WINDOW_TYPE* child) override;
 
+		// 重载绘制函数
+		void draw(int x, int y) const override {}
+
 	protected:
 		// 用来添加一个子窗口对象，该函数不会检测插入的对象是否已经有了父对象
 		void pushChild(SIMPLE_WINDOW_TYPE* child) override;
-		// 更新该窗口判断消息的范围，将childRect的消息处理范围添加到该窗口中
-		void incrMsgRegion(const wxRegion& childRange) override;
-		// 设置窗口消息范围为所有子窗口范围，用来子窗口发生变化，例如改变
+		// 更新该窗口判断消息的范围，将childRange添加到该窗口的消息处理范围，调用该函数不判断该窗口是否处理消息，
+		// 会判断子窗口是否处理消息
+		void incrMsgRegion(const wxRegion& childRange);
+		// 设置窗口消息范围为所有子窗口范围，用来子窗口发生变化，调用该函数不判断该窗口是否处理消息，
+		// 会判断子窗口是否处理消息
 		void resetMsgRegion() override;
 
 		const CHILDREN_CONTAINER& getConstChildren() const override { return m_children; }
