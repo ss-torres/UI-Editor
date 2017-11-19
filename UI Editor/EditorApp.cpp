@@ -1,5 +1,5 @@
 #include "EditorApp.h"
-#include "EditorFrame.h"
+#include "MainFrame.h"
 #include "DrawEngine\GameTimer.h"
 
 // 重载程序初始化函数
@@ -9,7 +9,7 @@ bool EditorApp::OnInit()
 	if (!wxApp::OnInit())
 		return false;
 
-	m_editorFrame = new EditorFrame("UI Editor");
+	m_editorFrame = new MainFrame("UI Editor");
 	m_editorFrame->SetSize(1080, 810);
 	m_editorFrame->Center();
 

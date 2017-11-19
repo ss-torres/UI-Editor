@@ -1,5 +1,5 @@
-#include "d3d9ResourceManager.h"
 #include <TCHAR.h>
+#include "d3d9ResourceManager.h"
 #include "d3dUtil.h"
 
 D3D9ResourceManager::D3D9ResourceManager()

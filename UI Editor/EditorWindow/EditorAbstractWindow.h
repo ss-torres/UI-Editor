@@ -18,20 +18,20 @@ namespace inner
 
 
 	protected:
-		// 设置该窗口是否编辑时显示
+		// 设置该控件是否编辑时显示
 		void setEditShow(bool editShow) override;
-		// 该窗口是否处理窗口消息
+		// 该控件是否处理控件消息
 		bool isHandleMsg() const override { return getEditShow(); }
 	};
 
-	// 设置该窗口是否编辑时显示
+	// 设置该控件是否编辑时显示
 	inline void SimpleWindow<EditorEditableFunc>::setEditShow(bool editShow)
 	{
 		if (editShow != getEditShow())
 		{
 			// 设置编辑时是否可以显示
 			EditorFunc::setEditShow(editShow);
-			// 调整父窗口的消息触发范围
+			// 调整父控件的消息触发范围
 			SimpleWindow<EditorFunc>::resetMsgRegion();
 		}
 	}

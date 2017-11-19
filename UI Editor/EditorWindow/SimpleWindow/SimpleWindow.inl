@@ -15,7 +15,7 @@ namespace inner
 		{
 			return;
 		}
-		// 如果作为父对象的窗口不能存储子窗口
+		// 如果作为父对象的控件不能存储子控件
 		if (!parent->isContainerWnd())
 		{
 			throw std::runtime_error("parent is not a Container window");
@@ -29,14 +29,14 @@ namespace inner
 
 	}
 
-	// 用来添加一个子窗口
+	// 用来添加一个子控件
 	template<typename T>
 	inline void SimpleWindow<T>::addChild(SIMPLE_WINDOW_TYPE* child)
 	{
 		throw std::runtime_error(std::string("SimpleWindow can't invoke ") + __func__); 
 	}
 
-	// 用来在before窗口之前添加一个子窗口
+	// 用来在before控件之前添加一个子控件
 	template <typename T>
 	bool SimpleWindow<T>::insertChild(SIMPLE_WINDOW_TYPE* child, const SIMPLE_WINDOW_TYPE* before)
 	{
@@ -44,7 +44,7 @@ namespace inner
 		return false;
 	}
 
-	// 用来在iter之前添加子窗口
+	// 用来在iter之前添加子控件
 	template<typename T>
 	inline bool SimpleWindow<T>::insertChild(SIMPLE_WINDOW_TYPE * child, ConstChildIterator iter)
 	{
@@ -52,7 +52,7 @@ namespace inner
 		return false;
 	}
 
-	// 用来移除一个子窗口
+	// 用来移除一个子控件
 	template <typename T>
 	bool SimpleWindow<T>::removeChild(SIMPLE_WINDOW_TYPE* child)
 	{
@@ -60,7 +60,7 @@ namespace inner
 		return false;
 	}
 
-	// 获取该窗口父对象的上一个子窗口，如果该窗口为第一个子窗口，则返回nullptr
+	// 获取该控件父对象的上一个子控件，如果该控件为第一个子控件，则返回nullptr
 	// complexity: linear
 	template <typename T>
 	inline typename SimpleWindow<T>::SIMPLE_WINDOW_TYPE* SimpleWindow<T>::getPrevSibling() const
@@ -81,7 +81,7 @@ namespace inner
 		return nullptr;
 	}
 
-	// 获取该窗口父对象的下一个子窗口,如果该窗口为最后一个子窗口，则返回nullptr
+	// 获取该控件父对象的下一个子控件,如果该控件为最后一个子控件，则返回nullptr
 	//	complexity: linear
 	template <typename T>
 	inline typename SimpleWindow<T>::SIMPLE_WINDOW_TYPE* SimpleWindow<T>::getNextSibling() const
@@ -102,26 +102,26 @@ namespace inner
 		return nullptr;
 	}
 
-	// 用来添加一个子窗口对象，该函数不会检测插入的对象是否已经有了父对象
+	// 用来添加一个子控件对象，该函数不会检测插入的对象是否已经有了父对象
 	template<typename T>
 	inline void SimpleWindow<T>::pushChild(SIMPLE_WINDOW_TYPE* child)
 	{
 		throw std::runtime_error(std::string("SimpleWindow can't invoke ") + __func__); 
 	}
 
-	// 获取子窗口列表
+	// 获取子控件列表
 	template <typename T>
 	const typename SimpleWindow<T>::CHILDREN_CONTAINER& SimpleWindow<T>::getConstChildren() const
 	{
 		return s_defChildrenRet;
 	}
 
-	// 需要子窗口列表相关的默认返回值
+	// 需要子控件列表相关的默认返回值
 	template<typename T>
 	const typename SimpleWindow<T>::CHILDREN_CONTAINER SimpleWindow<T>::s_defChildrenRet;
 
 
-	// 设置该窗口的父窗口对象
+	// 设置该控件的父控件对象
 	template <typename T>
 	inline void SimpleWindow<T>::setParent(SIMPLE_WINDOW_TYPE* parent, SIMPLE_WINDOW_TYPE* child)
 	{
@@ -211,7 +211,7 @@ namespace inner
 		return getRelY();
 	}
 
-	// 更新窗口宽度大小
+	// 更新控件宽度大小
 	template <typename T>
 	inline void SimpleWindow<T>::updateWidth(int width)
 	{
@@ -230,7 +230,7 @@ namespace inner
 		}
 	}
 
-	// 更新窗口高度大小
+	// 更新控件高度大小
 	template <typename T>
 	inline void SimpleWindow<T>::updateHeight(int height)
 	{
@@ -249,7 +249,7 @@ namespace inner
 		}
 	}
 
-	// 更新窗口大小
+	// 更新控件大小
 	template <typename T>
 	inline void SimpleWindow<T>::updateSize(int width, int height)
 	{
@@ -269,7 +269,7 @@ namespace inner
 		}
 	}
 
-	// 更新窗口范围
+	// 更新控件范围
 	template <typename T>
 	inline void SimpleWindow<T>::updateRange(int x, int y, int width, int height)
 	{
@@ -306,7 +306,7 @@ namespace inner
 		}
 	}
 
-	// 更新父窗口消息处理范围
+	// 更新父控件消息处理范围
 	template <typename T>
 	inline void SimpleWindow<T>::updateParentMsgRect()
 	{

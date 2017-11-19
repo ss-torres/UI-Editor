@@ -1,8 +1,8 @@
 #include <wx/sizer.h>
 #include <wx/panel.h>
 #include <wx/mdi.h>
-#include "EditorWorkArea.h"
-#include "EditorWorkAreaHelp.h"
+#include "FormWorkArea.h"
+#include "WorkAreaHelp.h"
 #include "../ErrorHandle/ErrorHandle.h"
 #include "../CopyDrop/CopyWinObject.h"
 #include "../EditorWindow/EditorWindowInterface.h"
@@ -19,7 +19,7 @@ const int MANAGE_WINDOW_HEIGHT = 900;
 class DropWinTarget : public wxDropTarget
 {
 public:
-	DropWinTarget(EditorWorkArea *workArea)
+	DropWinTarget(FormWorkArea *workArea)
 		: wxDropTarget(new CopyWinObject(getCopyDataFormat()))
 	{
 		m_workArea = workArea;
@@ -56,10 +56,10 @@ public:
 		return defResult;
 	}
 private:
-	EditorWorkArea* m_workArea;
+	FormWorkArea* m_workArea;
 };
 
-EditorWorkArea::EditorWorkArea(wxMDIParentFrame* parent, const wxString& captionName = wxEmptyString, 
+FormWorkArea::FormWorkArea(wxMDIParentFrame* parent, const wxString& captionName = wxEmptyString, 
 	const wxPoint& position = wxDefaultPosition, const wxSize &size = wxDefaultSize)
 	: WorkArea(parent),
 	m_winMgr(EditorWindowFactory::winFactoryInst()->createManageWnd(MANAGE_WINDOW_WIDTH, MANAGE_WINDOW_HEIGHT))
@@ -71,29 +71,29 @@ EditorWorkArea::EditorWorkArea(wxMDIParentFrame* parent, const wxString& caption
 	getBench()->SetDropTarget(new DropWinTarget(this));
 }
 
-EditorWorkArea::~EditorWorkArea()
+FormWorkArea::~FormWorkArea()
 {
 	
 }
 
-wxWindow * EditorWorkArea::getBench()
+wxWindow * FormWorkArea::getBench()
 {
 	return m_bench;
 }
 
-// 获取窗口管理对象的ID
-ID_TYPE EditorWorkArea::getManageWindowId() const
+// 获取控件管理对象的ID
+ID_TYPE FormWorkArea::getManageWindowId() const
 {
 	if (m_winMgr == nullptr)
 	{
-		throw ExtraExcept::unexpected_situation("EditorWorkArea::getManageWindowId was been invoked when m_winMgr is nullptr");
+		throw ExtraExcept::unexpected_situation("FormWorkArea::getManageWindowId was been invoked when m_winMgr is nullptr");
 	}
 
 	return m_winMgr->getId();
 }
 
-// 为ID的窗口添加一个子窗口
-bool EditorWorkArea::pushBackWindow(EditorAbstractWindow* parentWnd, EditorAbstractWindow *insertWnd)
+// 为ID的控件添加一个子控件
+bool FormWorkArea::pushBackWindow(EditorAbstractWindow* parentWnd, EditorAbstractWindow *insertWnd)
 {
 	if (!parentWnd->isContainerWnd())
 	{
@@ -104,8 +104,8 @@ bool EditorWorkArea::pushBackWindow(EditorAbstractWindow* parentWnd, EditorAbstr
 	return true;
 }
 
-// 为parentWnd在指定位置添加一个子窗口
-bool EditorWorkArea::insertWindow(EditorAbstractWindow* parentWnd, size_t idx, EditorAbstractWindow * insertWnd)
+// 为parentWnd在指定位置添加一个子控件
+bool FormWorkArea::insertWindow(EditorAbstractWindow* parentWnd, size_t idx, EditorAbstractWindow * insertWnd)
 {
 	if (!parentWnd->isContainerWnd())
 	{
@@ -121,8 +121,8 @@ bool EditorWorkArea::insertWindow(EditorAbstractWindow* parentWnd, size_t idx, E
 	return true;
 }
 
-// 将特定ID的子窗口移除
-bool EditorWorkArea::removeWindow(EditorAbstractWindow* removeWnd)
+// 将特定ID的子控件移除
+bool FormWorkArea::removeWindow(EditorAbstractWindow* removeWnd)
 {
 	auto parenWnd = removeWnd->getParent();
 	parenWnd->removeChild(removeWnd);
@@ -130,7 +130,7 @@ bool EditorWorkArea::removeWindow(EditorAbstractWindow* removeWnd)
 }
 
 // 用来每帧处理
-void EditorWorkArea::updateFrame(float dt)
+void FormWorkArea::updateFrame(float dt)
 {
 	// 查看设备是否丢失
 	if (!m_drawManager->checkEveryFrame())
@@ -143,29 +143,29 @@ void EditorWorkArea::updateFrame(float dt)
 }
 
 // 用来处理Drop事件
-void EditorWorkArea::onDrop(wxCoord x, wxCoord y, const CopyWindowInfo& winValue)
+void FormWorkArea::onDrop(wxCoord x, wxCoord y, const CopyWindowInfo& winValue)
 {
-	// 查看父窗口对象
+	// 查看父控件对象
 	EditorAbstractWindow* parentWnd = WorkAreaHelp::getMatchWindow(m_winMgr, x, y, Check_UiContainer());
 	createWndObject(parentWnd, x, y, winValue);
 }
 
 // 用来处理场景更新的计算
-void EditorWorkArea::updateScene(float dt)
+void FormWorkArea::updateScene(float dt)
 {
 	
 }
 
 // 用来每帧绘制
-void EditorWorkArea::drawScene(float dt)
+void FormWorkArea::drawScene(float dt)
 {
 	m_drawManager->drawWindowsBefore();
 	drawWindowRecur(m_winMgr, 0, 0);
 	m_drawManager->drawWindowsAfter();
 }
 
-//绘制子窗口
-void EditorWorkArea::drawWindowRecur(EditorAbstractWindow *editorWindow, int absX, int absY)
+//绘制子控件
+void FormWorkArea::drawWindowRecur(EditorAbstractWindow *editorWindow, int absX, int absY)
 {
 	absX += editorWindow->getRelX();
 	absY += editorWindow->getRelY();
@@ -179,10 +179,10 @@ void EditorWorkArea::drawWindowRecur(EditorAbstractWindow *editorWindow, int abs
 	}
 }
 
-// 创建一个窗口对象
-void EditorWorkArea::createWndObject(EditorAbstractWindow* parent, int absX, int absY, const CopyWindowInfo& winValue)
+// 创建一个控件对象
+void FormWorkArea::createWndObject(EditorAbstractWindow* parent, int absX, int absY, const CopyWindowInfo& winValue)
 {
-	AbstractWindowFactory* wndFac = EditorWindowFactory::winFactoryInst();
+	EditorAbstractWindowFactory* wndFac = EditorWindowFactory::winFactoryInst();
 	// 暂时处理，之后会将nullptr判断移除
 	int relX = absX;
 	int relY = absY;
@@ -199,7 +199,7 @@ void EditorWorkArea::createWndObject(EditorAbstractWindow* parent, int absX, int
 
 
 // 初始化显示窗口
-void EditorWorkArea::initFrameWnd(wxMDIParentFrame* parent, const wxString& captionName, const wxPoint& position, const wxSize &size)
+void FormWorkArea::initFrameWnd(wxMDIParentFrame* parent, const wxString& captionName, const wxPoint& position, const wxSize &size)
 {
 	wxMDIChildFrame* childFrame = new wxMDIChildFrame(parent, wxID_ANY, captionName, position, size);
 	m_bench = new wxPanel(childFrame, -1, wxPoint(0,0), size);
@@ -207,8 +207,8 @@ void EditorWorkArea::initFrameWnd(wxMDIParentFrame* parent, const wxString& capt
 	vBoxSizer->Add(m_bench, 1);
 }
 
-// 初始化管理窗口
-void EditorWorkArea::initManageWnd()
+// 初始化管理控件
+void FormWorkArea::initManageWnd()
 {
 	setCurrentWindow(m_winMgr);
 }

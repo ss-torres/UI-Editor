@@ -3,11 +3,11 @@
 
 /*
  * 文件名：EditorWindow
- * 作用：用来实现窗口的基本功能
+ * 作用：用来实现控件的基本功能
  * 说明：
- * 1.窗口的消息响应范围由该窗口是否可以编辑决定，不受窗口是否激活影响
- * 2.响应消息时，从父窗口到子窗口判断，如果父窗口不处理消息，或者处理消息范围不满足条件，则不判断子窗口是否处理
- * 3.如果父窗口隐藏，则子窗口也一起隐藏
+ * 1.控件的消息响应范围由该控件是否可以编辑决定，不受控件是否激活影响
+ * 2.响应消息时，从父控件到子控件判断，如果父控件不处理消息，或者处理消息范围不满足条件，则不判断子控件是否处理
+ * 3.如果父控件隐藏，则子控件也一起隐藏
  */
 
 #include <vector>
@@ -38,43 +38,43 @@ namespace inner
 		SimpleWindow(const SimpleWindow<T>& right) = delete;
 		SimpleWindow<T>& operator=(const SimpleWindow<T>& right) = delete;
 
-		// 获取窗口是否可以有子窗口对象
+		// 获取控件是否可以有子控件对象
 		virtual bool isContainerWnd() const { return false; }
-		// 获取该窗口的父窗口
+		// 获取该控件的父控件
 		SIMPLE_WINDOW_TYPE* getParent() const { return m_parent; }
-		// 标识窗口没有父窗口，简化判断
+		// 标识控件没有父控件，简化判断
 		bool hasParent() const { return m_parent != nullptr; }
 
-		// 用来添加一个子窗口
+		// 用来添加一个子控件
 		virtual void addChild(SIMPLE_WINDOW_TYPE* child);
-		// 用来在before窗口之前添加一个子窗口
+		// 用来在before控件之前添加一个子控件
 		virtual bool insertChild(SIMPLE_WINDOW_TYPE* child, const SIMPLE_WINDOW_TYPE* before);
-		// 用来在iter之前添加子窗口
+		// 用来在iter之前添加子控件
 		virtual bool insertChild(SIMPLE_WINDOW_TYPE* child, ConstChildIterator iter);
-		// 用来移除一个子窗口
+		// 用来移除一个子控件
 		virtual bool removeChild(SIMPLE_WINDOW_TYPE* child);
-		// 获取子窗口列表中cbegin对应的iterator
+		// 获取子控件列表中cbegin对应的iterator
 		virtual ConstChildIterator getChildrenConstBeg() const { return s_defChildrenRet.cbegin(); }
-		// 获取子窗口列表中cend对应的iterator
+		// 获取子控件列表中cend对应的iterator
 		virtual ConstChildIterator getChildrenConstEnd() const { return s_defChildrenRet.cend(); }
-		// 获取子窗口个数
+		// 获取子控件个数
 		virtual ChildrenSize getChildrenSize() const { return 0; }
 
 
-		// 获取该窗口父对象的上一个子窗口，如果该窗口为第一个子窗口，则返回nullptr
+		// 获取该控件父对象的上一个子控件，如果该控件为第一个子控件，则返回nullptr
 		// complexity: linear
 		SIMPLE_WINDOW_TYPE* getPrevSibling() const;
-		// 获取该窗口父对象的下一个子窗口,如果该窗口为最后一个子窗口，则返回nullptr
+		// 获取该控件父对象的下一个子控件,如果该控件为最后一个子控件，则返回nullptr
 		//	complexity: linear
 		SIMPLE_WINDOW_TYPE* getNextSibling() const;
 
-		// 窗口的基本属性
-		// 设置窗口对象的名字
+		// 控件的基本属性
+		// 设置控件对象的名字
 		void setWindowObjectName(const wxString& objectName) { m_windowObjectName = objectName; }
-		// 用来获取窗口对象名字
+		// 用来获取控件对象名字
 		wxString getWindowObjectName() { return m_windowObjectName; }
 
-		// 编辑窗口范围
+		// 编辑控件范围
 		// 更新相对坐标X
 		void updateRelX(int x);
 		// 获取相对坐标X
@@ -89,17 +89,17 @@ namespace inner
 		int getAbsY() const;
 		// 更新相对坐标X和Y
 		void updateRelPos(int x, int y);
-		// 更新窗口宽度大小
+		// 更新控件宽度大小
 		void updateWidth(int width);
-		// 获取窗口宽度大小
+		// 获取控件宽度大小
 		int getWidth() const { return m_width;  }
-		// 更新窗口高度大小
+		// 更新控件高度大小
 		void updateHeight(int height);
 		// 获取高度大小
 		int getHeight() const { return m_height;  }
-		// 更新窗口大小
+		// 更新控件大小
 		void updateSize(int width, int height);
-		// 更新窗口范围
+		// 更新控件范围
 		void updateRange(int x, int y, int width, int height);
 
 		// 设置是否激活
@@ -112,31 +112,31 @@ namespace inner
 
 		// 获取消息处理的范围，相对范围
 		virtual wxRegion getMsgRegion() const;
-		// 该窗口是否处理窗口消息
+		// 该控件是否处理控件消息
 		virtual bool isHandleMsg() const { return true; }
 
 	protected:
-		// 设置该窗口的父窗口对象，该函数调用不会改变父窗口的消息响应范围
+		// 设置该控件的父控件对象，该函数调用不会改变父控件的消息响应范围
 		void setParent(SIMPLE_WINDOW_TYPE* parent, SIMPLE_WINDOW_TYPE* child);
-		// 用来添加一个子窗口对象，该函数不会检测插入的对象是否已经有了父对象
+		// 用来添加一个子控件对象，该函数不会检测插入的对象是否已经有了父对象
 		virtual void pushChild(SIMPLE_WINDOW_TYPE* child);
-		// 更新该窗口判断消息的范围，将childRect的消息处理范围添加到该窗口中
+		// 更新该控件判断消息的范围，将childRect的消息处理范围添加到该控件中
 		virtual void incrMsgRegion(const wxRegion& childRect) { if (hasParent()) { getParent()->incrMsgRegion(childRect); } }
-		// 设置窗口消息范围为所有子窗口范围，用来处理子窗口发生变化，例如改变
+		// 设置控件消息范围为所有子控件范围，用来处理子控件发生变化，例如改变
 		virtual void resetMsgRegion() { if (hasParent()) { getParent()->resetMsgRegion(); } }
 
-		// 获取子窗口列表
+		// 获取子控件列表
 		virtual const CHILDREN_CONTAINER& getConstChildren() const;
 
 	protected:
-		// 窗口的父对象
+		// 控件的父对象
 		SIMPLE_WINDOW_TYPE* m_parent;
 
-		// 窗口对象名字
+		// 控件对象名字
 		wxString m_windowObjectName;
 
-		// 窗口属性
-		// 窗口范围
+		// 控件属性
+		// 控件范围
 		int m_relX;
 		int m_relY;
 		int m_width;
@@ -148,7 +148,7 @@ namespace inner
 		const static CHILDREN_CONTAINER s_defChildrenRet;
 
 	private:
-		// 更新父窗口消息处理范围
+		// 更新父控件消息处理范围
 		void updateParentMsgRect();
 	};
 

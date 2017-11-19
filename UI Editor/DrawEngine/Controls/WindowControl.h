@@ -3,8 +3,8 @@
 
 /*
  * 文件名：WindowControl
- * 作用：用来实现窗口渲染的功能，通过设置窗口的值，来渲染对应的对象，当需要的数据很多时，可以通过
- * 传递需要渲染窗口的指针，调用对应函数来实现
+ * 作用：用来实现控件渲染的功能，通过设置控件的值，来渲染对应的对象，当需要的数据很多时，可以通过
+ * 传递需要渲染控件的指针，调用对应函数来实现
  * 说明：部分文件的实现，使用了Microsoft的DXUT中的相关实现，并加以修改
  * 使用者可以移除该部分代码，同时增加自己的主工作区的渲染代码
  */
@@ -12,7 +12,6 @@
 #include <d3d9.h>
 #include "../EngineImplDefine.h"
 #include "../CGrowableArray.h"
-#include "../../EditorFuncDefine.h"
 
 class AbstractEngine;
 class FontTexElement;
@@ -32,7 +31,7 @@ public:
 	// 渲染函数
 	virtual void Render(AbstractEngine* engine, float fElapsedTime) { }
 
-	// 获取窗口类型
+	// 获取控件类型
 	virtual CONTROL_TYPE GetControlType() const { return CONTROL_NULL; }
 
 	void SetX(int x) { m_rcBoundingBox.left = x; }

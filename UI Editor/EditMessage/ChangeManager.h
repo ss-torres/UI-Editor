@@ -12,9 +12,9 @@
 #include "CommandStack.h"
 #include "../EditorWindow/EditorWindowInterface.h"
 
-class EditorWorkArea;
-class EditorToolPropertyEditor;
-class EditorToolObjectView;
+class FormWorkArea;
+class FormPropertyEditor;
+class FormObjectView;
 class WindowAttributeManager;
 
 namespace Command
@@ -35,33 +35,33 @@ namespace Command
 		const wxCommandProcessor& getCommandStack() const { return m_commandStack; }
 		// 用来查看命令列表
 		const wxCommandProcessor& checkCommandStack() const { return m_commandStack; }
-		// 添加一个窗口
+		// 添加一个控件
 		bool pushBackWindow(EditorAbstractWindow* parentWnd, EditorAbstractWindow* insertWnd);
-		// 插入一个窗口
+		// 插入一个控件
 		bool insertWindow(EditorAbstractWindow* parentWnd, size_t idx, EditorAbstractWindow* insertWnd);
-		// 移除一个窗口
+		// 移除一个控件
 		bool removeWindow(EditorAbstractWindow* removeWnd);
-		// 修改当前选中的窗口
+		// 修改当前选中的控件
 		void changeSelectWnd(EditorAbstractWindow* lastCurWnd, EditorAbstractWindow* newCurWnd);
-		// 修改当前选中的窗口属性，将原属性保存到传入的参数中
+		// 修改当前选中的控件属性，将原属性保存到传入的参数中
 		void changeSelectWndAttr(const wxString& attrName, wxAny& toSetValue);
 
-		// 设置主工作区和工具窗口
-		void setWorkArea(std::shared_ptr<EditorWorkArea> workArea) { m_workArea = workArea; }
-		void setPropertyEditor(std::shared_ptr<EditorToolPropertyEditor> propertyEditor) { m_propertyEditor = propertyEditor; }
-		void setObjectView(std::shared_ptr<EditorToolObjectView> objectView) { m_objectView = objectView; }
+		// 设置主工作区和功能区
+		void setWorkArea(std::shared_ptr<FormWorkArea> workArea) { m_workArea = workArea; }
+		void setPropertyEditor(std::shared_ptr<FormPropertyEditor> propertyEditor) { m_propertyEditor = propertyEditor; }
+		void setObjectView(std::shared_ptr<FormObjectView> objectView) { m_objectView = objectView; }
 		void setWindowAttrMgr(std::shared_ptr<WindowAttributeManager> winAttrMgr) { m_winAttrMgr = winAttrMgr; }
-		// 获取主工作区和工具窗口
-		std::shared_ptr<EditorWorkArea> getWorkArea() const { return m_workArea; }
-		std::shared_ptr<EditorToolPropertyEditor> getPropertyEditor() const { return m_propertyEditor; }
-		std::shared_ptr<EditorToolObjectView> getObjectView() const { return m_objectView; }
+		// 获取主工作区和功能区
+		std::shared_ptr<FormWorkArea> getWorkArea() const { return m_workArea; }
+		std::shared_ptr<FormPropertyEditor> getPropertyEditor() const { return m_propertyEditor; }
+		std::shared_ptr<FormObjectView> getObjectView() const { return m_objectView; }
 
 	private:
 		static ChangeManager* s_changeManager;
 	private:
-		std::shared_ptr<EditorWorkArea> m_workArea;
-		std::shared_ptr<EditorToolPropertyEditor> m_propertyEditor;
-		std::shared_ptr<EditorToolObjectView> m_objectView;
+		std::shared_ptr<FormWorkArea> m_workArea;
+		std::shared_ptr<FormPropertyEditor> m_propertyEditor;
+		std::shared_ptr<FormObjectView> m_objectView;
 		// 属性列表
 		std::shared_ptr<WindowAttributeManager> m_winAttrMgr;
 

@@ -3,7 +3,7 @@
 
 /*
  * 文件名：ButtonControl
- * 作用：实现Button类型窗口的渲染
+ * 作用：实现Button类型控件的渲染
  */
 
 #include "StaticControl.h"
@@ -16,7 +16,7 @@ public:
 
 	void Render(AbstractEngine* engine, float fElapsedTime) override;
 
-	// 获取窗口类型
+	// 获取控件类型
 	CONTROL_TYPE GetControlType() const override { return CONTROL_BUTTON; }
 
 	// 设置当前是否处于按下状态

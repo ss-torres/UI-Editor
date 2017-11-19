@@ -19,7 +19,7 @@ public:
 	D3DEngineImpl();
 	~D3DEngineImpl() override;
 
-	// 初始化实现的信息，该窗口负责pManager指向对象的清理
+	// 初始化实现的信息，该对象负责pManager指向对象的清理
 	void Init(D3D9ResourceManager* pManager, LPCTSTR pszTextureFilename);
 
 	// Access the default display Elments used when adding new controls

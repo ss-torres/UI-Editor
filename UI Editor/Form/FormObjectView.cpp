@@ -1,27 +1,26 @@
-#include "EditorToolObjectView.h"
-#include "EditorToolObjectViewDefine.h"
-#include "../Settings/UsedWinAttrDefine.h"
+#include "FormObjectView.h"
+#include "FormObjectViewDefine.h"
 
-EditorToolObjectView::EditorToolObjectView(wxAuiManager &manager, wxWindow * parent, int direction, const wxString & paneName)
-	: EditorToolWindow(manager, parent, direction, paneName)
+FormObjectView::FormObjectView(wxAuiManager &manager, wxWindow * parent, int direction, const wxString & paneName)
+	: FormToolWindow(manager, parent, direction, paneName)
 {
 	initSubWindows();
 }
 
-EditorToolObjectView::~EditorToolObjectView()
+FormObjectView::~FormObjectView()
 {
 
 }
 
-// 设置root节点对应的窗口ID
-void EditorToolObjectView::setRootWindowId(ID_TYPE id)
+// 设置root节点对应的控件ID
+void FormObjectView::setRootWindowId(ID_TYPE id)
 {
 	wxTreeListItem rootItem = m_objectView->GetRootItem();
 	m_idToItems[id] = rootItem;
 }
 
-// 添加一个子节点用来标识一个窗口
-bool EditorToolObjectView::addWindowItem(ID_TYPE parentId, ID_TYPE childId, const wxString &objectName, const wxString & winTypeName)
+// 添加一个子节点用来标识一个控件
+bool FormObjectView::addWindowItem(ID_TYPE parentId, ID_TYPE childId, const wxString &objectName, const wxString & winTypeName)
 {
 	wxTreeListItem parentItem = m_idToItems.at(parentId);
 	wxTreeListItem childItem = m_objectView->AppendItem(parentItem, objectName, wxTreeListCtrl::NO_IMAGE, wxTreeListCtrl::NO_IMAGE, new EditorWindowID(childId));
@@ -31,26 +30,26 @@ bool EditorToolObjectView::addWindowItem(ID_TYPE parentId, ID_TYPE childId, cons
 }
 
 // 设置当前选中对象，会取消之前所有的选中
-void EditorToolObjectView::setCurSelect(ID_TYPE selectId) const
+void FormObjectView::setCurSelect(ID_TYPE selectId) const
 {
 	m_objectView->UnselectAll();
 	m_objectView->Select(m_idToItems.at(selectId));
 }
 
 // 添加选中对象
-void EditorToolObjectView::addSelect(ID_TYPE selectId) const
+void FormObjectView::addSelect(ID_TYPE selectId) const
 {
 	m_objectView->Select(m_idToItems.at(selectId));
 }
 
 // 取消选中对象
-void EditorToolObjectView::unSelect(ID_TYPE unSelectId) const
+void FormObjectView::unSelect(ID_TYPE unSelectId) const
 {
 	m_objectView->Unselect(m_idToItems.at(unSelectId));
 }
 
 // 获取当前所有选中
-std::vector<ID_TYPE> EditorToolObjectView::getSelections() const
+std::vector<ID_TYPE> FormObjectView::getSelections() const
 {
 	std::vector<ID_TYPE> selections;
 	wxTreeListItems items;
@@ -65,7 +64,7 @@ std::vector<ID_TYPE> EditorToolObjectView::getSelections() const
 }
 
 // 修改对象编辑器中的显示，当前只设计修改对象
-void EditorToolObjectView::changeWinAttr(ID_TYPE changeId, const wxString &attrName, const wxAny &toSetValue) const
+void FormObjectView::changeWinAttr(ID_TYPE changeId, const wxString &attrName, const wxAny &toSetValue) const
 {
 	if (attrName == OBJECT_NAME)
 	{
@@ -75,7 +74,7 @@ void EditorToolObjectView::changeWinAttr(ID_TYPE changeId, const wxString &attrN
 }
 
 // 初始化子窗口
-void EditorToolObjectView::initSubWindows()
+void FormObjectView::initSubWindows()
 {
 	m_objectView = new wxTreeListCtrl(getBench(), wxID_ANY, wxPoint(0, 0), wxSize(300, 600), wxTL_DEFAULT_STYLE | wxTL_CHECKBOX);
 	m_objectView->AppendColumn(wxS("object"));

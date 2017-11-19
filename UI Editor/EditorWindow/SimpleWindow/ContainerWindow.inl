@@ -36,16 +36,16 @@ namespace inner
 		}
 	}
 
-	// 用来添加一个子窗口
+	// 用来添加一个子控件
 	template <typename T>
 	void ContainerWindow<T>::addChild(SIMPLE_WINDOW_TYPE* child)
 	{
 		assert(child != nullptr);
 
-		// 先从该窗口的父对象中移除这个子窗口
+		// 先从该控件的父对象中移除这个子控件
 		if (child->hasParent())
 		{
-			// 存在子窗口，则一定是ContainerWindow
+			// 存在子控件，则一定是ContainerWindow
 			child->getParent()->removeChild(child);
 		}
 		m_children.push_back(child);
@@ -54,16 +54,16 @@ namespace inner
 		incrMsgRegion(child->getMsgRegion());
 	}
 
-	// 用来在某个窗口之前添加一个子窗口
+	// 用来在某个控件之前添加一个子控件
 	template <typename T>
 	bool ContainerWindow<T>::insertChild(SIMPLE_WINDOW_TYPE* child, const SIMPLE_WINDOW_TYPE* before)
 	{
 		assert(child != nullptr);
 
-		// 先从该窗口的父对象中移除这个子窗口
+		// 先从该控件的父对象中移除这个子控件
 		if (child->hasParent())
 		{
-			// 存在子窗口，则一定是ContainerWindow
+			// 存在子控件，则一定是ContainerWindow
 			child->getParent()->removeChild(child);
 		}
 		const auto it = std::find(m_children.cbegin(), m_children.cend(), before);
@@ -75,7 +75,7 @@ namespace inner
 		return false;
 	}
 
-	// 用来在iter之前添加子窗口
+	// 用来在iter之前添加子控件
 	template<typename T>
 	inline bool ContainerWindow<T>::insertChild(SIMPLE_WINDOW_TYPE* child, ConstChildIterator iter)
 	{
@@ -87,7 +87,7 @@ namespace inner
 		return true;
 	}
 
-	// 用来移除一个子窗口
+	// 用来移除一个子控件
 	template <typename T>
 	bool ContainerWindow<T>::removeChild(SIMPLE_WINDOW_TYPE* child)
 	{
@@ -110,7 +110,7 @@ namespace inner
 		return false;
 	}
 
-	// 用来添加一个子窗口对象，该函数不会检测插入的对象是否已经有了父对象
+	// 用来添加一个子控件对象，该函数不会检测插入的对象是否已经有了父对象
 	template<typename T>
 	inline void ContainerWindow<T>::pushChild(SIMPLE_WINDOW_TYPE* child)
 	{
@@ -121,33 +121,33 @@ namespace inner
 		incrMsgRegion(child->getMsgRegion());
 	}
 
-	// 更新该窗口判断消息的范围，将childRange添加到该窗口的消息处理范围，调用该函数不判断该窗口是否处理消息，
-	// 会判断子窗口是否处理消息
+	// 更新该控件判断消息的范围，将childRange添加到该控件的消息处理范围，调用该函数不判断该控件是否处理消息，
+	// 会判断子控件是否处理消息
 	template<typename T>
 	inline void ContainerWindow<T>::incrMsgRegion(const wxRegion& childRegion)
 	{
 		// 记录之前的范围
 		auto oldRange = m_msgRegion;
-		// 更新子窗口范围到当前坐标
+		// 更新子控件范围到当前坐标
 		auto adjustRect = childRegion;
 		adjustRect.Offset(narrow_cast<wxCoord>(m_relX), narrow_cast<wxCoord>(m_relY));
 
 		m_msgRegion.Union(adjustRect);
-		// 该窗口范围因为增加了childRegion而发生了改变
+		// 该控件范围因为增加了childRegion而发生了改变
 		if (oldRange != m_msgRegion)
 		{
 			SimpleWindow<T>::incrMsgRegion(m_msgRegion);
 		}
 	}
 
-	// 设置窗口消息范围为所有子窗口范围，用来子窗口发生变化，调用该函数不判断该窗口是否处理消息
-	// 会判断子窗口是否处理消息
+	// 设置控件消息范围为所有子控件范围，用来子控件发生变化，调用该函数不判断该控件是否处理消息
+	// 会判断子控件是否处理消息
 	template<typename T>
 	inline void ContainerWindow<T>::resetMsgRegion()
 	{
 		// 记录之前的范围
 		auto oldRegion = m_msgRegion;
-		// 以子窗口坐标系为参考
+		// 以子控件坐标系为参考
 		wxRegion region;
 		for (auto chp : m_children)
 		{

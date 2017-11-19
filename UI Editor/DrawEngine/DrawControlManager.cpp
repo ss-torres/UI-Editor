@@ -20,19 +20,19 @@ DrawControlManager::~DrawControlManager()
 
 }
 
-// 绘制窗口之前准备
+// 绘制控件之前准备
 void DrawControlManager::drawWindowsBefore()
 {
 	m_engine->RenderControlsBefore();
 }
 
-// 绘制窗口之后处理
+// 绘制控件之后处理
 void DrawControlManager::drawWindowsAfter()
 {
 	m_engine->RenderControlsEnd();
 }
 
-// 绘制管理窗口对象
+// 绘制管理控件对象
 void DrawControlManager::drawWindow(const EditorManageWindow* manageWindow, int absX, int absY)
 {
 	int width = manageWindow->getWidth();
@@ -46,7 +46,7 @@ void DrawControlManager::drawWindow(const EditorManageWindow* manageWindow, int 
 void DrawControlManager::drawWindow(const EditorLabel* label, int absX, int absY)
 {
 	resetControl(label, m_staticControl.get(), absX, absY);
-	// 绘制该窗口
+	// 绘制该控件
 	m_staticControl->Render(m_engine.get(), m_elapsedTime);
 }
 
@@ -56,7 +56,7 @@ void DrawControlManager::drawWindow(const EditorButton* button, int absX, int ab
 	resetControl(button, m_buttonControl.get(), absX, absY);
 	m_buttonControl->SetPressed(button->isPressed());
 	m_buttonControl->SetMouseOver(button->isMouseOver());
-	// 绘制该窗口
+	// 绘制该控件
 	m_buttonControl->Render(m_engine.get(), m_elapsedTime);
 }
 

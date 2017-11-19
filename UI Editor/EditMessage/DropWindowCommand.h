@@ -3,7 +3,7 @@
 
 /*
  * 文件名: DropWindowCommand
- * 作用：在主工作区添加一个窗口，并将该窗口设置为当前窗口
+ * 作用：在主工作区添加一个控件，并将该控件设置为当前控件
  */
 
 #include "InsertWindowCommand.h"

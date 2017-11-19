@@ -5,7 +5,7 @@
 #include <wx/string.h>
 #include "../ErrorHandle/ErrorHandle.h"
 
-struct AttributeProperty;
+struct WinAttrProperty;
 class wxPGProperty;
 class wxEnumProperty;
 
@@ -19,9 +19,9 @@ public:
 	static const PropertyFactory* Instance();
 
 	// 根据配置参数，获取一个wxPGProperty
-	wxPGProperty* createProperty(const AttributeProperty& attrProperty) const;
+	wxPGProperty* createProperty(const WinAttrProperty& attrProperty) const;
 	// 根据配置参数，获取一个可以获取值得wxPGProperty
-	wxPGProperty* createDefaultProperty(const AttributeProperty& attrProperty) const;
+	wxPGProperty* createDefaultProperty(const WinAttrProperty& attrProperty) const;
 
 	// 销毁属性列表
 	void destroyProperty(wxPGProperty* &property);

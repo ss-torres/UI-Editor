@@ -3,12 +3,13 @@
 
 /*
  * 文件名：StaticControl
- * 作用：实现Static类型窗口的渲染
+ * 作用：实现Static类型控件的渲染
  * 说明：部分文件的实现，使用了Microsoft的DXUT中的相关实现，并加以修改
  * 使用者可以移除该部分代码，同时增加自己的主工作区的渲染代码
  */
 
 #include "WindowControl.h"
+#include "UiEditorProtocol.h"
 
 class StaticControl : public WindowControl
 {
@@ -19,7 +20,7 @@ public:
 	// 重写渲染函数
 	void Render(AbstractEngine* engine, float fElapsedTime) override;
 
-	// 获取窗口类型
+	// 获取控件类型
 	CONTROL_TYPE GetControlType() const override { return CONTROL_STATIC; }
 
 	const LABEL_TYPE* GetText()

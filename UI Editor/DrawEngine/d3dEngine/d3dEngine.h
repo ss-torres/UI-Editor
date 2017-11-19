@@ -6,12 +6,12 @@
 * 作用：提供D3D9方式的绘制功能实现
 */
 
-#include "../AbstractEngine.h"
 #include <map>
 #include <memory>
+#include "../AbstractEngine.h"
+#include "WindowEnumAttrDefine.h"
 #include "d3dUtil.h"
 #include "../GameTimer.h"
-#include "../../Settings/WindowEnumAttrDefine.h"
 
 class D3D9ResourceManager;
 

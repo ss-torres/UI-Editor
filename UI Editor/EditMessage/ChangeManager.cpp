@@ -1,8 +1,8 @@
 #include "ChangeManager.h"
-#include "../Form/EditorWorkArea.h"
-#include "../Form/EditorToolObjectView.h"
-#include "../Form/EditorToolPropertyEditor.h"
-#include "../Settings/UsedWinAttrDefine.h"
+#include "WinAttrAndNameProtocol.h"
+#include "../Form/FormWorkArea.h"
+#include "../Form/FormObjectView.h"
+#include "../Form/FormPropertyEditor.h"
 #include "../Settings/WindowAttributeManager.h"
 
 namespace Command
@@ -22,7 +22,7 @@ namespace Command
 
 	ChangeManager* ChangeManager::s_changeManager = nullptr;
 
-	// 添加一个窗口
+	// 添加一个控件
 	bool ChangeManager::pushBackWindow(EditorAbstractWindow * parentWnd, EditorAbstractWindow * insertWnd)
 	{
 		// 修改主工作区
@@ -32,7 +32,7 @@ namespace Command
 		return flag;
 	}
 
-	// 插入一个窗口
+	// 插入一个控件
 	bool ChangeManager::insertWindow(EditorAbstractWindow * parentWnd, size_t idx, EditorAbstractWindow * insertWnd)
 	{
 		// 修改主工作区
@@ -40,7 +40,7 @@ namespace Command
 		return flag;
 	}
 
-	// 移除一个窗口
+	// 移除一个控件
 	bool ChangeManager::removeWindow(EditorAbstractWindow * removeWnd)
 	{
 		// 修改主工作区
@@ -48,23 +48,23 @@ namespace Command
 		return flag;
 	}
 
-	// 修改当前选中的窗口
+	// 修改当前选中的控件
 	void ChangeManager::changeSelectWnd(EditorAbstractWindow * lastCurWnd, EditorAbstractWindow * newCurWnd)
 	{
 		// 修改主工作区
 		m_workArea->setCurrentWindow(newCurWnd);
 		// 显示对应类型的属性编辑框
 		m_propertyEditor->resetAttrs(newCurWnd->getWindowClassName());
-		// 先设置对应窗口属性的默认值
+		// 先设置对应控件属性的默认值
 		const auto& winAttrDefValues = m_winAttrMgr->getWinDefValues(newCurWnd->getWindowClassName());
 		m_propertyEditor->updateAttrs(winAttrDefValues);
-		// 设置对应窗口的修改的属性值
+		// 设置对应控件的修改的属性值
 		m_propertyEditor->updateAttrs(newCurWnd->getWinAttrs());
 		// 修改对象查看中当前选中项
 		m_objectView->setCurSelect(newCurWnd->getId());
 	}
 
-	// 修改当前选中的窗口属性，将原属性保存到传入的参数中
+	// 修改当前选中的控件属性，将原属性保存到传入的参数中
 	void ChangeManager::changeSelectWndAttr(const wxString& attrName, wxAny& toSetValue)
 	{
 		auto curSelectWnd = m_workArea->getCurrentWindow();

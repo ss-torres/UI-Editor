@@ -11,7 +11,7 @@ EditorButton::~EditorButton()
 
 }
 
-// 更新窗口对象属性信息
+// 更新控件对象属性信息
 void EditorButton::updateWinAttr(const wxString& attrName, const wxAny &value)
 {
 	EditorFunc::updateWinAttr(attrName, value);

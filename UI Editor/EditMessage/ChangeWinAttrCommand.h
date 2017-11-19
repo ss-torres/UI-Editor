@@ -3,8 +3,8 @@
 
 /*
  * 文件名：ChangeWinAttrCommand
- * 作用：修改当前窗口(EditorAbstractWindow系列)的属性值
- * 说明：将当前窗口的属性值修改为newValue，同时将之前的值保存，用于实现Undo操作
+ * 作用：修改当前控件(EditorAbstractWindow系列)的属性值
+ * 说明：将当前控件的属性值修改为newValue，同时将之前的值保存，用于实现Undo操作
  */
 
 #include <wx/cmdproc.h>
@@ -37,9 +37,9 @@ namespace Command
 
 	private:
 		T m_mgr;
-		// 当前窗口要被设置的属性
+		// 当前控件要被设置的属性
 		wxString m_attrName;
-		// 当前窗口要被设置的值
+		// 当前控件要被设置的值
 		wxAny m_toSetValue;
 	};
 

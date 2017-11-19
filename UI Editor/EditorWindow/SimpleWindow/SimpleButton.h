@@ -6,9 +6,9 @@
  * 作用：实现简单的按钮功能
  */
 
-#include "SimpleWindow.h"
 #include <wx/font.h>
-#include "../EditorFuncDefine.h"
+#include "SimpleWindow.h"
+#include "UiEditorProtocol.h"
 
 namespace inner
 {

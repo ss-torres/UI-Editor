@@ -13,9 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="PropertyEditor">
-      <UniqueIdentifier>{c868f5c3-83c8-4b67-88cc-4408ef3812f0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Property">
       <UniqueIdentifier>{2c80e396-2ff0-4d3d-8aa7-2bbcd33a5545}</UniqueIdentifier>
     </Filter>
@@ -55,31 +52,22 @@
     <Filter Include="DrawEngine\d3dEngine">
       <UniqueIdentifier>{2cc353f0-183b-4c3c-903b-ec20abf285b9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="EditorProtocol">
+      <UniqueIdentifier>{5b6cb397-e51d-4879-b25a-d41b3e7b0e86}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EditorProtocol\ProtocolImpl">
+      <UniqueIdentifier>{7afd646d-4eb7-4b8e-b7b0-7bcf6b89aa78}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="PropertyEditor\PropertySequence.h">
-      <Filter>PropertyEditor</Filter>
-    </ClInclude>
-    <ClInclude Include="PropertyEditor\AbstractPropertySequence.h">
-      <Filter>PropertyEditor</Filter>
-    </ClInclude>
-    <ClInclude Include="EditorFrame.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="EditorApp.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="ErrorHandle\ErrorHandle.h">
       <Filter>ErrorHandle</Filter>
     </ClInclude>
-    <ClInclude Include="Form\EditorToolWindow.h">
-      <Filter>Form</Filter>
-    </ClInclude>
     <ClInclude Include="Form\WorkArea.h">
       <Filter>Form</Filter>
-    </ClInclude>
-    <ClInclude Include="PropertyEditor\AbstractPropertyValidator.h">
-      <Filter>PropertyEditor</Filter>
     </ClInclude>
     <ClInclude Include="Settings\WindowAttributeManager.h">
       <Filter>Settings</Filter>
@@ -90,26 +78,11 @@
     <ClInclude Include="Settings\AttributeBuilder\XmlWinAttrBuilder.h">
       <Filter>Settings\AttributeBuilder</Filter>
     </ClInclude>
-    <ClInclude Include="Form\EditorToolWidgetSelect.h">
-      <Filter>Form</Filter>
-    </ClInclude>
-    <ClInclude Include="Form\EditorToolWidgetSelectDefine.h">
-      <Filter>Form</Filter>
-    </ClInclude>
-    <ClInclude Include="Form\EditorWorkArea.h">
-      <Filter>Form</Filter>
-    </ClInclude>
     <ClInclude Include="ErrorHandle\ErrorMessage.h">
       <Filter>ErrorHandle</Filter>
     </ClInclude>
     <ClInclude Include="EditMessage\ChangeManager.h">
       <Filter>EditMessage</Filter>
-    </ClInclude>
-    <ClInclude Include="Form\EditorToolPropertyEditor.h">
-      <Filter>Form</Filter>
-    </ClInclude>
-    <ClInclude Include="Form\EditorToolObjectView.h">
-      <Filter>Form</Filter>
     </ClInclude>
     <ClInclude Include="Form\WorkAreaDefine.h">
       <Filter>Form</Filter>
@@ -117,20 +90,11 @@
     <ClInclude Include="Property\ImageProperty.h">
       <Filter>Property</Filter>
     </ClInclude>
-    <ClInclude Include="Settings\WindowAttributeDefine.h">
-      <Filter>Settings</Filter>
-    </ClInclude>
     <ClInclude Include="Property\PropertyFactory.h">
       <Filter>Property</Filter>
     </ClInclude>
-    <ClInclude Include="Settings\WindowEnumAttrDefine.h">
-      <Filter>Settings</Filter>
-    </ClInclude>
     <ClInclude Include="Util\StringUtil.h">
       <Filter>Util</Filter>
-    </ClInclude>
-    <ClInclude Include="EditorWindow\AbstractWindowFactory.h">
-      <Filter>EditorWindow</Filter>
     </ClInclude>
     <ClInclude Include="EditorWindow\EditorButton.h">
       <Filter>EditorWindow</Filter>
@@ -140,9 +104,6 @@
     </ClInclude>
     <ClInclude Include="CopyDrop\CopyWinObject.h">
       <Filter>CopyDrop</Filter>
-    </ClInclude>
-    <ClInclude Include="Settings\UsedWinAttrDefine.h">
-      <Filter>Settings</Filter>
     </ClInclude>
     <ClInclude Include="EditorWindow\EditorLabel.h">
       <Filter>EditorWindow</Filter>
@@ -180,9 +141,6 @@
     <ClInclude Include="EditorWindow\EditorWindowCheck.h">
       <Filter>EditorWindow</Filter>
     </ClInclude>
-    <ClInclude Include="Form\EditorWorkAreaHelp.h">
-      <Filter>Form</Filter>
-    </ClInclude>
     <ClInclude Include="EditMessage\CurrentWindowCommand.h">
       <Filter>EditMessage</Filter>
     </ClInclude>
@@ -191,9 +149,6 @@
     </ClInclude>
     <ClInclude Include="EditMessage\CommandFactory.h">
       <Filter>EditMessage</Filter>
-    </ClInclude>
-    <ClInclude Include="Form\EditorToolObjectViewDefine.h">
-      <Filter>Form</Filter>
     </ClInclude>
     <ClInclude Include="DrawEngine\Controls\WindowControl.h">
       <Filter>DrawEngine\Controls</Filter>
@@ -240,9 +195,6 @@
     <ClInclude Include="EditorWindow\EditorWindowFactory.h">
       <Filter>EditorWindow</Filter>
     </ClInclude>
-    <ClInclude Include="Form\EditorFormFactory.h">
-      <Filter>Form</Filter>
-    </ClInclude>
     <ClInclude Include="EditorWindow\EditorWindowInterface.h">
       <Filter>EditorWindow</Filter>
     </ClInclude>
@@ -252,31 +204,76 @@
     <ClInclude Include="DrawEngine\DrawControlManager.h">
       <Filter>DrawEngine</Filter>
     </ClInclude>
-    <ClInclude Include="EditorFuncDefine.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="EditorWindow\EditorWindowDefine.h">
       <Filter>EditorWindow</Filter>
     </ClInclude>
     <ClInclude Include="EditMessage\ChangeWinAttrCommand.h">
       <Filter>EditMessage</Filter>
     </ClInclude>
+    <ClInclude Include="EditorWindow\EditorFrame.h">
+      <Filter>EditorWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="MainFrame.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Form\FormFactory.h">
+      <Filter>Form</Filter>
+    </ClInclude>
+    <ClInclude Include="Form\FormObjectView.h">
+      <Filter>Form</Filter>
+    </ClInclude>
+    <ClInclude Include="Form\FormObjectViewDefine.h">
+      <Filter>Form</Filter>
+    </ClInclude>
+    <ClInclude Include="Form\FormPropertyEditor.h">
+      <Filter>Form</Filter>
+    </ClInclude>
+    <ClInclude Include="Form\FormWidgetSelect.h">
+      <Filter>Form</Filter>
+    </ClInclude>
+    <ClInclude Include="Form\FormToolWindow.h">
+      <Filter>Form</Filter>
+    </ClInclude>
+    <ClInclude Include="Form\FormWorkArea.h">
+      <Filter>Form</Filter>
+    </ClInclude>
+    <ClInclude Include="Form\WorkAreaHelp.h">
+      <Filter>Form</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorProtocol\WindowEnumAttrDefine.h">
+      <Filter>EditorProtocol</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorWindow\EditorAbstractWindowFactory.h">
+      <Filter>EditorWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorProtocol\UiEditorProtocol.h">
+      <Filter>EditorProtocol</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorWindow\EditorFuncDefine.h">
+      <Filter>EditorWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="Form\FormWidgetSelectDefine.h">
+      <Filter>Form</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorProtocol\ProtocolImpl\WinAttributeProtocol.h">
+      <Filter>EditorProtocol\ProtocolImpl</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorProtocol\ProtocolImpl\WinAttrNameProtocol.h">
+      <Filter>EditorProtocol\ProtocolImpl</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorProtocol\ProtocolImpl\WinTypeNameProtocol.h">
+      <Filter>EditorProtocol\ProtocolImpl</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorProtocol\WinAttrAndNameProtocol.h">
+      <Filter>EditorProtocol</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="PropertyEditor\PropertySequence.cpp">
-      <Filter>PropertyEditor</Filter>
-    </ClCompile>
-    <ClCompile Include="PropertyEditor\AbstractPropertySequence.cpp">
-      <Filter>PropertyEditor</Filter>
-    </ClCompile>
     <ClCompile Include="UI Editor.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="EditorApp.cpp">
       <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Form\EditorToolWindow.cpp">
-      <Filter>Form</Filter>
     </ClCompile>
     <ClCompile Include="Form\WorkArea.cpp">
       <Filter>Form</Filter>
@@ -290,26 +287,11 @@
     <ClCompile Include="Settings\AttributeBuilder\XmlWinAttrBuilder.cpp">
       <Filter>Settings\AttributeBuilder</Filter>
     </ClCompile>
-    <ClCompile Include="Form\EditorToolWidgetSelect.cpp">
-      <Filter>Form</Filter>
-    </ClCompile>
-    <ClCompile Include="Form\EditorWorkArea.cpp">
-      <Filter>Form</Filter>
-    </ClCompile>
-    <ClCompile Include="Form\EditorToolObjectView.cpp">
-      <Filter>Form</Filter>
-    </ClCompile>
     <ClCompile Include="Property\ImageProperty.cpp">
       <Filter>Property</Filter>
     </ClCompile>
-    <ClCompile Include="Form\EditorToolPropertyEditor.cpp">
-      <Filter>Form</Filter>
-    </ClCompile>
     <ClCompile Include="Property\PropertyFactory.cpp">
       <Filter>Property</Filter>
-    </ClCompile>
-    <ClCompile Include="EditorFrame.cpp">
-      <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Util\StringUtil.cpp">
       <Filter>Util</Filter>
@@ -340,9 +322,6 @@
     </ClCompile>
     <ClCompile Include="EditorWindow\EditorContainerWindow.cpp">
       <Filter>EditorWindow</Filter>
-    </ClCompile>
-    <ClCompile Include="Form\EditorWorkAreaHelp.cpp">
-      <Filter>Form</Filter>
     </ClCompile>
     <ClCompile Include="EditMessage\CommandFactory.cpp">
       <Filter>EditMessage</Filter>
@@ -377,11 +356,32 @@
     <ClCompile Include="EditorWindow\EditorWindowFactory.cpp">
       <Filter>EditorWindow</Filter>
     </ClCompile>
-    <ClCompile Include="Form\EditorFormFactory.cpp">
-      <Filter>Form</Filter>
-    </ClCompile>
     <ClCompile Include="DrawEngine\DrawControlManager.cpp">
       <Filter>DrawEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="MainFrame.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Form\FormFactory.cpp">
+      <Filter>Form</Filter>
+    </ClCompile>
+    <ClCompile Include="Form\FormObjectView.cpp">
+      <Filter>Form</Filter>
+    </ClCompile>
+    <ClCompile Include="Form\FormPropertyEditor.cpp">
+      <Filter>Form</Filter>
+    </ClCompile>
+    <ClCompile Include="Form\FormWidgetSelect.cpp">
+      <Filter>Form</Filter>
+    </ClCompile>
+    <ClCompile Include="Form\FormToolWindow.cpp">
+      <Filter>Form</Filter>
+    </ClCompile>
+    <ClCompile Include="Form\FormWorkArea.cpp">
+      <Filter>Form</Filter>
+    </ClCompile>
+    <ClCompile Include="Form\WorkAreaHelp.cpp">
+      <Filter>Form</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -400,5 +400,10 @@
     <None Include="EditorWindow\EditorFuncCategory.inl">
       <Filter>EditorWindow</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="EditorProtocol\ReadMe.txt">
+      <Filter>EditorProtocol</Filter>
+    </Text>
   </ItemGroup>
 </Project>

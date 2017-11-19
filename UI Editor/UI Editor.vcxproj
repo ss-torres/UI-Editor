@@ -43,12 +43,20 @@
     <ClInclude Include="EditMessage\InsertWindowCommand.h" />
     <ClInclude Include="EditMessage\RemoveWindowCommand.h" />
     <ClInclude Include="EditorApp.h" />
-    <ClInclude Include="EditorFrame.h" />
-    <ClInclude Include="EditorFuncDefine.h" />
+    <ClInclude Include="EditorProtocol\ProtocolImpl\WinAttributeProtocol.h" />
+    <ClInclude Include="EditorProtocol\ProtocolImpl\WinAttrNameProtocol.h" />
+    <ClInclude Include="EditorProtocol\ProtocolImpl\WinTypeNameProtocol.h" />
+    <ClInclude Include="EditorProtocol\UiEditorProtocol.h" />
+    <ClInclude Include="EditorProtocol\WinAttrAndNameProtocol.h" />
+    <ClInclude Include="EditorProtocol\WindowEnumAttrDefine.h" />
+    <ClInclude Include="EditorWindow\EditorFuncDefine.h" />
+    <ClInclude Include="Form\FormWidgetSelectDefine.h" />
+    <ClInclude Include="MainFrame.h" />
     <ClInclude Include="EditorWindow\EditorAbstractWindow.h" />
-    <ClInclude Include="EditorWindow\AbstractWindowFactory.h" />
+    <ClInclude Include="EditorWindow\EditorAbstractWindowFactory.h" />
     <ClInclude Include="EditorWindow\EditorButton.h" />
     <ClInclude Include="EditorWindow\EditorContainerWindow.h" />
+    <ClInclude Include="EditorWindow\EditorFrame.h" />
     <ClInclude Include="EditorWindow\EditorFunc.h" />
     <ClInclude Include="EditorWindow\EditorLabel.h" />
     <ClInclude Include="EditorWindow\EditorManageWindow.h" />
@@ -63,28 +71,21 @@
     <ClInclude Include="EditorWindow\EditorWindowInterface.h" />
     <ClInclude Include="ErrorHandle\ErrorHandle.h" />
     <ClInclude Include="ErrorHandle\ErrorMessage.h" />
-    <ClInclude Include="Form\EditorToolObjectView.h" />
-    <ClInclude Include="Form\EditorToolObjectViewDefine.h" />
-    <ClInclude Include="Form\EditorToolPropertyEditor.h" />
-    <ClInclude Include="Form\EditorToolWidgetSelect.h" />
-    <ClInclude Include="Form\EditorToolWidgetSelectDefine.h" />
-    <ClInclude Include="Form\EditorToolWindow.h" />
-    <ClInclude Include="Form\EditorFormFactory.h" />
-    <ClInclude Include="Form\EditorWorkArea.h" />
-    <ClInclude Include="Form\EditorWorkAreaHelp.h" />
+    <ClInclude Include="Form\FormObjectView.h" />
+    <ClInclude Include="Form\FormObjectViewDefine.h" />
+    <ClInclude Include="Form\FormPropertyEditor.h" />
+    <ClInclude Include="Form\FormWidgetSelect.h" />
+    <ClInclude Include="Form\FormToolWindow.h" />
+    <ClInclude Include="Form\FormFactory.h" />
+    <ClInclude Include="Form\FormWorkArea.h" />
+    <ClInclude Include="Form\WorkAreaHelp.h" />
     <ClInclude Include="Form\WorkArea.h" />
     <ClInclude Include="Form\WorkAreaDefine.h" />
-    <ClInclude Include="PropertyEditor\AbstractPropertyValidator.h" />
-    <ClInclude Include="PropertyEditor\AbstractPropertySequence.h" />
-    <ClInclude Include="PropertyEditor\PropertySequence.h" />
     <ClInclude Include="Property\ImageProperty.h" />
     <ClInclude Include="Property\PropertyFactory.h" />
     <ClInclude Include="Settings\AttributeBuilder\AbstractWinAttrBuilder.h" />
     <ClInclude Include="Settings\AttributeBuilder\XmlWinAttrBuilder.h" />
-    <ClInclude Include="Settings\UsedWinAttrDefine.h" />
-    <ClInclude Include="Settings\WindowAttributeDefine.h" />
     <ClInclude Include="Settings\WindowAttributeManager.h" />
-    <ClInclude Include="Settings\WindowEnumAttrDefine.h" />
     <ClInclude Include="Util\ArithmeticUtil.h" />
     <ClInclude Include="Util\StringUtil.h" />
   </ItemGroup>
@@ -104,23 +105,21 @@
     <ClCompile Include="EditMessage\CommandFactory.cpp" />
     <ClCompile Include="EditMessage\CommandStack.cpp" />
     <ClCompile Include="EditorApp.cpp" />
-    <ClCompile Include="EditorFrame.cpp" />
+    <ClCompile Include="MainFrame.cpp" />
     <ClCompile Include="EditorWindow\EditorButton.cpp" />
     <ClCompile Include="EditorWindow\EditorContainerWindow.cpp" />
     <ClCompile Include="EditorWindow\EditorFunc.cpp" />
     <ClCompile Include="EditorWindow\EditorLabel.cpp" />
     <ClCompile Include="EditorWindow\EditorManageWindow.cpp" />
     <ClCompile Include="EditorWindow\EditorWindowFactory.cpp" />
-    <ClCompile Include="Form\EditorToolObjectView.cpp" />
-    <ClCompile Include="Form\EditorToolPropertyEditor.cpp" />
-    <ClCompile Include="Form\EditorToolWidgetSelect.cpp" />
-    <ClCompile Include="Form\EditorToolWindow.cpp" />
-    <ClCompile Include="Form\EditorFormFactory.cpp" />
-    <ClCompile Include="Form\EditorWorkArea.cpp" />
-    <ClCompile Include="Form\EditorWorkAreaHelp.cpp" />
+    <ClCompile Include="Form\FormObjectView.cpp" />
+    <ClCompile Include="Form\FormPropertyEditor.cpp" />
+    <ClCompile Include="Form\FormWidgetSelect.cpp" />
+    <ClCompile Include="Form\FormToolWindow.cpp" />
+    <ClCompile Include="Form\FormFactory.cpp" />
+    <ClCompile Include="Form\FormWorkArea.cpp" />
+    <ClCompile Include="Form\WorkAreaHelp.cpp" />
     <ClCompile Include="Form\WorkArea.cpp" />
-    <ClCompile Include="PropertyEditor\AbstractPropertySequence.cpp" />
-    <ClCompile Include="PropertyEditor\PropertySequence.cpp" />
     <ClCompile Include="Property\ImageProperty.cpp" />
     <ClCompile Include="Property\PropertyFactory.cpp" />
     <ClCompile Include="Settings\AttributeBuilder\AbstractWinAttrBuilder.cpp" />
@@ -136,6 +135,9 @@
     <None Include="EditorWindow\SimpleWindow\SimpleButton.inl" />
     <None Include="EditorWindow\SimpleWindow\SimpleLabel.inl" />
     <None Include="EditorWindow\SimpleWindow\SimpleWindow.inl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="EditorProtocol\ReadMe.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{539F7B14-8C10-43E4-B9DF-112290414190}</ProjectGuid>
@@ -198,6 +200,7 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalOptions>/D _CRT_SECURE_NO_WARNINGS %(AdditionalOptions)</AdditionalOptions>
       <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)UI Editor\EditorProtocol;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalDependencies>wxmsw30d_core.lib;wxmsw30ud_core.lib;wxbase30d.lib;wxbase30ud.lib;wxtiffd.lib;wxjpegd.lib;wxpngd.lib;wxzlibd.lib;wxregexd.lib;wxexpatd.lib;winmm.lib;comctl32.lib;rpcrt4.lib;wsock32.lib;wininet.lib;wxmsw30d_aui.lib;wxmsw30ud_aui.lib;wxbase30d_xml.lib;wxbase30ud_xml.lib;wxbase30d_net.lib;wxbase30ud_net.lib;wxmsw30d_adv.lib;wxmsw30ud_adv.lib;wxmsw30d_propgrid.lib;wxmsw30ud_propgrid.lib;d3d9.lib;d3dx9d.lib;DxErr.lib;legacy_stdio_definitions.lib;%(AdditionalDependencies)</AdditionalDependencies>

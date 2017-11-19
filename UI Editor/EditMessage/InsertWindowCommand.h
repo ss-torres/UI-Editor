@@ -3,9 +3,9 @@
 
 /*
  * 文件名：InsertWindowCommand
- * 作用：添加一个窗口对象
- * 说明：如果子窗口被添加到父窗口中，则父窗口负责管理子窗口的删除，
- * 否则该命令负责子窗口的删除，判断条件hasParent
+ * 作用：添加一个控件对象
+ * 说明：如果子控件被添加到父控件中，则父控件负责管理子控件的删除，
+ * 否则该命令负责子控件的删除，判断条件hasParent
  */
 
 #include <wx/cmdproc.h>
@@ -44,9 +44,9 @@ namespace Command
 		bool Undo() override;
 
 	protected:
-		// 用来记录创建的窗口
+		// 用来记录创建的控件
 		EditorAbstractWindow* m_insertWnd = nullptr;
-		// 用来记录插入的父窗口
+		// 用来记录插入的父控件
 		EditorAbstractWindow* m_parentWnd = nullptr;
 		// 插入的序号
 		size_t m_idx = INSERT_DEF_IDX;
@@ -77,7 +77,7 @@ namespace Command
 	template <typename T>
 	InsertWindowCommand<T>::~InsertWindowCommand()
 	{
-		// 析构函数，如果插入的窗口为独立窗口，则可以删除
+		// 析构函数，如果插入的控件为独立控件，则可以删除
 		if (!m_insertWnd->hasParent())
 		{
 			delete m_insertWnd;

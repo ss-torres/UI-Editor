@@ -11,14 +11,14 @@ public:
 	XmlWinAttrBuilder(const wxString& xmlName);
 	~XmlWinAttrBuilder();
 
-	// 加载窗口属性
+	// 加载控件属性
 	bool loadWinAttr() override;
 
 private:
 	// 加载一个节点
-	void loadXmlNode(wxXmlNode* node, std::vector<AttributeProperty> winAttrs);
+	void loadXmlNode(wxXmlNode* node, std::vector<WinAttrProperty> winAttrs);
 	// 分析一个Attribute的数据
-	void AnalyzeNode(wxXmlNode* node, AttributeProperty& attrProperty);
+	void AnalyzeNode(wxXmlNode* node, WinAttrProperty& attrProperty);
 
 private:
 	wxString m_xmlName;

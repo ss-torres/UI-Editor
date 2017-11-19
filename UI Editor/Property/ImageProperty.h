@@ -1,10 +1,8 @@
 #ifndef IMAGE_PROPERTY_H
 #define IMAGE_PROPERTY_H
 
-#include "wx/fontdlg.h"
-#include <wx/bitmap.h>
+#include <wx/propgrid/propgrid.h>
 #include <wx/propgrid/property.h>
-#include <wx/string.h>
 #include <wx/propgrid/editors.h>
 #include <wx/msgdlg.h> 
 

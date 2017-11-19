@@ -1,6 +1,5 @@
 #include "EditorLabel.h"
 #include "../DrawEngine/DrawControlManager.h"
-#include "../Settings/UsedWinAttrDefine.h"
 
 EditorLabel::EditorLabel(SIMPLE_WINDOW_TYPE* parent, int relX, int relY, int width, int height)
 	: SimpleLabel<inner::EditorEditableFunc>(parent, relX, relY, width, height)
@@ -13,7 +12,7 @@ EditorLabel::~EditorLabel()
 {
 }
 
-// 更新窗口对象属性信息
+// 更新控件对象属性信息
 void EditorLabel::updateWinAttr(const wxString& attrName, const wxAny &value)
 {
 	EditorFunc::updateWinAttr(attrName, value);

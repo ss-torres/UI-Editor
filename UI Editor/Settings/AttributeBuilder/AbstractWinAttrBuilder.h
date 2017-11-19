@@ -3,7 +3,7 @@
 
 #include <map>
 #include <vector>
-#include "../WindowAttributeDefine.h"
+#include "WinAttrAndNameProtocol.h"
 
 class AbstractWinAttrBuilder
 {
@@ -11,14 +11,14 @@ public:
 	AbstractWinAttrBuilder();
 	virtual ~AbstractWinAttrBuilder();
 
-	// 加载各类窗口对应的属性
+	// 加载各类控件对应的属性
 	virtual bool loadWinAttr() = 0;
 
-	// 获取加载的窗口属性，获取后，除非重新加载，否则不可使用
-	std::map<wxString, std::vector<AttributeProperty>> getWinAttrs();
+	// 获取加载的控件属性，在调用loadWinAttr后，只可调用一次
+	std::map<wxString, std::vector<WinAttrProperty>> getWinAttrs();
 
 protected:
-	std::map<wxString, std::vector<AttributeProperty>> m_winAttrs;
+	std::map<wxString, std::vector<WinAttrProperty>> m_winAttrs;
 };
 
 

@@ -1,5 +1,5 @@
-#include "XmlWinAttrBuilder.h"
 #include <wx/xml/xml.h>
+#include "XmlWinAttrBuilder.h"
 
 const wxString ROOT_NAME = "UIAttribute";
 
@@ -32,8 +32,8 @@ bool XmlWinAttrBuilder::loadWinAttr()
 	{
 		return false;
 	}
-	// 加载不同类型窗口的属性
-	std::vector<AttributeProperty> attrs;
+	// 加载不同类型控件的属性
+	std::vector<WinAttrProperty> attrs;
 	wxXmlNode* winNode = rootNode->GetChildren();
 	for (; winNode != nullptr; winNode = winNode->GetNext())
 	{
@@ -48,18 +48,18 @@ bool XmlWinAttrBuilder::loadWinAttr()
 	return true;
 }
 
-void XmlWinAttrBuilder::loadXmlNode(wxXmlNode * node, std::vector<AttributeProperty> winAttrs)
+void XmlWinAttrBuilder::loadXmlNode(wxXmlNode * node, std::vector<WinAttrProperty> winAttrs)
 {
-	// 不同窗口的属性
+	// 不同控件的属性
 	wxString winName = node->GetAttribute("name", "");
 	if (winName.empty())
 	{
 		return;
 	}
 
-	// 遍历窗口的所有属性
+	// 遍历控件的所有属性
 	wxXmlNode* attrNode = node->GetChildren();
-	AttributeProperty attrProperty;
+	WinAttrProperty attrProperty;
 	wxString nodeValue;
 	for (; attrNode != nullptr; attrNode = attrNode->GetNext())
 	{
@@ -83,7 +83,7 @@ void XmlWinAttrBuilder::loadXmlNode(wxXmlNode * node, std::vector<AttributePrope
 		winAttrs.push_back(std::move(attrProperty));
 	}
 
-	// 遍历窗口的子窗口类型（derived class）
+	// 遍历控件的子控件类型（derived class）
 	wxXmlNode* winNode = node->GetChildren();
 	for (; winNode != nullptr; winNode = winNode->GetNext())
 	{
@@ -103,7 +103,7 @@ void XmlWinAttrBuilder::loadXmlNode(wxXmlNode * node, std::vector<AttributePrope
 }
 
 // 分析一个Attribute的数据
-void XmlWinAttrBuilder::AnalyzeNode(wxXmlNode *node, AttributeProperty & attrProperty)
+void XmlWinAttrBuilder::AnalyzeNode(wxXmlNode *node, WinAttrProperty & attrProperty)
 {
 	attrProperty.editorProperty = node->GetAttribute(SET_PROPERTY_TYPE, "");
 	if (attrProperty.editorProperty.empty())

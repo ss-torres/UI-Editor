@@ -1,8 +1,8 @@
+#include <tchar.h>
 #include "d3dEngine.h"
-#include "../../ErrorHandle/ErrorHandle.h"
 #include "d3d9ResourceManager.h"
 #include "d3dEngineImpl.h"
-#include <tchar.h>
+#include "../../ErrorHandle/ErrorHandle.h"
 
 #ifdef UNICODE
 const wchar_t* ENGINE_IMPL_TEX_FILE = L"dxutcontrols.dds";

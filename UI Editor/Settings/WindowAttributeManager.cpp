@@ -1,8 +1,9 @@
-#include "WindowAttributeManager.h"
-#include <wx/xml/xml.h>
 #include <memory>
 #include <stdexcept>
+#include <wx/xml/xml.h>
+#include <wx/propgrid/propgrid.h>
 #include <wx/propgrid/property.h>
+#include "WindowAttributeManager.h"
 #include "AttributeBuilder/XmlWinAttrBuilder.h"
 #include "../Property/PropertyFactory.h"
 
@@ -40,7 +41,7 @@ bool WindowAttributeManager::LoadAttributeFile(const wxString& winAttrFile)
 	return false;
 }
 
-// 用来获取窗口名对应的默认窗口属性
+// 用来获取控件名对应的默认控件属性
 const std::vector<wxPGProperty*>& WindowAttributeManager::getWinAttr(const wxString& winName) const
 {
 	std::map<wxString, std::vector<wxPGProperty*>>::const_iterator it = m_winAttrProperty.find(winName);
@@ -55,7 +56,7 @@ const std::vector<wxPGProperty*>& WindowAttributeManager::getWinAttr(const wxStr
 	return markAttr;
 }
 
-// 用来获取窗口名对应的默认属性值
+// 用来获取控件名对应的默认属性值
 const std::map<wxString, wxAny>& WindowAttributeManager::getWinDefValues(const wxString & winName) const
 {
 	auto it = m_winAttrDefValues.find(winName);
@@ -69,7 +70,7 @@ const std::map<wxString, wxAny>& WindowAttributeManager::getWinDefValues(const w
 	return errorRet;
 }
 
-// 用来获取窗口名对应的编辑属性值
+// 用来获取控件名对应的编辑属性值
 const std::vector<wxPGProperty*>& WindowAttributeManager::getEditWinAttr(const wxString& winName) const
 {
 	auto it = m_winEditAttrProperty.find(winName);
@@ -83,7 +84,7 @@ const std::vector<wxPGProperty*>& WindowAttributeManager::getEditWinAttr(const w
 	return errorRet;
 }
 
-//// 用来获取可以编辑的对应窗口属性，通过使用iterator，可以只修改值，而不改变
+//// 用来获取可以编辑的对应控件属性，通过使用iterator，可以只修改值，而不改变
 //WindowAttributeManager::EDIT_WIN_ATTR_ITERATOR WindowAttributeManager::getEditWinAttrBeg(const wxString & winName)
 //{
 //	auto it = m_winEditAttrProperty.find(winName);
@@ -107,7 +108,7 @@ const std::vector<wxPGProperty*>& WindowAttributeManager::getEditWinAttr(const w
 //}
 
 // 创建默认属性列表
-void WindowAttributeManager::createDefaultAttrs(const std::map<wxString, std::vector<AttributeProperty>>& winAttrs)
+void WindowAttributeManager::createDefaultAttrs(const std::map<wxString, std::vector<WinAttrProperty>>& winAttrs)
 {
 	std::vector<wxPGProperty*> properties;
 	std::map<wxString, wxAny> propertyValues;
@@ -140,7 +141,7 @@ void WindowAttributeManager::createDefaultAttrs(const std::map<wxString, std::ve
 }
 
 // 创建编辑用的属性列表
-void WindowAttributeManager::createEditAttrs(const std::map<wxString, std::vector<AttributeProperty>>& winAttrs)
+void WindowAttributeManager::createEditAttrs(const std::map<wxString, std::vector<WinAttrProperty>>& winAttrs)
 {
 	std::vector<wxPGProperty*> properties;
 	for (auto it = winAttrs.cbegin(); it != winAttrs.cend(); ++it)

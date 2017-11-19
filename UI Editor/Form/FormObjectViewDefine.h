@@ -1,8 +1,8 @@
-#ifndef EDITOR_TOOL_OBJECT_VIEW_DEFINE_H
-#define EDITOR_TOOL_OBJECT_VIEW_DEFINE_H
+#ifndef FORM_OBJECT_VIEW_DEFINE_H
+#define FORM_OBJECT_VIEW_DEFINE_H
 
 #include <wx/clntdata.h>
-#include "../EditorFuncDefine.h"
+#include "../EditorWindow/EditorFunc.h"
 
 class EditorWindowID : public wxClientData
 {
@@ -14,10 +14,10 @@ public:
 	}
 	~EditorWindowID() override { }
 
-	// 获取节点对应的窗口ID
+	// 获取节点对应的控件ID
 	ID_TYPE getEditorWinId() const { return m_editorWinId; }
 private:
 	ID_TYPE m_editorWinId;
 };
 
-#endif	// EDITOR_TOOL_OBJECT_VIEW_DEFINE_H
+#endif	// FORM_OBJECT_VIEW_DEFINE_H

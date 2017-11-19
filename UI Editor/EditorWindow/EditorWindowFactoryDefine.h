@@ -3,10 +3,10 @@
 
 /*
  * 文件名：WindowFactoryDefine
- * 作用：定义与创建窗口有关的数据
+ * 作用：定义与创建控件有关的数据
  */
 
-#include "../EditorFuncDefine.h"
+#include <wx/string.h>
 
 // 定义各种类型默认的宽和高
 
@@ -22,7 +22,7 @@ const int EDITOR_LABEL_HEIGHT = 15;
 const int EDITOR_BUTTON_WIDTH = 30;
 const int EDITOR_BUTTON_HEIGHT = 15;
 
-// 根据传入的信息，新建一个窗口对象
+// 根据传入的信息，新建一个控件对象
 class CopyWindowInfo
 {
 public:
@@ -61,20 +61,20 @@ public:
 		m_winAttrValues = std::move(right.m_winAttrValues);
 		return *this;
 	}
-	// 设置窗口名
+	// 设置控件名
 	void setWinName(const wxString& winName) { m_winName = winName; }
-	// 获取窗口名
+	// 获取控件名
 	const wxString& getWinName() const { return m_winName; }
-	// 添加一条窗口属性
+	// 添加一条控件属性
 	void add(const wxString winAttr, const wxAny& attrValue) { m_winAttrValues.insert(std::make_pair(winAttr, attrValue)); }
-	// 获取窗口属性
+	// 获取控件属性
 	const WIN_ATTR_VALUE_LIST& getWinAttrValues() const { return m_winAttrValues; }
-	// 移动窗口属性
+	// 移动控件属性
 	WIN_ATTR_VALUE_LIST&& moveWinAttrValues() { return std::move(m_winAttrValues); }
 private:
-	// 窗口名
+	// 控件名
 	wxString m_winName;
-	// 窗口属性值对
+	// 控件属性值对
 	std::map<wxString, wxAny> m_winAttrValues;
 };
 

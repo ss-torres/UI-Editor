@@ -3,7 +3,7 @@
 
 /*
  * 文件名：EditorFunc
- * 作用：用来实现窗口编辑相关的功能
+ * 作用：用来实现控件编辑相关的功能
  * 说明：
  * 1.如果采用C++ Programming Language 4th中的27.4.2: Linearizing Class Hierarchies中的设计方法，
  * 优化属性处理相关函数的实现
@@ -15,8 +15,9 @@
 #include <functional>
 #include <wx/string.h>
 #include <wx/any.h>
-#include "../EditorFuncDefine.h"
-#include "../Form/EditorToolWidgetSelectDefine.h"
+#include "WinAttrAndNameProtocol.h"
+#include "EditorFuncDefine.h"
+#include "../Form/FormWidgetSelectDefine.h"
 #include "../ErrorHandle/ErrorHandle.h"
 
 namespace inner
@@ -39,23 +40,23 @@ namespace inner
 		EditorFunc();
 		virtual ~EditorFunc();
 
-		// 用来获取构建的窗口类型，继承的窗口返回自身
+		// 用来获取构建的控件类型，继承的控件返回自身
 		virtual SimpleWindow<EditorFunc>* getConstructWindow() = 0;
 
-		// 用来获取窗口类名字
+		// 用来获取控件类名字
 		virtual wxString getWindowClassName() const { return EDITOR_WINDOW_TYPE; }
-		// 获取窗口ID，用来标识窗口
+		// 获取控件ID，用来标识控件
 		ID_TYPE getId() const { return m_id; }
-		// 用来判断窗口在编辑器是否可以编辑
+		// 用来判断控件在编辑器是否可以编辑
 		bool isUiEditable() const { return m_editShow; }
-		// 用来获取属性是否可以编辑，对于窗口管理类，属性不可以编辑
+		// 用来获取属性是否可以编辑，对于控件管理类，属性不可以编辑
 		virtual bool isAttrEditable() { return true; }
-		// 用来查看对应ID的窗口
+		// 用来查看对应ID的控件
 		virtual SimpleWindow<EditorFunc>* findMatchWnd(ID_TYPE findId);
 
-		// 更新窗口对象属性信息
+		// 更新控件对象属性信息
 		virtual void updateWinAttr(const wxString& attrName, const wxAny& value) { updateAttrValue(attrName, value); }
-		// 获取窗口对象属性列表中的信息
+		// 获取控件对象属性列表中的信息
 		const wxAny& getWinAttr(const wxString& attrName) const;
 		// 重新设置整个属性表，当前只会更新列表信息，不会修改Window中的数据
 		template <typename ATTR_MAP_TYPE = WIN_ATTR_MAP>
@@ -66,7 +67,7 @@ namespace inner
 			return m_allWinAttrs; 
 		}
 
-		// 设置窗口在编辑时是否显示
+		// 设置控件在编辑时是否显示
 		virtual void setEditShow(bool editShow) { m_editShow = editShow; }
 
 		//在编辑界面上绘制
@@ -92,30 +93,30 @@ namespace inner
 
 	protected:
 		bool getEditShow() const { return m_editShow; }
-		// 设置窗口ID
+		// 设置控件ID
 		void setId(ID_TYPE id) { m_id = id; }
 
 		// 更新整个属性表中的信息
 		void updateAttrValue(const wxString& name, const wxAny& value);
 
 	private:
-		// 用来生成新的窗口ID
+		// 用来生成新的控件ID
 		static ID_TYPE s_id_generator;
-		// 获取一个窗口ID，获取的窗口ID从ID_BEG开始，如果新的窗口ID为负值，则提示错误
+		// 获取一个控件ID，获取的控件ID从ID_BEG开始，如果新的控件ID为负值，则提示错误
 		static ID_TYPE getNewId();
 		// 初始化属性处理函数Map
 		static ATTR_HANDLE_MAP initEditorAttrHanldes();
-		// 修改窗口中一个T型属性
+		// 修改控件中一个T型属性
 		template <typename T>
 		bool ChangeWndAttrValue(const wxAny& value, std::function<T(SimpleWindow<EditorFunc>*)> getFunc,
 			std::function<void(SimpleWindow<EditorFunc>*, T)> setFunc, const char* funcName);
 
 	private:
-		// 在编辑时，该窗口是否显示
+		// 在编辑时，该控件是否显示
 		bool m_editShow;
-		// 用来记录当前窗口的ID
+		// 用来记录当前控件的ID
 		ID_TYPE m_id;
-		// 用来记录窗口的全部属性
+		// 用来记录控件的全部属性
 		WIN_ATTR_MAP m_allWinAttrs;
 	};
 
@@ -132,7 +133,7 @@ namespace inner
 		m_allWinAttrs[name] = value;
 	}
 
-	// 获取窗口对象属性列表中的信息
+	// 获取控件对象属性列表中的信息
 	inline const wxAny& EditorFunc::getWinAttr(const wxString & attrName) const
 	{
 		auto it = m_allWinAttrs.find(attrName);
@@ -148,7 +149,7 @@ namespace inner
 		return value;
 	}
 
-	// 修改窗口中一个int型属性
+	// 修改控件中一个int型属性
 	template <typename T>
 	inline bool EditorFunc::ChangeWndAttrValue(const wxAny& value, std::function<T(SimpleWindow<EditorFunc>*)> getFunc,
 		std::function<void(SimpleWindow<EditorFunc>*, T)> setFunc, const char* funcName)
@@ -171,7 +172,7 @@ namespace inner
 		return false;
 	}
 
-	// 获取一个窗口ID，获取的窗口ID从10开始，如果新的窗口ID为负值，则提示错误
+	// 获取一个控件ID，获取的控件ID从10开始，如果新的控件ID为负值，则提示错误
 	inline int EditorFunc::getNewId()
 	{
 		auto newId = ++s_id_generator;

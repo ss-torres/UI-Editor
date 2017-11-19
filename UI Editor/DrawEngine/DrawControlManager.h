@@ -3,10 +3,11 @@
 
 /*
  * 文件名：DrawManager
- * 作用：用来管理创建的Control，创建的Control用在编辑窗口中的渲染
+ * 作用：用来管理创建的Control，创建的Control用在主工作区中进行控件的渲染
  */
 
 #include <memory>
+#include "UiEditorProtocol.h"
 #include "../EditorWindow/EditorWindowInterface.h"
 #include "AbstractEngine.h"
 
@@ -26,16 +27,16 @@ public:
 	// 设置时间间隔
 	void setElapsedTime(float elapsedTime) { m_elapsedTime = elapsedTime; }
 
-	// 绘制窗口之前准备
+	// 绘制控件之前准备
 	void drawWindowsBefore();
-	// 绘制窗口之后处理
+	// 绘制控件之后处理
 	void drawWindowsAfter();
 	// 每帧检测，如果为true，则说明检测通过
 	bool checkEveryFrame() const { return m_engine->checkEveryFrame(); }
-	// 绘制窗口对象
+	// 绘制控件对象
 	template <typename T>
 	void drawWindow(const T* window, int absX, int absY) { }
-	// 绘制管理窗口对象
+	// 绘制管理控件对象
 	void drawWindow(const EditorManageWindow* manageWindow, int absX, int absY);
 	// 绘制Static对象
 	void drawWindow(const EditorLabel* label, int absX, int absY);

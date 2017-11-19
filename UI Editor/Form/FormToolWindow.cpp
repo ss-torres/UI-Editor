@@ -1,8 +1,8 @@
-#include "EditorToolWindow.h"
-#include "../ErrorHandle/ErrorHandle.h"
 #include <cassert>
+#include "FormToolWindow.h"
+#include "../ErrorHandle/ErrorHandle.h"
 
-EditorToolWindow::EditorToolWindow(wxAuiManager &manager, wxWindow * parent, int direction, const wxString & paneName)
+FormToolWindow::FormToolWindow(wxAuiManager &manager, wxWindow * parent, int direction, const wxString & paneName)
 	: WorkArea(parent),
 	m_auiManager(manager)
 {
@@ -13,13 +13,13 @@ EditorToolWindow::EditorToolWindow(wxAuiManager &manager, wxWindow * parent, int
 	m_auiManager.AddPane(m_bench, direction, paneName);
 }
 
-EditorToolWindow::~EditorToolWindow()
+FormToolWindow::~FormToolWindow()
 {
 	assert(getBench() != nullptr);
 }
 
 // 用来设置停靠方向
-void EditorToolWindow::setDirection(int direction)
+void FormToolWindow::setDirection(int direction)
 {
 	wxAuiPaneInfo& myPaneInfo = m_auiManager.GetPane(getBench());
 	if (myPaneInfo.IsOk())
@@ -34,7 +34,7 @@ void EditorToolWindow::setDirection(int direction)
 }
 
 // 用来设置标题
-void EditorToolWindow::setCaption(const wxString & captionName)
+void FormToolWindow::setCaption(const wxString & captionName)
 {
 	wxAuiPaneInfo& myPaneInfo = m_auiManager.GetPane(getBench());
 	if (myPaneInfo.IsOk())
@@ -49,7 +49,7 @@ void EditorToolWindow::setCaption(const wxString & captionName)
 }
 
 // 用来设置各种停靠属性
-void EditorToolWindow::setPaneInfo(const wxAuiPaneInfo & paneInfo)
+void FormToolWindow::setPaneInfo(const wxAuiPaneInfo & paneInfo)
 {
 	wxAuiPaneInfo& myPaneInfo = m_auiManager.GetPane(getBench());
 	if (myPaneInfo.IsOk())
@@ -63,7 +63,7 @@ void EditorToolWindow::setPaneInfo(const wxAuiPaneInfo & paneInfo)
 	}
 }
 
-wxAuiPaneInfo & EditorToolWindow::getPaneInfo()
+wxAuiPaneInfo & FormToolWindow::getPaneInfo()
 {
 	wxAuiPaneInfo& myPaneInfo = m_auiManager.GetPane(getBench());
 	if (myPaneInfo.IsOk())

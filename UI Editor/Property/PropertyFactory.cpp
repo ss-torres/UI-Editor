@@ -1,13 +1,10 @@
-#include "PropertyFactory.h"
-
-#include "wx/fontdlg.h"
-#include <wx/bitmap.h>
 #include <wx/propgrid/propgrid.h>
 #include <wx/propgrid/property.h>
 #include <wx/propgrid/props.h>
 #include <wx/propgrid/advprops.h>
 
-#include "../Settings/WindowAttributeDefine.h"
+#include "PropertyFactory.h"
+#include "WinAttrAndNameProtocol.h"
 #include "../ErrorHandle/ErrorHandle.h"
 #include "../Util/StringUtil.h"
 
@@ -32,7 +29,7 @@ const PropertyFactory * PropertyFactory::Instance()
 
 
 // 根据配置参数，获取一个wxPGProperty
-wxPGProperty * PropertyFactory::createProperty(const AttributeProperty& attrProperty) const
+wxPGProperty * PropertyFactory::createProperty(const WinAttrProperty& attrProperty) const
 {
 	using namespace PropertyFactoryImpl;
 
@@ -56,7 +53,7 @@ wxPGProperty * PropertyFactory::createProperty(const AttributeProperty& attrProp
 }
 
 // 根据配置参数，获取一个可以获取值得wxPGProperty
-wxPGProperty * PropertyFactory::createDefaultProperty(const AttributeProperty & attrProperty) const
+wxPGProperty * PropertyFactory::createDefaultProperty(const WinAttrProperty & attrProperty) const
 {
 	using namespace PropertyFactoryImpl;
 

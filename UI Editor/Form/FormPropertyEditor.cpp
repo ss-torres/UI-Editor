@@ -1,6 +1,6 @@
 #include <wx/propgrid/propgrid.h>
 #include <wx/log.h>
-#include "EditorToolPropertyEditor.h"
+#include "FormPropertyEditor.h"
 #include "../Property/ImageProperty.h"
 #include "../ErrorHandle/ErrorHandle.h"
 #include "../EditMessage/CommandFactory.h"
@@ -9,25 +9,25 @@
 const int PROPERTY_EDITOR_WIDTH = 300;
 const int PROPERTY_EDITOR_HEIGHT = 600;
 
-EditorToolPropertyEditor::EditorToolPropertyEditor(wxAuiManager & manager, wxWindow * parent, int direction, const wxString & paneName)
-	: EditorToolWindow(manager, parent, direction, paneName)
+FormPropertyEditor::FormPropertyEditor(wxAuiManager & manager, wxWindow * parent, int direction, const wxString & paneName)
+	: FormToolWindow(manager, parent, direction, paneName)
 {
 	
 }
 
-EditorToolPropertyEditor::~EditorToolPropertyEditor()
+FormPropertyEditor::~FormPropertyEditor()
 {
 }
 
 // 显示对应类型的编辑框
-void EditorToolPropertyEditor::resetAttrs(const wxString& winTypeName)
+void FormPropertyEditor::resetAttrs(const wxString& winTypeName)
 {
 	// 如果当前打开的和之前的一致，则不操作
 	if (winTypeName == m_curEditWinType)
 	{
 		return;
 	}
-	// 显示对应窗口的编辑器
+	// 显示对应控件的编辑器
 	m_curPropertyGrid->Hide();
 	auto it = m_propertyGrids.find(winTypeName);
 	if (it != m_propertyGrids.cend())
@@ -41,15 +41,15 @@ void EditorToolPropertyEditor::resetAttrs(const wxString& winTypeName)
 	}
 
 	// 没有查找到，异常
-	throw ExtraExcept::unexpected_situation("EditorToolPropertyEditor::resetAttrs: can't find winTypeName in m_propertyGrids");
+	throw ExtraExcept::unexpected_situation("FormPropertyEditor::resetAttrs: can't find winTypeName in m_propertyGrids");
 	return;
 }
 
 // 设置属性列表的值
-void EditorToolPropertyEditor::updateAttrs(const std::map<wxString, wxAny>& propAttrs)
+void FormPropertyEditor::updateAttrs(const std::map<wxString, wxAny>& propAttrs)
 {
-	const char* const PRE_FUNC_NAME = "EditorToolPropertyEditor::resetAttrs";
-	const char* const CUR_FUNC_NAME = "EditorToolPropertyEditor::updateAttrs";
+	const char* const PRE_FUNC_NAME = "FormPropertyEditor::resetAttrs";
+	const char* const CUR_FUNC_NAME = "FormPropertyEditor::updateAttrs";
 
 	if (m_curPropertyGrid == nullptr)
 	{
@@ -71,7 +71,7 @@ void EditorToolPropertyEditor::updateAttrs(const std::map<wxString, wxAny>& prop
 }
 
 // 用来处理属性改变
-void EditorToolPropertyEditor::OnPropertyGridChanged(wxPropertyGridEvent & event)
+void FormPropertyEditor::OnPropertyGridChanged(wxPropertyGridEvent & event)
 {
 	wxPGProperty* prop = event.GetProperty();
 
@@ -86,7 +86,7 @@ void EditorToolPropertyEditor::OnPropertyGridChanged(wxPropertyGridEvent & event
 }
 
 // 初始化编辑属性窗口
-void EditorToolPropertyEditor::initSubWindows(const std::vector<wxString>& windowTypes)
+void FormPropertyEditor::initSubWindows(const std::vector<wxString>& windowTypes)
 {
 	wxBoxSizer* vBoxSizer = new wxBoxSizer(wxVERTICAL);
 	m_sizer = vBoxSizer;
@@ -103,15 +103,15 @@ void EditorToolPropertyEditor::initSubWindows(const std::vector<wxString>& windo
 		//propertyGrid->Append(imgProp);
 
 		vBoxSizer->Add(propertyGrid, 1, wxALL, 5);
-		// 添加窗口名和编辑界面的map
+		// 添加控件名和编辑界面的map
 		m_propertyGrids.insert(std::make_pair(winType, propertyGrid));
 
-		propertyGrid->Bind(wxEVT_PG_CHANGED, &EditorToolPropertyEditor::OnPropertyGridChanged, this);
+		propertyGrid->Bind(wxEVT_PG_CHANGED, &FormPropertyEditor::OnPropertyGridChanged, this);
 	}
-	// 查看是否存在可以编辑的窗口类型
+	// 查看是否存在可以编辑的控件类型
 	if (m_propertyGrids.empty())
 	{
-		throw ExtraExcept::unexpected_situation("EditorToolPropertyEditor::initSubWindows: m_propertyGrids can't be empty");
+		throw ExtraExcept::unexpected_situation("FormPropertyEditor::initSubWindows: m_propertyGrids can't be empty");
 	}
 	// 初始化值
 	m_curEditWinType = m_propertyGrids.begin()->first;
@@ -120,14 +120,14 @@ void EditorToolPropertyEditor::initSubWindows(const std::vector<wxString>& windo
 	getBench()->SetSizerAndFit(vBoxSizer);
 }
 
-// 修改对应窗口的属性列表
-void EditorToolPropertyEditor::insertWindowTypeAttrs(const wxString& winType, const std::vector<wxPGProperty*>& attrs)
+// 修改对应控件的属性列表
+void FormPropertyEditor::insertWindowTypeAttrs(const wxString& winType, const std::vector<wxPGProperty*>& attrs)
 {
 	auto it = m_propertyGrids.find(winType);
 
 	if (it == m_propertyGrids.cend())
 	{
-		throw std::runtime_error("EditorToolPropertyEditor::insertWindowTypeAttrs: m_properGrids can't find " + winType);
+		throw std::runtime_error("FormPropertyEditor::insertWindowTypeAttrs: m_properGrids can't find " + winType);
 	}
 
 	auto propertyGrid = it->second;

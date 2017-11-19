@@ -3,12 +3,12 @@
 
 /*
  * 文件名：SimpleLabel
- * 作用：用来实现简单label显示的窗口
+ * 作用：用来实现简单label显示的控件
  */
 
 #include <wx/font.h>
 #include "SimpleWindow.h"
-#include "../EditorFuncDefine.h"
+#include "UiEditorProtocol.h"
 
 namespace inner
 {

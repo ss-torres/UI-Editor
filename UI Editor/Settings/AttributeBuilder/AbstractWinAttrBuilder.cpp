@@ -9,8 +9,8 @@ AbstractWinAttrBuilder::~AbstractWinAttrBuilder()
 }
 
 
-// 获取加载的窗口属性，获取后，除非重新加载，否则不可使用
-std::map<wxString, std::vector<AttributeProperty>> AbstractWinAttrBuilder::getWinAttrs()
+// 获取加载的控件属性，在调用loadWinAttr后，只可调用一次
+std::map<wxString, std::vector<WinAttrProperty>> AbstractWinAttrBuilder::getWinAttrs()
 {
 	return std::move(m_winAttrs);
 }

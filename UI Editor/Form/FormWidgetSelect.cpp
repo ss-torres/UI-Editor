@@ -1,8 +1,9 @@
-#include "EditorToolWidgetSelect.h"
 #include <wx/dnd.h>
+#include <wx/fontdlg.h>
 #include <wx/propgrid/property.h>
+#include "FormWidgetSelect.h"
 #include "../ErrorHandle/ErrorMessage.h"
-#include "EditorToolWidgetSelectDefine.h"
+#include "FormWidgetSelectDefine.h"
 #include "../CopyDrop/CopyWinObject.h"
 #include "../Settings/WindowAttributeManager.h"
 
@@ -16,20 +17,20 @@ const int ICONS_DIS_Y = 25;
 const int ICONS_ROW_NUM = 3;
 const int ICONS_COLUMN_NUM = 5;
 
-EditorToolWidgetSelect::EditorToolWidgetSelect(wxAuiManager & manager, wxWindow * parent, int direction, const wxString & paneName)
-	: EditorToolWindow(manager, parent, direction, paneName)
+FormWidgetSelect::FormWidgetSelect(wxAuiManager & manager, wxWindow * parent, int direction, const wxString & paneName)
+	: FormToolWindow(manager, parent, direction, paneName)
 {
 	initSubWindows();
 }
 
 
-EditorToolWidgetSelect::~EditorToolWidgetSelect()
+FormWidgetSelect::~FormWidgetSelect()
 {
 
 }
 
-// 用来获取所有能创建的窗口
-std::vector<wxString> EditorToolWidgetSelect::getAllWinNames() const
+// 用来获取所有能创建的控件类型名
+std::vector<wxString> FormWidgetSelect::getAllWinNames() const
 {
 	auto rootId = m_widget_tree->GetRootItem();
 	std::vector<wxString> winNames;
@@ -46,13 +47,13 @@ std::vector<wxString> EditorToolWidgetSelect::getAllWinNames() const
 	return winNames;
 }
 
-// 用来处理拖拉窗口类型图标
-void EditorToolWidgetSelect::OnDragWidgetIcon(wxTreeEvent& event)
+// 用来处理拖拉控件类型图标
+void FormWidgetSelect::OnDragWidgetIcon(wxTreeEvent& event)
 {
 	const wxTreeItemId& treeItem = event.GetItem();
 	wxTreeItemData *itemData = m_widget_tree->GetItemData(treeItem);
 	auto itemWidgetName = dynamic_cast<WidgetSelectItemName*>(itemData);
-	// 如果不能获得对应的窗口，则没有必要使用拖拉了
+	// 如果不能获得对应的控件，则没有必要使用拖拉了
 	if (itemWidgetName == nullptr)
 	{
 		event.Veto();
@@ -71,7 +72,7 @@ void EditorToolWidgetSelect::OnDragWidgetIcon(wxTreeEvent& event)
 }
 
 // 用来初始化窗口
-void EditorToolWidgetSelect::initSubWindows()
+void FormWidgetSelect::initSubWindows()
 {
 	wxImage iconImage(WIDGET_SELECT_ICONS, wxBITMAP_TYPE_PNG);
 
@@ -94,13 +95,13 @@ void EditorToolWidgetSelect::initSubWindows()
 	m_widget_tree = new wxTreeCtrl(getBench(), wxID_ANY, wxPoint(0, 0), wxSize(300, 600), wxTR_HIDE_ROOT | wxTR_NO_LINES | wxTR_NO_BUTTONS);
 	m_widget_tree->AssignImageList(imageList);
 
-	// 创建窗口类型列表
+	// 创建控件类型列表
 	wxTreeItemId rootId = m_widget_tree->AddRoot(wxS("Root"));
 	wxTreeItemId itemId1 = m_widget_tree->AppendItem(rootId, EDITOR_LABEL_SHOW, 3, 3, new WidgetSelectItemName(EDITOR_LABEL_TYPE));
 	wxTreeItemId itemId2 = m_widget_tree->AppendItem(rootId, EDITOR_BUTTON_SHOW, 10, 10, new WidgetSelectItemName(EDITOR_BUTTON_TYPE));
 
 	// 绑定事件
-	m_widget_tree->Bind(wxEVT_TREE_BEGIN_DRAG, &EditorToolWidgetSelect::OnDragWidgetIcon, this, wxID_ANY);
+	m_widget_tree->Bind(wxEVT_TREE_BEGIN_DRAG, &FormWidgetSelect::OnDragWidgetIcon, this, wxID_ANY);
 
 	wxBoxSizer* vBoxSizer = new wxBoxSizer(wxVERTICAL);
 	vBoxSizer->Add(m_widget_tree, 1, wxALL, 5);

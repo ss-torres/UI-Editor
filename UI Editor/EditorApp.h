@@ -8,7 +8,7 @@
 #endif
 
 class GameTimer;
-class EditorFrame;
+class MainFrame;
 
 class EditorApp : public wxApp
 {
@@ -30,7 +30,7 @@ private:
 	// 用于计算D3D渲染事件
 	GameTimer* m_timer;
 	// 程序主窗口
-	EditorFrame* m_editorFrame;
+	MainFrame* m_editorFrame;
 };
 
 #endif	// EDITOR_APP_H

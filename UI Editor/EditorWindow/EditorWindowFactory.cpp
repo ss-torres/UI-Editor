@@ -2,11 +2,10 @@
 #include "EditorLabel.h"
 #include "EditorButton.h"
 #include "EditorManageWindow.h"
-#include "../Settings/UsedWinAttrDefine.h"
 
-AbstractWindowFactory* EditorWindowFactory::s_factoryInst = nullptr;
+EditorAbstractWindowFactory* EditorWindowFactory::s_factoryInst = nullptr;
 
-// 根据拷贝的窗口数据，构造窗口
+// 根据拷贝的控件数据，构造控件
 EditorAbstractWindow * EditorWindowFactory::createCopyObjectWnd(CopyWindowInfo winObject,
 	EditorAbstractWindow* parent, int relX, int relY, int width, int height)
 {
@@ -28,13 +27,13 @@ EditorAbstractWindow * EditorWindowFactory::createCopyObjectWnd(CopyWindowInfo w
 	return editorWnd;
 }
 
-// 创建一个管理窗口
+// 创建一个管理控件
 EditorAbstractWindow * EditorWindowFactory::createManageWnd(int width, int height)
 {
 	return new EditorManageWindow(0, 0, width, height);
 }
 
-// 根据窗口名获取对应的窗口对象
+// 根据控件名获取对应的控件对象
 EditorAbstractWindow * WindowFactoryImpl::createEditorWnd(const wxString & winName,
 	EditorAbstractWindow* parent, int relX, int relY, int width, int height)
 {

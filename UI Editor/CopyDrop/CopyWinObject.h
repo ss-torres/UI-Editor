@@ -3,7 +3,7 @@
 
 /*
  * 文件名：CopyWinObject
- * 作用：Drag & Drop中用来传递窗口属性值的数据
+ * 作用：Drag & Drop中用来传递控件属性值的数据
  * 注意事项：当前只考虑一个应用直接的拷贝，如果需要可以修改来实现不同项目之间的考虑
  */
 
@@ -39,7 +39,7 @@ public:
 	// 设置的结构体默认为CopyWindowInfo
 	bool SetData(size_t len, const void* buf) override;
 
-	// 用来获取存储的窗口属性信息
+	// 用来获取存储的控件属性信息
 	const CopyWindowInfo& getWinValue() const { return m_data; }
 
 private:

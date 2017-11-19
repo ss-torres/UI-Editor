@@ -1,24 +1,16 @@
-#ifndef EDITOR_FUNC_DEFINE_H
-#define EDITOR_FUNC_DEFINE_H
+#ifndef UI_EDITOR_PROTOCOL_H
+#define UI_EDITOR_PROTOCOL_H
+
+
+/*
+ * 文件名：UiEditorProtocol
+ * 作用：一些重要的设定，现在的设定内容包括
+ * 1.设定是使用多字节还是UNICODE
+ */
 
 #include <wx/string.h>
 
 #define WCHAR_LABEL_TYPE	1
-
-// 用来指示窗口的类型
-enum EditorWindowType
-{
-	EDITOR_DEFAULT_WINDOW = 0,		// 保留的窗口类型
-	EDITOR_MANAGER_WINDOW,			// EditorManagerWindow
-	EDITOR_CONTAINER_WINDOW,		// EditorContainerWindow
-	EDITOR_LABEL,					// EditorLabel
-	EDITOR_BUTTON,					// EditorButton
-};
-
-using ID_TYPE = int;
-
-// 编辑窗口的起始ID
-const ID_TYPE ID_BEG = 100;
 
 #if WCHAR_LABEL_TYPE
 using LABEL_TYPE = std::wstring;
@@ -51,4 +43,4 @@ inline const LABEL_CHAR* wxStrToCStr(const wxString& str)
 }
 #endif
 
-#endif	// EDITOR_FUNC_DEFINE_H
+#endif	// UI_EDITOR_PROTOCOL_H

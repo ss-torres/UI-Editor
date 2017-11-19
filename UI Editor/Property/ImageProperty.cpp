@@ -1,7 +1,8 @@
-#include "ImageProperty.h"
-
+#include <wx/propgrid/propgrid.h>
+#include <wx/propgrid/property.h>
 #include <wx/propgrid/props.h>
 #include <wx/propgrid/advprops.h>
+#include "ImageProperty.h"
 
 WX_PG_IMPLEMENT_VARIANT_DATA_DUMMY_EQ(ImageData)
 

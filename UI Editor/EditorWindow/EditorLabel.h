@@ -20,12 +20,12 @@ public:
 	EditorLabel(SIMPLE_WINDOW_TYPE* parent, int relX, int relY, int width, int height);
 	virtual ~EditorLabel();
 
-	// 用来获取窗口类名字
+	// 用来获取控件类名字
 	wxString getWindowClassName() const override { return EDITOR_LABEL_TYPE; }
-	// 用来获取构建的窗口类型，继承的窗口返回自身
+	// 用来获取构建的控件类型，继承的控件返回自身
 	EditorLabel* getConstructWindow() override { return this; }
 
-	// 更新窗口对象属性信息
+	// 更新控件对象属性信息
 	void updateWinAttr(const wxString& attrName, const wxAny& value) override;
 
 	//在编辑界面上绘制

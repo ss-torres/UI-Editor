@@ -1,14 +1,24 @@
-#ifndef WINDOW_ATTRIBUTE_DEFINE_H
-#define WINDOW_ATTRIBUTE_DEFINE_H
+#ifndef WIN_ATTR_PROTOCOL_H
+#define WIN_ATTR_PROTOCOL_H
 
-#include <wx/string.h>
+/*
+ * 文件名：WinAttributeProtocol
+ * 作用：对属性的各种性质编辑等的约定
+ */
+
 #include <map>
+#include <wx/string.h>
 
-// 用来标识在xml中如何制定设置的项
+// 用来标识在xml中如何解读内容
+// 标识属性类型
 const wxString SET_PROPERTY_TYPE = wxS("EditorProperty");
+// 标识编辑属性使用的编辑器类型
 const wxString SET_EDITOR_NAME = wxS("EditorName");
+// 标识如果检测输入的值是否正确
 const wxString SET_EDITOR_VALIDATOR = wxS("EditorValidator");
+// 用来标识可以输入的最大字符串长度
 const wxString SET_EDITOR_MAX_LEN = wxS("EditorMaxLength");
+// 用来标识初始值
 const wxString SET_INITIAL_VALUE = wxS("InitialValue");
 
 // 用来记录编辑属性类型，对应于wxPGProperty，这里不区分大小写
@@ -102,8 +112,8 @@ const wxString ENUM_RANGE = wxS("range");
 const wxString ENUM_RANGE_DELIMITER = wxS(",");
 
 
-// 用来存储窗口属性编辑信息
-struct AttributeProperty
+// 用来存储控件属性编辑信息
+struct WinAttrProperty
 {
 	// 属性名
 	wxString propertyName;
@@ -122,11 +132,11 @@ struct AttributeProperty
 	// 关于属性的额外信息
 	std::map<wxString, wxString> additionalInfos;
 
-	AttributeProperty()
+	WinAttrProperty()
 		: editorMaxLength(0)
 	{
 
 	}
 };
 
-#endif	// WINDOW_ATTRIBUTE_DEFINE_H
+#endif	// WIN_ATTR_PROTOCOL_H

@@ -17,17 +17,17 @@ public:
 	EditorButton(SIMPLE_WINDOW_TYPE* parent, int relX, int relY, int width, int height);
 	~EditorButton() override;
 
-	// 用来获取窗口类名字
+	// 用来获取控件类名字
 	virtual wxString getWindowClassName() const { return EDITOR_BUTTON_TYPE; }
-	// 用来获取构建的窗口类型，继承的窗口返回自身
+	// 用来获取构建的控件类型，继承的控件返回自身
 	EditorButton* getConstructWindow() override { return this; }
 
-	// 更新窗口对象属性信息
+	// 更新控件对象属性信息
 	void updateWinAttr(const wxString& attrName, const wxAny& value) override;
 
-	// 获取窗口是否处于按下状态
+	// 获取控件是否处于按下状态
 	bool isPressed() const { return m_state == EDITOR_STATE_PRESSED; }
-	// 获取鼠标是否在窗口上
+	// 获取鼠标是否在控件上
 	bool isMouseOver() const { return m_state == EDITOR_STATE_MOUSE_OVER; }
 
 	//在编辑界面上绘制
@@ -44,7 +44,7 @@ private:
 	// 初始化属性处理函数Map
 	static ATTR_HANDLE_MAP initEditorAttrHanldes();
 
-	// 记录窗口的鼠标状态
+	// 记录控件的鼠标状态
 	EDITOR_WINDOW_STATE m_state;
 };
 

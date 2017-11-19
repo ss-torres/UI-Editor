@@ -2,7 +2,6 @@
 #define WORK_AREA_H
 
 #include <wx/window.h>
-#include <memory>
 
 class WorkArea
 {
