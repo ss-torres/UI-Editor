@@ -19,6 +19,18 @@ FormPropertyEditor::~FormPropertyEditor()
 {
 }
 
+// 清除属性编辑器中的属性编辑
+void FormPropertyEditor::clearAttrs()
+{
+	// 隐藏当前显示的编辑器
+	if (m_curPropertyGrid)
+	{
+		m_curPropertyGrid->Hide();
+	}
+
+	m_curEditWinType = wxString();
+}
+
 // 显示对应类型的编辑框
 void FormPropertyEditor::resetAttrs(const wxString& winTypeName)
 {
@@ -28,7 +40,10 @@ void FormPropertyEditor::resetAttrs(const wxString& winTypeName)
 		return;
 	}
 	// 显示对应控件的编辑器
-	m_curPropertyGrid->Hide();
+	if (m_curPropertyGrid)
+	{
+		m_curPropertyGrid->Hide();
+	}
 	auto it = m_propertyGrids.find(winTypeName);
 	if (it != m_propertyGrids.cend())
 	{
@@ -98,9 +113,12 @@ void FormPropertyEditor::initSubWindows(const std::vector<wxString>& windowTypes
 			wxPG_DEFAULT_STYLE | wxPG_SPLITTER_AUTO_CENTER |wxPG_HIDE_MARGIN);
 		propertyGrid->SetColumnProportion(0, 4);
 		propertyGrid->SetColumnProportion(1, 6);
-		propertyGrid->Hide();
-		//ImageProperty* imgProp = new ImageProperty("NormalImage", wxPG_LABEL);
-		//propertyGrid->Append(imgProp);
+		propertyGrid->Hide();	
+
+		if (winType.empty())
+		{
+			throw ExtraExcept::under_requirement("FormPropertyEditor::initSubWindows: windowTypes should have empty string");
+		}
 
 		vBoxSizer->Add(propertyGrid, 1, wxALL, 5);
 		// 添加控件名和编辑界面的map
@@ -114,10 +132,7 @@ void FormPropertyEditor::initSubWindows(const std::vector<wxString>& windowTypes
 		throw ExtraExcept::unexpected_situation("FormPropertyEditor::initSubWindows: m_propertyGrids can't be empty");
 	}
 	// 初始化值
-	m_curEditWinType = m_propertyGrids.begin()->first;
-	m_curPropertyGrid = m_propertyGrids.begin()->second;
-	m_curPropertyGrid->Show();
-	getBench()->SetSizerAndFit(vBoxSizer);
+	clearAttrs();
 }
 
 // 修改对应控件的属性列表

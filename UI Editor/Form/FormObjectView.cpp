@@ -1,5 +1,7 @@
 #include "FormObjectView.h"
 #include "FormObjectViewDefine.h"
+#include "../EditMessage/CommandFactory.h"
+#include "../EditMessage/ChangeManager.h"
 
 FormObjectView::FormObjectView(wxAuiManager &manager, wxWindow * parent, int direction, const wxString & paneName)
 	: FormToolWindow(manager, parent, direction, paneName)
@@ -16,6 +18,7 @@ FormObjectView::~FormObjectView()
 void FormObjectView::setRootWindowId(ID_TYPE id)
 {
 	wxTreeListItem rootItem = m_objectView->GetRootItem();
+	m_objectView->SetItemData(rootItem, new EditorWindowID(id));
 	m_idToItems[id] = rootItem;
 }
 
@@ -48,16 +51,26 @@ void FormObjectView::unSelect(ID_TYPE unSelectId) const
 	m_objectView->Unselect(m_idToItems.at(unSelectId));
 }
 
-// 获取当前所有选中
-std::vector<ID_TYPE> FormObjectView::getSelections() const
+// 设置当前所有选中
+void FormObjectView::setSelections(const std::unordered_set<ID_TYPE>& selections)
 {
-	std::vector<ID_TYPE> selections;
+	m_objectView->UnselectAll();
+	for (auto it = selections.cbegin(); it != selections.cend(); ++it)
+	{
+		m_objectView->Select(m_idToItems.at(*it));
+	}
+}
+
+// 获取当前所有选中
+std::unordered_set<ID_TYPE> FormObjectView::getSelections() const
+{
+	std::unordered_set<ID_TYPE> selections;
 	wxTreeListItems items;
 	m_objectView->GetSelections(items);
 	for (const auto& item : items)
 	{
 		auto data = dynamic_cast<EditorWindowID *>(m_objectView->GetItemData(item));
-		selections.push_back(data->getEditorWinId());
+		selections.insert(data->getEditorWinId());
 	}
 
 	return selections;
@@ -73,14 +86,32 @@ void FormObjectView::changeWinAttr(ID_TYPE changeId, const wxString &attrName, c
 	}
 }
 
+// 用来处理选中改变的消息
+void FormObjectView::handleSelectionChange(wxTreeListEvent & event)
+{
+	// 获取当前点选对象
+	wxTreeListItem clickItem = event.GetItem();
+	// 查看点击的对象是否有效
+	if (!clickItem.IsOk())
+	{
+		return;
+	}
+	auto data = dynamic_cast<EditorWindowID*>(m_objectView->GetItemData(clickItem));
+	// 该对象被选择为新的当前编辑对象
+	using namespace Command;
+	auto curWndCommand = CommandFactory::instance()->createCurrentWindowIdCommand(data->getEditorWinId());
+	ChangeManager::instance()->getCommandStack().Submit(curWndCommand);
+}
+
 // 初始化子窗口
 void FormObjectView::initSubWindows()
 {
-	m_objectView = new wxTreeListCtrl(getBench(), wxID_ANY, wxPoint(0, 0), wxSize(300, 600), wxTL_DEFAULT_STYLE | wxTL_CHECKBOX);
+	m_objectView = new wxTreeListCtrl(getBench(), wxID_ANY, wxPoint(0, 0), wxSize(300, 600), wxTL_MULTIPLE | wxTL_CHECKBOX);
 	m_objectView->AppendColumn(wxS("object"));
 	m_objectView->AppendColumn(wxS("class"));
-	//wxTreeListItem item = m_objectView->AppendItem(m_objectView->GetRootItem(), wxS("background"));
-	//m_objectView->SetItemText(item, 1, wxS("EditorLabel"));
+	
+	// 绑定消息
+	m_objectView->Bind(wxEVT_TREELIST_SELECTION_CHANGED, &FormObjectView::handleSelectionChange, this, wxID_ANY);
 
 	wxBoxSizer* boxSizer = new wxBoxSizer(wxVERTICAL);
 	boxSizer->Add(m_objectView, 1, wxALL, 5);

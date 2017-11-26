@@ -267,6 +267,12 @@
     <ClInclude Include="EditorProtocol\WinAttrAndNameProtocol.h">
       <Filter>EditorProtocol</Filter>
     </ClInclude>
+    <ClInclude Include="EditMessage\SelectWindowsCommand.h">
+      <Filter>EditMessage</Filter>
+    </ClInclude>
+    <ClInclude Include="EditMessage\CurrentWindowIdCommand.h">
+      <Filter>EditMessage</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="UI Editor.cpp">
@@ -382,6 +388,9 @@
     </ClCompile>
     <ClCompile Include="Form\WorkAreaHelp.cpp">
       <Filter>Form</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorWindow\EditorFrame.cpp">
+      <Filter>EditorWindow</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

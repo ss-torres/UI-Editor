@@ -292,7 +292,7 @@ namespace inner
 		}
 	}
 
-	// 获取消息处理的范围，相对范围
+	// 获取消息处理的范围，相对范围，相对于自己
 	template <typename T>
 	inline wxRegion SimpleWindow<T>::getMsgRegion() const
 	{

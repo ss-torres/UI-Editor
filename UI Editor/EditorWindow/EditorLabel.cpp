@@ -59,7 +59,7 @@ bool EditorLabel::ChangeText(const wxAny & value)
 	return false;
 }
 
-// 初始化属性处理函数Ma
+// 初始化属性处理函数Map
 EditorLabel::ATTR_HANDLE_MAP EditorLabel::initEditorAttrHanldes()
 {
 	ATTR_HANDLE_MAP attrHandles;

@@ -29,5 +29,10 @@
 		</Window>
 		<Window name="GButton">
 		</Window>
+		
+		<Window name="GContainerWindow">
+			<Window name = "GFrame">
+			</Window>
+		</Window>
 	</Window>
 </UIAttribute>

@@ -35,6 +35,10 @@ public:
 	//EditorButton* createButton() const override;
 
 private:
+	// 根据拷贝控件名，给新控件取一个名字
+	void changeWindowName(wxString& winName);
+
+private:
 	static EditorAbstractWindowFactory* s_factoryInst;
 	// 用来记录每种类型的创建的数量（不考虑删除）
 	std::map<wxString, long> m_winTypeToNums;

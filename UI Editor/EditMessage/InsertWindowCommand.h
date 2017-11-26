@@ -8,8 +8,8 @@
  * 否则该命令负责子控件的删除，判断条件hasParent
  */
 
-#include <wx/cmdproc.h>
 #include <stdexcept>
+#include <wx/cmdproc.h>
 #include "../EditorWindow/EditorWindowInterface.h"
 
 namespace Command

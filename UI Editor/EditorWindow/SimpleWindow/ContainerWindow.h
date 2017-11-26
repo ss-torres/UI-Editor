@@ -14,7 +14,7 @@ namespace inner
 		ContainerWindow(SIMPLE_WINDOW_TYPE* parent, int relX, int relY, int width, int height);
 		~ContainerWindow() override;
 
-		// 获取消息处理的范围
+		// 获取消息处理的范围，相对范围，相对于自己
 		wxRegion getMsgRegion() const override;
 
 		// 获取控件是否可以有子控件对象

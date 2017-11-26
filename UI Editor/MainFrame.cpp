@@ -16,6 +16,7 @@ MainFrame::MainFrame(const wxString & title)
 {
 	loadWindowAttributes();
 	addMenu();
+	initMessageHandle();
 	initSubWindows();
 }
 
@@ -52,6 +53,22 @@ wxBEGIN_EVENT_TABLE(MainFrame, wxFrame)
 	EVT_SIZE(MainFrame::OnSize)
 wxEND_EVENT_TABLE()
 
+// 用来处理窗口大小改变
+void MainFrame::OnSize(wxSizeEvent & event)
+{
+	if (m_auiManager)
+	{
+		m_auiManager->Update();
+	}
+}
+
+// 加载控件属性
+void MainFrame::loadWindowAttributes()
+{
+	m_winAttrManager.reset(new WindowAttributeManager());
+	m_winAttrManager->LoadAttributeFile(WIN_ATTR_FILE);
+}
+
 // 创建菜单栏
 void MainFrame::addMenu()
 {
@@ -82,7 +99,7 @@ void MainFrame::addMenu()
 	menuBar->Append(fileMenu, "&File");
 	menuBar->Append(editMenu, "&Edit");
 	menuBar->Append(helpMenu, "&Help");
-	
+
 	SetMenuBar(menuBar);
 
 	// 添加状态栏
@@ -90,20 +107,14 @@ void MainFrame::addMenu()
 	SetStatusText("Welcome to UI Editor");
 }
 
-// 用来处理窗口大小改变
-void MainFrame::OnSize(wxSizeEvent & event)
+// 初始化命令相关的对象
+void MainFrame::initMessageHandle()
 {
-	if (m_auiManager)
-	{
-		m_auiManager->Update();
-	}
-}
+	using namespace Command;
+	ChangeManager::createInstance();
+	CommandFactory::createInstance(ChangeManager::instance());
 
-// 加载控件属性
-void MainFrame::loadWindowAttributes()
-{
-	m_winAttrManager.reset(new WindowAttributeManager());
-	m_winAttrManager->LoadAttributeFile(WIN_ATTR_FILE);
+	ChangeManager::instance()->setWindowAttrMgr(m_winAttrManager);
 }
 
 // 初始化子窗口
@@ -159,15 +170,11 @@ void MainFrame::initSubWindows()
 	// 设置主工作区与查看控件对象窗口之间的关联
 	m_tool_object_view->setRootWindowId(m_editWorkArea->getManageWindowId());
 
-	using namespace Command;
-	ChangeManager::createInstance();
-	CommandFactory::createInstance(ChangeManager::instance());
 	// 将主工作区和对应功能区添加到命令处理对象中
+	using namespace Command;
 	ChangeManager::instance()->setObjectView(m_tool_object_view);
 	ChangeManager::instance()->setPropertyEditor(m_tool_property_editor);
 	ChangeManager::instance()->setWorkArea(m_editWorkArea);
-
-	ChangeManager::instance()->setWindowAttrMgr(m_winAttrManager);
 }
 
 wxDEFINE_EVENT(DESTROY_EVENT, wxNotifyEvent);

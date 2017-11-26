@@ -6,43 +6,68 @@
  * 作用：用来在查找时提供各种比较条件
  */
 
-#include "EditorWindowInterface.h"
-
 // 总是成功的判断
 template <typename CheckType = EditorAbstractWindow>
 class UiNoCheck
 {
 public:
+	using UiCheckType = CheckType;
+public:
 	UiNoCheck() = default;
 	~UiNoCheck() = default;
 
-	bool operator()(const CheckType* window) const { return true; }
+	bool operator()(const UiCheckType* window) const { return true; }
+};
+
+// 用来判断ID相同
+template <typename DecoType, typename IDType>
+class UiIdEqualCheck : public DecoType
+{
+public:
+	using UiCheckType = typename DecoType::UiCheckType;
+public:
+	UiIdEqualCheck(IDType id)
+		: m_id(id)
+	{
+
+	}
+	~UiIdEqualCheck() = default;
+
+	bool operator()(const UiCheckType* window) const { return window->getId() == m_id && DecoType::DecoType()(window); }
+
+private:
+	IDType m_id;
 };
 
 // 判断在编辑器中是否可以编辑
-template <typename DecoType, typename CheckType = EditorAbstractWindow>
+template <typename DecoType>
 class UiEditable : public DecoType
 {
 public:
+	using UiCheckType = typename DecoType::UiCheckType;
+public:
 	UiEditable() = default;
-	~UiEditable() {}
+	~UiEditable() = default;
 
-	bool operator()(const CheckType* window) const { return window->isUiEditable() && DecoType::DecoType()(window); }
+	bool operator()(const UiCheckType* window) const { return window->isUiEditable() && DecoType::DecoType()(window); }
 };
 
 // 判断是否可以有子对象
-template <typename DecoType, typename CheckType = EditorAbstractWindow>
+template <typename DecoType>
 class UiContainer : public DecoType
 {
+public:
+	using UiCheckType = typename DecoType::UiCheckType;
 public:
 	UiContainer() = default;
 	~UiContainer() = default;
 
-	bool operator()(const CheckType* window) const { return window->isContainerWnd() && DecoType::DecoType()(window); }
+	bool operator()(const UiCheckType* window) const { return window->isContainerWnd() && DecoType::DecoType()(window); }
 };
 
 // 定义一些常用类型
 using Check_UiEditable = UiEditable<UiNoCheck<>>;
 using Check_UiContainer = UiContainer<UiNoCheck<>>;
+using Check_UiIdEqual = UiIdEqualCheck<UiNoCheck<>, ID_TYPE>;
 
 #endif	// EDITOR_WINDOW_CHECK_H

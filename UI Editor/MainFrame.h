@@ -39,16 +39,18 @@ public:
 	std::shared_ptr<FormWorkArea> getWorkArea() const { return m_editWorkArea; }
 
 private:
+	// 用来处理窗口大小改变
+	void OnSize(wxSizeEvent& event);
+
+private:
 	// 加载窗口属性
 	void loadWindowAttributes();
+	// 初始化命令相关的对象
+	void initMessageHandle();
 	// 初始化子窗口
 	void initSubWindows();
 	// 创建菜单栏
 	void addMenu();
-
-private:
-	// 用来处理窗口大小改变
-	void OnSize(wxSizeEvent& event);
 
 private:
 	wxAuiManager* m_auiManager;

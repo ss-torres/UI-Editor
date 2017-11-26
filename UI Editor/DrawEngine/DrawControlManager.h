@@ -17,6 +17,7 @@ class ButtonControl;
 class EditorManageWindow;
 class EditorLabel;
 class EditorButton;
+class EditorFrame;
 
 class DrawControlManager
 {
@@ -42,6 +43,8 @@ public:
 	void drawWindow(const EditorLabel* label, int absX, int absY);
 	// 绘制Button对象
 	void drawWindow(const EditorButton* button, int absX, int absY);
+	// 绘制Frame对象
+	void drawWindow(const EditorFrame* frame, int absX, int absY);
 
 private:
 	// 重设control的一些属性

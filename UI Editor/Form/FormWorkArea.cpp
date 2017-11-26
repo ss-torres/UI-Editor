@@ -92,6 +92,19 @@ ID_TYPE FormWorkArea::getManageWindowId() const
 	return m_winMgr->getId();
 }
 
+// 设置当前编辑的控件ID
+bool FormWorkArea::setCurrentWindowId(ID_TYPE curWndId)
+{
+	EditorAbstractWindow* curWnd = WorkAreaHelp::getAvailWindow(m_winMgr, Check_UiIdEqual(curWndId));
+	if (curWnd != nullptr)
+	{
+		setCurrentWindow(curWnd);
+		return true;
+	}
+
+	return false;
+}
+
 // 为ID的控件添加一个子控件
 bool FormWorkArea::pushBackWindow(EditorAbstractWindow* parentWnd, EditorAbstractWindow *insertWnd)
 {
@@ -193,7 +206,7 @@ void FormWorkArea::createWndObject(EditorAbstractWindow* parent, int absX, int a
 	}
 	auto createdWnd = wndFac->createCopyObjectWnd(winValue, parent, relX, relY);
 	using namespace Command;
-	auto dropWndCommand = CommandFactory::instance()->createDropWindowCommand(createdWnd, parent, getCurrentWindow());
+	auto dropWndCommand = CommandFactory::instance()->createDropWindowCommand(createdWnd, parent);
 	ChangeManager::instance()->getCommandStack().Submit(dropWndCommand);
 }
 

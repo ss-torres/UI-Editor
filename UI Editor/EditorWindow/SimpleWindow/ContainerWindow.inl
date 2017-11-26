@@ -11,9 +11,11 @@ namespace inner
 	ContainerWindow<T>::ContainerWindow(SIMPLE_WINDOW_TYPE* parent, int relX, int relY, int width, int height)
 		: SimpleWindow<T>(parent, relX, relY, width, height)
 	{
+		// 初始化消息处理范围
+		m_msgRegion = wxRect(0, 0, width, height);
 	}
 
-	// 获取消息处理的范围
+	// 获取消息处理的范围，相对范围，相对于自己
 	template<typename T>
 	inline wxRegion ContainerWindow<T>::getMsgRegion() const
 	{
@@ -151,12 +153,13 @@ namespace inner
 		wxRegion region;
 		for (auto chp : m_children)
 		{
-			region.Union(chp->getMsgRegion());
+			wxRegion region = chp->getMsgRegion();
+			region.Offset(chp->getRelX(), chp->getRelY());
+			// 偏移到当前坐标
+			region.Union(region);
 		}
 		region.Union(wxRect(0, 0, narrow_cast<wxCoord>(m_width), narrow_cast<wxCoord>(m_height)));
 		m_msgRegion = std::move(region);
-		// 偏移到当前坐标系
-		m_msgRegion.Offset(narrow_cast<wxCoord>(m_relX), narrow_cast<wxCoord>(m_relY));
 		// 如果两者范围不同，则向上传递
 		if (oldRegion != m_msgRegion)
 		{

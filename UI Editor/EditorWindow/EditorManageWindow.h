@@ -20,7 +20,7 @@ public:
 	bool isAttrEditable() override { return false; }
 	// 用来获取构建的控件类型，继承的控件返回自身
 	EditorManageWindow* getConstructWindow() override { return this; }
-	// 获取消息处理的范围，获取自身设置的范围，超过该范围的消息不处理
+	// 获取消息处理的范围，获取自身设置的范围，超过该范围的消息不处理，相对范围，相对于自己
 	wxRegion getMsgRegion() const override;
 	// 设置控件在编辑时是否显示
 	void setEditShow(bool editShow) override { EditorFunc::setEditShow(editShow); }
@@ -41,7 +41,7 @@ protected:
 	bool isHandleMsg() const override { return true; }
 };
 
-// 获取消息处理的范围
+// 获取消息处理的范围，相对范围，相对于自己
 inline wxRegion EditorManageWindow::getMsgRegion() const
 {
 	return wxRegion(narrow_cast<wxCoord>(getRelX()), narrow_cast<wxCoord>(getRelY()),

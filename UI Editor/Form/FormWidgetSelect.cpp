@@ -97,8 +97,9 @@ void FormWidgetSelect::initSubWindows()
 
 	// 创建控件类型列表
 	wxTreeItemId rootId = m_widget_tree->AddRoot(wxS("Root"));
-	wxTreeItemId itemId1 = m_widget_tree->AppendItem(rootId, EDITOR_LABEL_SHOW, 3, 3, new WidgetSelectItemName(EDITOR_LABEL_TYPE));
+	wxTreeItemId itemId1 = m_widget_tree->AppendItem(rootId, EDITOR_LABEL_SHOW, 9, 9, new WidgetSelectItemName(EDITOR_LABEL_TYPE));
 	wxTreeItemId itemId2 = m_widget_tree->AppendItem(rootId, EDITOR_BUTTON_SHOW, 10, 10, new WidgetSelectItemName(EDITOR_BUTTON_TYPE));
+	wxTreeItemId itemId3 = m_widget_tree->AppendItem(rootId, EDITOR_FRAME_SHOW, 4, 4, new WidgetSelectItemName(EDITOR_FRAME_TYPE));
 
 	// 绑定事件
 	m_widget_tree->Bind(wxEVT_TREE_BEGIN_DRAG, &FormWidgetSelect::OnDragWidgetIcon, this, wxID_ANY);

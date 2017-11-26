@@ -39,9 +39,11 @@
     <ClInclude Include="EditMessage\CommandFactory.h" />
     <ClInclude Include="EditMessage\CommandStack.h" />
     <ClInclude Include="EditMessage\CurrentWindowCommand.h" />
+    <ClInclude Include="EditMessage\CurrentWindowIdCommand.h" />
     <ClInclude Include="EditMessage\DropWindowCommand.h" />
     <ClInclude Include="EditMessage\InsertWindowCommand.h" />
     <ClInclude Include="EditMessage\RemoveWindowCommand.h" />
+    <ClInclude Include="EditMessage\SelectWindowsCommand.h" />
     <ClInclude Include="EditorApp.h" />
     <ClInclude Include="EditorProtocol\ProtocolImpl\WinAttributeProtocol.h" />
     <ClInclude Include="EditorProtocol\ProtocolImpl\WinAttrNameProtocol.h" />
@@ -105,6 +107,7 @@
     <ClCompile Include="EditMessage\CommandFactory.cpp" />
     <ClCompile Include="EditMessage\CommandStack.cpp" />
     <ClCompile Include="EditorApp.cpp" />
+    <ClCompile Include="EditorWindow\EditorFrame.cpp" />
     <ClCompile Include="MainFrame.cpp" />
     <ClCompile Include="EditorWindow\EditorButton.cpp" />
     <ClCompile Include="EditorWindow\EditorContainerWindow.cpp" />
@@ -201,6 +204,7 @@
       <AdditionalOptions>/D _CRT_SECURE_NO_WARNINGS %(AdditionalOptions)</AdditionalOptions>
       <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)UI Editor\EditorProtocol;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <AdditionalDependencies>wxmsw30d_core.lib;wxmsw30ud_core.lib;wxbase30d.lib;wxbase30ud.lib;wxtiffd.lib;wxjpegd.lib;wxpngd.lib;wxzlibd.lib;wxregexd.lib;wxexpatd.lib;winmm.lib;comctl32.lib;rpcrt4.lib;wsock32.lib;wininet.lib;wxmsw30d_aui.lib;wxmsw30ud_aui.lib;wxbase30d_xml.lib;wxbase30ud_xml.lib;wxbase30d_net.lib;wxbase30ud_net.lib;wxmsw30d_adv.lib;wxmsw30ud_adv.lib;wxmsw30d_propgrid.lib;wxmsw30ud_propgrid.lib;d3d9.lib;d3dx9d.lib;DxErr.lib;legacy_stdio_definitions.lib;%(AdditionalDependencies)</AdditionalDependencies>

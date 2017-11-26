@@ -16,11 +16,19 @@
 const wxString EDITOR_WINDOW_TYPE = wxS("GWindow");		// 不可创建
 const wxString EDITOR_WINDOW_SHOW = wxS("Window");
 
+// 对应于EditorLabel
 const wxString EDITOR_LABEL_TYPE = wxS("GLabel");		// 可以创建
 const wxString EDITOR_LABEL_SHOW = wxS("Label");
 
+// 对应于EditorButton
 const wxString EDITOR_BUTTON_TYPE = wxS("GButton");		// 可以创建
 const wxString EDITOR_BUTTON_SHOW = wxS("Button");
 
+const wxString EDITOR_CONTAINER_TYPE = wxS("GContainerWindow");	// 不可创建
+const wxString EDITOR_CONTAINER_SHOW = wxS("ContainerWindow");
+
+// 对应于EditorFrame
+const wxString EDITOR_FRAME_TYPE = wxS("GFrame");		// 可以创建
+const wxString EDITOR_FRAME_SHOW = wxS("Frame");
 
 #endif	// WIN_TYPE_NAME_PROTOCOL_H

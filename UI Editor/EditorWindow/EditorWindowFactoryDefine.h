@@ -22,6 +22,10 @@ const int EDITOR_LABEL_HEIGHT = 15;
 const int EDITOR_BUTTON_WIDTH = 30;
 const int EDITOR_BUTTON_HEIGHT = 15;
 
+// EditorFrame
+const int EDITOR_FRAME_WIDTH = 120;
+const int EDITOR_FRAME_HEIGHT = 60;
+
 // 根据传入的信息，新建一个控件对象
 class CopyWindowInfo
 {
@@ -69,6 +73,8 @@ public:
 	void add(const wxString winAttr, const wxAny& attrValue) { m_winAttrValues.insert(std::make_pair(winAttr, attrValue)); }
 	// 获取控件属性
 	const WIN_ATTR_VALUE_LIST& getWinAttrValues() const { return m_winAttrValues; }
+	// 获取控件属性
+	WIN_ATTR_VALUE_LIST& getWinAttrValues() { return m_winAttrValues; }
 	// 移动控件属性
 	WIN_ATTR_VALUE_LIST&& moveWinAttrValues() { return std::move(m_winAttrValues); }
 private:

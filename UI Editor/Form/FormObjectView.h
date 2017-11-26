@@ -9,6 +9,7 @@
 
 #include <wx/treelist.h>
 #include <unordered_map>
+#include <unordered_set>
 #include "FormToolWindow.h"
 #include "FormObjectViewDefine.h"
 
@@ -29,10 +30,18 @@ public:
 	void addSelect(ID_TYPE selectId) const;
 	// 取消选中对象
 	void unSelect(ID_TYPE unSelectId) const;
+	// 设置当前所有选中
+	void setSelections(const std::unordered_set<ID_TYPE>& selections);
 	// 获取当前所有选中
-	std::vector<ID_TYPE> getSelections() const;
+	std::unordered_set<ID_TYPE> getSelections() const;
 	// 修改对象编辑器中的显示，当前只设计修改对象
 	void changeWinAttr(ID_TYPE changeId, const wxString& attrName, const wxAny& toSetValue) const;
+
+private:
+	// 用来处理选中改变的消息
+	void handleSelectionChange(wxTreeListEvent &event);
+	// 用来处理窗口被点选
+	
 
 private:
 	// 初始化子窗口

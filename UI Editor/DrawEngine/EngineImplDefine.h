@@ -48,7 +48,7 @@ class FontTexElement
 public:
 	void SetTexture(UINT iTexture, RECT* prcTexture,
 		D3DCOLOR defaultTextureColor = D3DCOLOR_ARGB(255, 255, 255, 255));
-	void SetFont(UINT iFont, D3DCOLOR defaultFontColor = D3DCOLOR_ARGB(255, 255, 255, 255),
+	void SetFont(UINT iFont, D3DCOLOR defaultFontColor = D3DCOLOR_ARGB(255, 0, 0, 0),
 		DWORD dwTextFormat = DT_CENTER | DT_VCENTER);
 	void Refresh();
 

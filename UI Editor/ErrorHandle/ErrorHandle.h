@@ -18,13 +18,13 @@ public:
 	using _Mybase = std::logic_error;
 
 	explicit unexpected_situation(const std::string& msg)
-		: std::logic_error(msg)
+		: _Mybase(msg)
 	{
 
 	}
 
 	explicit unexpected_situation(const char* const msg)
-		: std::logic_error(msg)
+		: _Mybase(msg)
 	{
 
 	}
@@ -41,14 +41,14 @@ public:
 	using _Mybase = std::logic_error;
 
 	explicit invoke_too_early(const std::string& msg)
-		: std::logic_error(msg)
+		: _Mybase(msg)
 
 	{
 
 	}
 
 	explicit invoke_too_early(const char* const msg)
-		: std::logic_error(msg)
+		: _Mybase(msg)
 	{
 
 	}
@@ -65,14 +65,37 @@ public:
 	using _Mybase = std::logic_error;
 
 	explicit wrong_invoke_seq(std::string preReqFunc, std::string curFunc)
-		: std::logic_error("You should invoke " + std::move(preReqFunc) + " before invoking " + std::move(curFunc))
+		: _Mybase("You should invoke " + std::move(preReqFunc) + " before invoking " + std::move(curFunc))
 	{
 
 	}
 
 	explicit wrong_invoke_seq(const char* preReqFunc, const char* curFunc)
-		: std::logic_error(std::string().append("You should invoke ").append(preReqFunc)
+		: _Mybase(std::string().append("You should invoke ").append(preReqFunc)
 			.append(" before invoking ").append(curFunc))
+	{
+
+	}
+};
+
+/*
+ * 类名：under_requirement
+ * 使用：用来表达不满足类，函数等的要求
+ */
+
+class under_requirement : public std::logic_error
+{
+public:
+	using _Mybase = std::logic_error;
+
+	explicit under_requirement(const std::string& msg)
+		: _Mybase(msg)
+	{
+
+	}
+
+	explicit under_requirement(const char* const msg)
+		: _Mybase(msg)
 	{
 
 	}

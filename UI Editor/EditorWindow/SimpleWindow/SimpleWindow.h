@@ -110,7 +110,7 @@ namespace inner
 		// 在界面上绘制
 		virtual void draw(int x, int y) const = 0;
 
-		// 获取消息处理的范围，相对范围
+		// 获取消息处理的范围，相对范围，相对于自己
 		virtual wxRegion getMsgRegion() const;
 		// 该控件是否处理控件消息
 		virtual bool isHandleMsg() const { return true; }

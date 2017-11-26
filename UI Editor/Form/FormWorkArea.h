@@ -2,6 +2,7 @@
 #define FORM_WORK_AREA_H
 
 #include <memory>
+#include <unordered_set>
 #include <wx/msw/wrapwin.h>		// 在wxWidgets中替代<Windows.h>
 #include <wx/panel.h>
 #include <wx/dnd.h>
@@ -23,10 +24,20 @@ public:
 	wxWindow* getBench() override;
 	// 获取控件管理对象的ID
 	ID_TYPE getManageWindowId() const;
-	// 设置当前选中的控件
+	// 设置当前编辑的控件
 	void setCurrentWindow(EditorAbstractWindow* currentWnd) { m_currentWnd = currentWnd; }
-	// 获取当前选中的控件
+	// 设置当前编辑的控件ID
+	bool setCurrentWindowId(ID_TYPE curWndId);
+	// 获取当前编辑的控件
 	EditorAbstractWindow* getCurrentWindow() const { return m_currentWnd; }
+	// 获取当前编辑的控件ID
+	ID_TYPE getCurrentWindowId() const { return m_currentWnd->getId(); }
+	// 获取当前所有选中的窗口ID
+	const std::unordered_set<ID_TYPE>& getSelectWndIds() const { return m_selectWndIds; }
+	// 获取当前所有选中的窗口ID
+	std::unordered_set<ID_TYPE>& getSelectWndIds() { return m_selectWndIds; }
+	// 设置当前选中的所有窗口ID
+	void setSelectWndIds(std::unordered_set<ID_TYPE> selectWndIds) { m_selectWndIds = std::move(selectWndIds); }
 	// 为parentWnd添加一个子控件
 	bool pushBackWindow(EditorAbstractWindow* parenWnd, EditorAbstractWindow* insertWnd);
 	// 为parentWnd在指定位置添加一个子控件
@@ -71,8 +82,10 @@ private:
 	std::unique_ptr<DrawControlManager> m_drawManager;
 	// 用来存储创建的控件
 	EditorAbstractWindow* const m_winMgr = nullptr;
-	// 当前选中的控件
+	// 当前编辑的控件
 	EditorAbstractWindow* m_currentWnd;
+	// 当前所有选中的控件ID
+	std::unordered_set<ID_TYPE> m_selectWndIds;
 };
 
 // 获取窗口句柄，该函数必须在初始化bench之后调用
