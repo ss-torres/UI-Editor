@@ -342,16 +342,6 @@ void D3DEngineImpl::RenderControlsBefore()
 	pd3dDevice->SetTexture(0, pTextureNode->pTexture9);
 
 	m_pManager->GetSprite()->Begin(D3DXSPRITE_DONOTSAVESTATE);
-
-	D3DVIEWPORT9 viewPort;
-	ZeroMemory(&viewPort, sizeof(viewPort));
-	pd3dDevice->GetViewport(&viewPort);
-	DWORD x = viewPort.X;
-	DWORD y = viewPort.Y;
-	DWORD width = viewPort.Width;
-	DWORD height = viewPort.Height;
-	float minZ = viewPort.MinZ;
-	float maxZ = viewPort.MaxZ;
 }
 
 // 渲染控件之后的处理

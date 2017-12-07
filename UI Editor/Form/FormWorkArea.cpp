@@ -67,6 +67,7 @@ FormWorkArea::FormWorkArea(wxMDIParentFrame* parent, const wxString& captionName
 	initFrameWnd(parent, captionName, position, size);
 	m_drawManager.reset(new DrawControlManager(getHandle()));
 	initManageWnd();
+	initMsgHandle();
 
 	getBench()->SetDropTarget(new DropWinTarget(this));
 }
@@ -163,6 +164,103 @@ void FormWorkArea::onDrop(wxCoord x, wxCoord y, const CopyWindowInfo& winValue)
 	createWndObject(parentWnd, x, y, winValue);
 }
 
+// 用来处理窗口被激活
+void FormWorkArea::handleActivate(wxActivateEvent & event)
+{
+	
+}
+
+// 用来处理上下文菜单
+void FormWorkArea::handleContextMenu(wxContextMenuEvent & event)
+{
+	
+}
+
+// 用来处理将拖拉的文件在窗口中打开
+void FormWorkArea::handleDropFiles(wxDropFilesEvent & event)
+{
+	
+}
+
+// 设置为Focus
+void FormWorkArea::handleSetFocus(wxFocusEvent & event)
+{
+	event.Skip(true);
+}
+
+// 取消Focus
+void FormWorkArea::handleKillFocus(wxFocusEvent & event)
+{
+	event.Skip(true);
+}
+
+// 处理Idle消息
+void FormWorkArea::handleIdle(wxIdleEvent & event)
+{
+	
+}
+
+// 处理键盘按下消息
+void FormWorkArea::handleKeyDown(wxKeyEvent & event)
+{
+	
+}
+
+// 处理键盘松开消息
+void FormWorkArea::handleKeyUp(wxKeyEvent & event)
+{
+	
+}
+
+// 处理输入文字消息
+void FormWorkArea::handleChar(wxKeyEvent & event)
+{
+	
+}
+
+// 处理鼠标左键按下
+void FormWorkArea::handleLMouseDown(wxMouseEvent & event)
+{
+	// 查看鼠标按下位置
+	wxCoord x = event.GetX();
+	wxCoord y = event.GetY();
+	// 查看接收消息对象
+	auto editableWnd = WorkAreaHelp::getMatchWindow(m_winMgr, x, y, Check_Default());
+	if (!editableWnd)
+	{
+		event.Skip();
+		return;
+	}
+	using namespace Command;
+	auto command = CommandFactory::instance()->createCurWindowSelectCommand(editableWnd);
+	ChangeManager::instance()->getCommandStack().Submit(command);
+}
+
+// 处理鼠标左键松开
+void FormWorkArea::handleLMouseUp(wxMouseEvent & event)
+{
+	
+}
+
+// 处理鼠标移动
+void FormWorkArea::handleMouseMove(wxMouseEvent & event)
+{
+	
+}
+
+// 处理绘制，这里不需要处理这个函数
+void FormWorkArea::handlePaint(wxPaintEvent & event)
+{
+	event.Skip(true);
+}
+
+// 处理窗口大小改变
+void FormWorkArea::handleSize(wxSizeEvent & event)
+{
+	wxSize size = event.GetSize();
+	m_drawManager->handlgeSizeChange(size.x, size.y);
+}
+
 // 用来处理场景更新的计算
 void FormWorkArea::updateScene(float dt)
 {
@@ -224,4 +322,39 @@ void FormWorkArea::initFrameWnd(wxMDIParentFrame* parent, const wxString& captio
 void FormWorkArea::initManageWnd()
 {
 	setCurrentWindow(m_winMgr);
+}
+
+// 初始化消息处理
+void FormWorkArea::initMsgHandle()
+{
+	auto bench = getBench();
+	// 窗口激活
+	bench->Bind(wxEVT_ACTIVATE, &FormWorkArea::handleActivate, this);
+	// 上下文菜单
+	bench->Bind(wxEVT_CONTEXT_MENU, &FormWorkArea::handleContextMenu, this);
+	// 打开松开的文件
+	bench->DragAcceptFiles(true);
+	bench->Bind(wxEVT_DROP_FILES, &FormWorkArea::handleDropFiles, this);
+	// 设置为Focus
+	bench->Bind(wxEVT_SET_FOCUS, &FormWorkArea::handleSetFocus, this);
+	// 取消Focus
+	bench->Bind(wxEVT_KILL_FOCUS, &FormWorkArea::handleKillFocus, this);
+	// 处理Idle消息
+	bench->Bind(wxEVT_IDLE, &FormWorkArea::handleIdle, this);
+	// 处理键盘按下
+	bench->Bind(wxEVT_KEY_DOWN, &FormWorkArea::handleKeyDown, this);
+	// 处理键盘松开
+	bench->Bind(wxEVT_KEY_UP, &FormWorkArea::handleKeyUp, this);
+	// 处理输入文字
+	bench->Bind(wxEVT_CHAR, &FormWorkArea::handleChar, this);
+	// 处理鼠标左键按下
+	bench->Bind(wxEVT_LEFT_DOWN, &FormWorkArea::handleLMouseDown, this);
+	// 处理鼠标左键松开
+	bench->Bind(wxEVT_LEFT_UP, &FormWorkArea::handleLMouseUp, this);
+	// 处理鼠标移动
+	bench->Bind(wxEVT_MOTION, &FormWorkArea::handleMouseMove, this);
+	// 处理绘制
+	bench->Bind(wxEVT_PAINT, &FormWorkArea::handlePaint, this);
+	// 处理窗口大小改变
+	bench->Bind(wxEVT_SIZE, &FormWorkArea::handleSize, this);
 }

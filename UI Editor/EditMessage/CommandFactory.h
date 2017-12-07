@@ -5,6 +5,7 @@
 #include "DropWindowCommand.h"
 #include "ChangeWinAttrCommand.h"
 #include "CurrentWindowIdCommand.h"
+#include "CurWindowSelectCommand.h"
 
 namespace Command
 {
@@ -28,6 +29,8 @@ namespace Command
 		CurrentWindowCommand<ChangeManager*>* createCurrentWindowCommand(EditorAbstractWindow* curWnd) const;
 		// 创建一个选择当前控件ID命令
 		CurrentWindowIdCommand<ChangeManager*>* createCurrentWindowIdCommand(ID_TYPE curWndId) const;
+		// 创建一个选择当前控件并且设置为唯一选择的命令
+		CurWindowSelectCommand<ChangeManager*>* createCurWindowSelectCommand(EditorAbstractWindow* curWnd) const;
 
 	private:
 		static CommandFactory* s_factory;

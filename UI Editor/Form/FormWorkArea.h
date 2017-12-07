@@ -53,6 +53,37 @@ public:
 	void onDrop(wxCoord x, wxCoord y, const CopyWindowInfo& winValue);
 
 private:
+	// 用来处理各种消息
+	// 用来处理窗口被激活
+	void handleActivate(wxActivateEvent& event);
+	// 用来处理上下文菜单
+	void handleContextMenu(wxContextMenuEvent& event);
+	// 用来处理将拖拉的文件在窗口中打开
+	void handleDropFiles(wxDropFilesEvent& event);
+	// 设置为Focus
+	void handleSetFocus(wxFocusEvent& event);
+	// 取消Focus
+	void handleKillFocus(wxFocusEvent& event);
+	// 处理Idle消息
+	void handleIdle(wxIdleEvent& event);
+	// 处理键盘按下消息
+	void handleKeyDown(wxKeyEvent& event);
+	// 处理键盘松开消息
+	void handleKeyUp(wxKeyEvent& event);
+	// 处理输入文字消息
+	void handleChar(wxKeyEvent& event);
+	// 处理鼠标左键按下
+	void handleLMouseDown(wxMouseEvent& event);
+	// 处理鼠标左键松开
+	void handleLMouseUp(wxMouseEvent& event);
+	// 处理鼠标移动
+	void handleMouseMove(wxMouseEvent& event);
+	// 处理绘制，这里不需要处理这个函数
+	void handlePaint(wxPaintEvent& event);
+	// 处理窗口大小改变
+	void handleSize(wxSizeEvent& event);
+
+private:
 	// 用来处理场景更新的计算
 	void updateScene(float dt);
 	// 用来每帧绘制
@@ -74,6 +105,8 @@ private:
 	void initFrameWnd(wxMDIParentFrame* parent, const wxString& captionName, const wxPoint& position, const wxSize &size);
 	// 初始化管理控件
 	void initManageWnd();
+	// 初始化消息处理
+	void initMsgHandle();
 
 private:
 	wxPanel *m_bench;

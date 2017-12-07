@@ -16,7 +16,7 @@ public:
 	UiNoCheck() = default;
 	~UiNoCheck() = default;
 
-	bool operator()(const UiCheckType* window) const { return true; }
+	constexpr bool operator()(const UiCheckType* window) const { return true; }
 };
 
 // 用来判断ID相同
@@ -41,15 +41,15 @@ private:
 
 // 判断在编辑器中是否可以编辑
 template <typename DecoType>
-class UiEditable : public DecoType
+class UiShow : public DecoType
 {
 public:
 	using UiCheckType = typename DecoType::UiCheckType;
 public:
-	UiEditable() = default;
-	~UiEditable() = default;
+	UiShow() = default;
+	~UiShow() = default;
 
-	bool operator()(const UiCheckType* window) const { return window->isUiEditable() && DecoType::DecoType()(window); }
+	bool operator()(const UiCheckType* window) const { return window->isUiShow() && DecoType::DecoType()(window); }
 };
 
 // 判断是否可以有子对象
@@ -65,8 +65,10 @@ public:
 	bool operator()(const UiCheckType* window) const { return window->isContainerWnd() && DecoType::DecoType()(window); }
 };
 
+
 // 定义一些常用类型
-using Check_UiEditable = UiEditable<UiNoCheck<>>;
+using Check_Default = UiNoCheck<>;
+using Check_UiEditable = UiShow<UiNoCheck<>>;
 using Check_UiContainer = UiContainer<UiNoCheck<>>;
 using Check_UiIdEqual = UiIdEqualCheck<UiNoCheck<>, ID_TYPE>;
 

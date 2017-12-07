@@ -27,7 +27,7 @@ public:
 	// 获取D3D引擎对应窗口
 	HWND getMainWnd() const;
 	// 处理对应窗口大小改变
-	void handlgeSizeChange(UINT width, UINT height);
+	void handlgeSizeChange(UINT width, UINT height) override;
 
 	// 获取设备
 	IDirect3DDevice9* getDevice() { return m_d3dDevice;  }

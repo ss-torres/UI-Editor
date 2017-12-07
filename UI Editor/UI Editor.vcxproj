@@ -40,6 +40,7 @@
     <ClInclude Include="EditMessage\CommandStack.h" />
     <ClInclude Include="EditMessage\CurrentWindowCommand.h" />
     <ClInclude Include="EditMessage\CurrentWindowIdCommand.h" />
+    <ClInclude Include="EditMessage\CurWindowSelectCommand.h" />
     <ClInclude Include="EditMessage\DropWindowCommand.h" />
     <ClInclude Include="EditMessage\InsertWindowCommand.h" />
     <ClInclude Include="EditMessage\RemoveWindowCommand.h" />

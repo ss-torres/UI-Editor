@@ -25,6 +25,8 @@ public:
 	DrawControlManager(HWND mainWndId);
 	~DrawControlManager();
 
+	// 用来设置渲染窗口大小
+	void handlgeSizeChange(UINT width, UINT height);
 	// 设置时间间隔
 	void setElapsedTime(float elapsedTime) { m_elapsedTime = elapsedTime; }
 

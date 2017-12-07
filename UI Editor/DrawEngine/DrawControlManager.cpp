@@ -23,6 +23,12 @@ DrawControlManager::~DrawControlManager()
 
 }
 
+// 用来设置渲染窗口大小
+void DrawControlManager::handlgeSizeChange(UINT width, UINT height)
+{
+	m_engine->handlgeSizeChange(width, height);
+}
+
 // 绘制控件之前准备
 void DrawControlManager::drawWindowsBefore()
 {

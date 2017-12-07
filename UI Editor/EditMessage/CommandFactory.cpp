@@ -28,5 +28,11 @@ namespace Command
 	{
 		return new CurrentWindowIdCommand<ChangeManager*>(ChangeManager::instance(), curWndId);
 	}
+
+	// 创建一个选择当前控件并且设置为唯一选择的命令
+	CurWindowSelectCommand<ChangeManager*>* CommandFactory::createCurWindowSelectCommand(EditorAbstractWindow * curWnd) const
+	{
+		return new CurWindowSelectCommand<ChangeManager*>(ChangeManager::instance(), curWnd);
+	}
 }
 

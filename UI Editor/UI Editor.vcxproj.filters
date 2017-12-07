@@ -273,6 +273,9 @@
     <ClInclude Include="EditMessage\CurrentWindowIdCommand.h">
       <Filter>EditMessage</Filter>
     </ClInclude>
+    <ClInclude Include="EditMessage\CurWindowSelectCommand.h">
+      <Filter>EditMessage</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="UI Editor.cpp">

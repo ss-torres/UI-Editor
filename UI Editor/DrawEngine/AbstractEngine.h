@@ -16,6 +16,9 @@ public:
 	AbstractEngine() { }
 	virtual ~AbstractEngine() {}
 
+	// 处理对应窗口大小改变
+	virtual void handlgeSizeChange(UINT width, UINT height) {}
+
 	// 初始化控件的贴图字体属性
 	virtual HRESULT InitControl(WindowControl* pControl) 
 	{ 

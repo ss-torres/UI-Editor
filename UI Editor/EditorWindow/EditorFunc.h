@@ -48,7 +48,7 @@ namespace inner
 		// 获取控件ID，用来标识控件
 		ID_TYPE getId() const { return m_id; }
 		// 用来判断控件在编辑器是否可以编辑
-		bool isUiEditable() const { return m_editShow; }
+		bool isUiShow() const { return m_editShow; }
 		// 用来获取属性是否可以编辑，对于控件管理类，属性不可以编辑
 		virtual bool isAttrEditable() { return true; }
 		// 用来查看对应ID的控件
