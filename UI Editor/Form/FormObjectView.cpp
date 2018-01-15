@@ -18,8 +18,9 @@ FormObjectView::~FormObjectView()
 void FormObjectView::setRootWindowId(ID_TYPE id)
 {
 	wxTreeListItem rootItem = m_objectView->GetRootItem();
-	m_objectView->SetItemData(rootItem, new EditorWindowID(id));
-	m_idToItems[id] = rootItem;
+	wxTreeListItem childItem = m_objectView->AppendItem(rootItem, "WorkArea", wxTreeListCtrl::NO_IMAGE, wxTreeListCtrl::NO_IMAGE, new EditorWindowID(id));
+	m_objectView->SetItemText(childItem, 1, "ManageWindow");
+	m_idToItems[id] = childItem;
 }
 
 // 添加一个子节点用来标识一个控件
@@ -36,19 +37,22 @@ bool FormObjectView::addWindowItem(ID_TYPE parentId, ID_TYPE childId, const wxSt
 void FormObjectView::setCurSelect(ID_TYPE selectId) const
 {
 	m_objectView->UnselectAll();
-	m_objectView->Select(m_idToItems.at(selectId));
+	auto item = m_idToItems.at(selectId);
+	m_objectView->Select(item);
 }
 
 // 添加选中对象
 void FormObjectView::addSelect(ID_TYPE selectId) const
 {
-	m_objectView->Select(m_idToItems.at(selectId));
+	auto item = m_idToItems.at(selectId);
+	m_objectView->Select(item);
 }
 
 // 取消选中对象
 void FormObjectView::unSelect(ID_TYPE unSelectId) const
 {
-	m_objectView->Unselect(m_idToItems.at(unSelectId));
+	auto item = m_idToItems.at(unSelectId);
+	m_objectView->Unselect(item);
 }
 
 // 设置当前所有选中
@@ -57,7 +61,8 @@ void FormObjectView::setSelections(const std::unordered_set<ID_TYPE>& selections
 	m_objectView->UnselectAll();
 	for (auto it = selections.cbegin(); it != selections.cend(); ++it)
 	{
-		m_objectView->Select(m_idToItems.at(*it));
+		auto item = m_idToItems.at(*it);
+		m_objectView->Select(item);
 	}
 }
 

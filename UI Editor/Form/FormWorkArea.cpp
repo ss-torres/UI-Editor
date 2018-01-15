@@ -16,6 +16,9 @@
 const int MANAGE_WINDOW_WIDTH = 1200;
 const int MANAGE_WINDOW_HEIGHT = 900;
 
+// 绘制当前正在编辑窗口使用的颜色
+const D3DCOLOR CURRENT_WINDOW_COLOR = D3DCOLOR_RGBA(0, 0, 255, 255);
+
 class DropWinTarget : public wxDropTarget
 {
 public:
@@ -272,6 +275,12 @@ void FormWorkArea::drawScene(float dt)
 {
 	m_drawManager->drawWindowsBefore();
 	drawWindowRecur(m_winMgr, 0, 0);
+	// 绘制当前正在编辑窗口
+	if (m_currentWnd)
+	{
+		m_drawManager->drawSelectWindow(m_currentWnd,
+			m_currentWnd->getAbsX(), m_currentWnd->getAbsY(), CURRENT_WINDOW_COLOR);
+	}
 	m_drawManager->drawWindowsAfter();
 }
 

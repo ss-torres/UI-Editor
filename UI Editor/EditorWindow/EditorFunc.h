@@ -67,9 +67,6 @@ namespace inner
 			return m_allWinAttrs; 
 		}
 
-		// 设置控件在编辑时是否显示
-		virtual void setEditShow(bool editShow) { m_editShow = editShow; }
-
 		//在编辑界面上绘制
 		virtual void editDraw(int absX, int absY, DrawControlManager* drawManager) {}
 
@@ -87,6 +84,9 @@ namespace inner
 		bool changeSizeX(const wxAny& value);
 		// 修改sizeY
 		bool changeSizeY(const wxAny& value);
+
+		// 设置控件在编辑时是否显示
+		virtual void setEditShow(bool editShow) { m_editShow = editShow; }
 
 		// 获取属性与属性处理函数Map
 		static const ATTR_HANDLE_MAP& getEditorAttrHandles();

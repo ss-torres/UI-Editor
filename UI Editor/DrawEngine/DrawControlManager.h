@@ -48,6 +48,10 @@ public:
 	// 绘制Frame对象
 	void drawWindow(const EditorFrame* frame, int absX, int absY);
 
+	
+	// 绘制选中窗口对象
+	void drawSelectWindow(const EditorAbstractWindow* window, int absX, int absY, const D3DXCOLOR color);
+
 private:
 	// 重设control的一些属性
 	template <typename EditorWindowType, typename ControlType>
