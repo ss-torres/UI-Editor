@@ -33,7 +33,10 @@ public:
 	}
 	~UiIdEqualCheck() = default;
 
-	bool operator()(const UiCheckType* window) const { return window->getId() == m_id && DecoType::DecoType()(window); }
+	bool operator()(const UiCheckType* window) const			// inline implicit
+	{
+		return window->getId() == m_id && DecoType::DecoType()(window); 
+	}
 
 private:
 	IDType m_id;
@@ -49,7 +52,10 @@ public:
 	UiShow() = default;
 	~UiShow() = default;
 
-	bool operator()(const UiCheckType* window) const { return window->isUiShow() && DecoType::DecoType()(window); }
+	bool operator()(const UiCheckType* window) const		// inline implicit 
+	{
+		return window->isUiShow() && DecoType::DecoType()(window); 
+	}
 };
 
 // 判断是否可以有子对象
@@ -62,7 +68,10 @@ public:
 	UiContainer() = default;
 	~UiContainer() = default;
 
-	bool operator()(const UiCheckType* window) const { return window->isContainerWnd() && DecoType::DecoType()(window); }
+	bool operator()(const UiCheckType* window) const		// inline implicit
+	{
+		return window->isContainerWnd() && DecoType::DecoType()(window); 
+	}
 };
 
 

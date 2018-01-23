@@ -96,14 +96,13 @@ namespace inner
 		// 设置控件ID
 		void setId(ID_TYPE id) { m_id = id; }
 
-		// 更新整个属性表中的信息
-		void updateAttrValue(const wxString& name, const wxAny& value);
-
 	private:
 		// 用来生成新的控件ID
 		static ID_TYPE s_id_generator;
 		// 获取一个控件ID，获取的控件ID从ID_BEG开始，如果新的控件ID为负值，则提示错误
 		static ID_TYPE getNewId();
+		// 更新整个属性表中的信息
+		void updateAttrValue(const wxString& name, const wxAny& value);
 		// 初始化属性处理函数Map
 		static ATTR_HANDLE_MAP initEditorAttrHanldes();
 		// 修改控件中一个T型属性
