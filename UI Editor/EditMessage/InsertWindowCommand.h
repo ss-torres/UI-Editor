@@ -14,8 +14,6 @@
 
 namespace Command
 {
-	class ChangeManager;
-
 	const size_t INSERT_DEF_IDX = -1;		// 表示插入到最后
 
 	template <typename T>
@@ -26,7 +24,7 @@ namespace Command
 			: wxCommand(true),
 			m_mgr(mgr), m_insertWnd(insertWnd), m_parentWnd(parentWnd)
 		{
-			if (mgr == NULL || insertWnd == NULL || parentWnd == NULL)
+			if (mgr == nullptr || insertWnd == nullptr || parentWnd == nullptr)
 			{
 				throw std::invalid_argument(__func__ + std::string(": winMgr, insertWnd and parentWnd shouldn't be nullptr"));
 			}
