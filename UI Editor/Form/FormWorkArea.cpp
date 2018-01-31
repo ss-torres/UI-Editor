@@ -224,25 +224,21 @@ void FormWorkArea::handleChar(wxKeyEvent & event)
 // 处理鼠标左键按下
 void FormWorkArea::handleLMouseDown(wxMouseEvent & event)
 {
+	m_mouseDown = true;
 	// 查看鼠标按下位置
 	wxCoord x = event.GetX();
 	wxCoord y = event.GetY();
-	// 查看接收消息对象
-	auto editableWnd = WorkAreaHelp::getMatchWindow(m_winMgr, x, y, Check_Default());
-	if (!editableWnd)
+
+	if (m_winMgr == nullptr || !m_winMgr->handleLMouseDown(narrow_cast<int>(x), narrow_cast<int>(y)))
 	{
 		event.Skip();
-		return;
 	}
-	using namespace Command;
-	auto command = CommandFactory::instance()->createCurWindowSelectCommand(editableWnd);
-	ChangeManager::instance()->getCommandStack().Submit(command);
 }
 
 // 处理鼠标左键松开
 void FormWorkArea::handleLMouseUp(wxMouseEvent & event)
 {
-	
+	m_mouseDown = false;
 }
 
 // 处理鼠标移动

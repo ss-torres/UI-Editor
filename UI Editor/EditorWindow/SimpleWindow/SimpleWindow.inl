@@ -120,6 +120,10 @@ namespace inner
 	template<typename T>
 	const typename SimpleWindow<T>::CHILDREN_CONTAINER SimpleWindow<T>::s_defChildrenRet;
 
+	// 需要子控件列表相关的默认返回值
+	template<typename T>
+	typename SimpleWindow<T>::CHILDREN_CONTAINER SimpleWindow<T>::s_defChildrenRetV;
+
 
 	// 设置该控件的父控件对象
 	template <typename T>

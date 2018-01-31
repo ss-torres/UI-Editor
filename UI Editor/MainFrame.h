@@ -41,6 +41,11 @@ public:
 private:
 	// 用来处理窗口大小改变
 	void OnSize(wxSizeEvent& event);
+	
+	// 用来处理取消之前的命令
+	void OnUndoCommand(wxCommandEvent& event);
+	// 用来重新做之前的命令
+	void OnRedoCommand(wxCommandEvent& event);
 
 private:
 	// 加载窗口属性

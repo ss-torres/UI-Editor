@@ -58,7 +58,7 @@ namespace Command
 		// 修改对象查看器
 		if (flag)
 		{
-
+			flag = m_objectView->delWindowItem(removeWnd->getId());
 		}
 		return flag;
 	}

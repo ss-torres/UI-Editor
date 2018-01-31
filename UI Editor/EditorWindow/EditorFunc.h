@@ -70,6 +70,10 @@ namespace inner
 		//在编辑界面上绘制
 		virtual void editDraw(int absX, int absY, DrawControlManager* drawManager) {}
 
+	public:
+		// 用来处理各种鼠标事件
+		virtual bool handleLMouseDown(int x, int y);
+
 	protected:
 		// 定义处理消息的类型，返回值表示是否修改了属性，true表示修改，false表示未修改
 		using CHANGE_ATTR_FUNC = std::function<bool(EditorFunc*, const wxAny&)>;

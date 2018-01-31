@@ -395,6 +395,9 @@
     <ClCompile Include="EditorWindow\EditorFrame.cpp">
       <Filter>EditorWindow</Filter>
     </ClCompile>
+    <ClCompile Include="EditorWindow\EditorAbstractWindow.cpp">
+      <Filter>EditorWindow</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="EditorWindow\SimpleWindow\SimpleButton.inl">

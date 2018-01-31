@@ -23,6 +23,8 @@ public:
 	void setRootWindowId(ID_TYPE id);
 	// 添加一个子节点用来标识一个控件
 	bool addWindowItem(ID_TYPE parentId, ID_TYPE childId, const wxString& objectName, const wxString& winTypeName);
+	// 删除一个子节点
+	bool delWindowItem(ID_TYPE childId);
 
 	// 设置当前选中对象，会取消之前所有的选中
 	void setCurSelect(ID_TYPE selectId) const;

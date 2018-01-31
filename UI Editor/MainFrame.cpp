@@ -15,8 +15,8 @@ MainFrame::MainFrame(const wxString & title)
 	: wxMDIParentFrame(NULL, wxID_ANY, title)
 {
 	loadWindowAttributes();
-	addMenu();
 	initMessageHandle();
+	addMenu();
 	initSubWindows();
 }
 
@@ -51,6 +51,9 @@ bool MainFrame::Destroy()
 
 wxBEGIN_EVENT_TABLE(MainFrame, wxFrame)
 	EVT_SIZE(MainFrame::OnSize)
+
+	EVT_MENU(wxID_UNDO, MainFrame::OnUndoCommand)
+	EVT_MENU(wxID_REDO, MainFrame::OnRedoCommand)
 wxEND_EVENT_TABLE()
 
 // 用来处理窗口大小改变
@@ -60,6 +63,20 @@ void MainFrame::OnSize(wxSizeEvent & event)
 	{
 		m_auiManager->Update();
 	}
+}
+
+// 用来处理取消之前的命令
+void MainFrame::OnUndoCommand(wxCommandEvent & WXUNUSED(event))
+{
+	using namespace Command;
+	ChangeManager::instance()->getCommandStack().Undo();
+}
+
+// 用来重新做之前的命令
+void MainFrame::OnRedoCommand(wxCommandEvent & WXUNUSED(event))
+{
+	using namespace Command;
+	ChangeManager::instance()->getCommandStack().Redo();
 }
 
 // 加载控件属性
@@ -99,6 +116,9 @@ void MainFrame::addMenu()
 	menuBar->Append(fileMenu, "&File");
 	menuBar->Append(editMenu, "&Edit");
 	menuBar->Append(helpMenu, "&Help");
+
+	using namespace Command;
+	ChangeManager::instance()->getCommandStack().SetEditMenu(editMenu);
 
 	SetMenuBar(menuBar);
 

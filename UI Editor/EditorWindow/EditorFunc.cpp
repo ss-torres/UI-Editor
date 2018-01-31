@@ -1,5 +1,9 @@
 #include "EditorFunc.h"
 #include "SimpleWindow/SimpleWindow.h"
+#include "EditorWindowCheck.h"
+
+#include "../EditMessage/CommandFactory.h"
+#include "../EditMessage/ChangeManager.h"
 
 namespace inner
 {
@@ -65,6 +69,21 @@ namespace inner
 		// 属性与属性处理函数Map
 		static auto s_attrHandles = initEditorAttrHanldes();
 		return s_attrHandles;
+	}
+
+	// 用来处理各种鼠标事件
+	bool EditorFunc::handleLMouseDown(int x, int y)
+	{
+		if (Check_UiInMsgRegion(x, y)(getConstructWindow()))
+		{
+			using namespace Command;
+			auto command = CommandFactory::instance()->createCurWindowSelectCommand(getConstructWindow());
+			ChangeManager::instance()->getCommandStack().Submit(command);
+
+			return true;
+		}
+
+		return false;
 	}
 
 	ID_TYPE EditorFunc::s_id_generator = ID_BEG;

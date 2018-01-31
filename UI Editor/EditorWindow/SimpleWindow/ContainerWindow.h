@@ -52,6 +52,11 @@ namespace inner
 		CHILDREN_CONTAINER& getChildren() { return m_children; }
 		const CHILDREN_CONTAINER& getChildren() const { return m_children; }
 
+		// 获取子控件列表中begin对应的iterator
+		ChildIterator getChildrenBeg() override { return m_children.begin(); }
+		// 获取子控件列表中end对应的iterator
+		ChildIterator getChildrenEnd() override { return m_children.end(); }
+
 	protected:
 		// 用来记录所有的子控件
 		CHILDREN_CONTAINER m_children;

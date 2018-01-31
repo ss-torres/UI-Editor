@@ -33,6 +33,15 @@ bool FormObjectView::addWindowItem(ID_TYPE parentId, ID_TYPE childId, const wxSt
 	return true;
 }
 
+// 删除一个子节点
+bool FormObjectView::delWindowItem(ID_TYPE childId)
+{
+	wxTreeListItem item = m_idToItems[childId];
+	m_objectView->DeleteItem(item);
+	m_idToItems.erase(childId);
+	return true;
+}
+
 // 设置当前选中对象，会取消之前所有的选中
 void FormObjectView::setCurSelect(ID_TYPE selectId) const
 {

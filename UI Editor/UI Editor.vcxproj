@@ -108,6 +108,7 @@
     <ClCompile Include="EditMessage\CommandFactory.cpp" />
     <ClCompile Include="EditMessage\CommandStack.cpp" />
     <ClCompile Include="EditorApp.cpp" />
+    <ClCompile Include="EditorWindow\EditorAbstractWindow.cpp" />
     <ClCompile Include="EditorWindow\EditorFrame.cpp" />
     <ClCompile Include="MainFrame.cpp" />
     <ClCompile Include="EditorWindow\EditorButton.cpp" />

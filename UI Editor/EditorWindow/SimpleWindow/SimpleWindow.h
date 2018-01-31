@@ -127,6 +127,10 @@ namespace inner
 
 		// 获取子控件列表
 		virtual const CHILDREN_CONTAINER& getConstChildren() const;
+		// 获取子控件列表中begin对应的iterator
+		virtual ChildIterator getChildrenBeg() { return s_defChildrenRetV.begin(); }
+		// 获取子控件列表中end对应的iterator
+		virtual ChildIterator getChildrenEnd() { return s_defChildrenRetV.end(); }
 
 	protected:
 		// 控件的父对象
@@ -146,6 +150,7 @@ namespace inner
 		bool m_enable;
 
 		const static CHILDREN_CONTAINER s_defChildrenRet;
+		static CHILDREN_CONTAINER s_defChildrenRetV;
 
 	private:
 		// 更新父控件消息处理范围

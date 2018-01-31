@@ -1,4 +1,8 @@
 #include "EditorContainerWindow.h"
+#include "EditorWindowCheck.h"
+
+#include "../EditMessage/CommandFactory.h"
+#include "../EditMessage/ChangeManager.h"
 
 namespace inner
 {
@@ -32,5 +36,30 @@ namespace inner
 		//}
 
 		ContainerWindow<EditorEditableFunc>::setEditShow(editShow);
+	}
+
+	// 处理鼠标按下
+	bool ContainerWindow<EditorContainerFunc>::handleLMouseDown(int x, int y)
+	{
+		if (!Check_UiInMsgRegion(x, y)(this))
+		{
+			return false;
+		}
+
+		auto beg = getChildrenBeg();
+		auto end = getChildrenEnd();
+		for (; beg != end; ++beg)
+		{
+			auto childWnd = *beg;
+			auto isHandle = childWnd->handleLMouseDown(x - childWnd->getRelX(), y - childWnd->getRelY());
+			if (isHandle)
+			{
+				return isHandle;
+			}
+		}
+
+		SIMPLE_WINDOW_TYPE::handleLMouseDown(x, y);
+
+		return true;
 	}
 }

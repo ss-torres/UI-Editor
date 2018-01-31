@@ -25,6 +25,10 @@ namespace inner
 	protected:
 		// 设置该控件是否编辑时显示
 		void setEditShow(bool editShow) override;
+
+	protected:		// 用来处理各种消息
+		// 处理鼠标按下
+		bool handleLMouseDown(int x, int y) override;
 	};
 }
 

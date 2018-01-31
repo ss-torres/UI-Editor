@@ -119,6 +119,10 @@ private:
 	EditorAbstractWindow* m_currentWnd;
 	// 当前所有选中的控件ID
 	std::unordered_set<ID_TYPE> m_selectWndIds;
+
+private:
+	// 消息处理记录
+	bool m_mouseDown = false;
 };
 
 // 获取窗口句柄，该函数必须在初始化bench之后调用
