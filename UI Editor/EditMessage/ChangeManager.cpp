@@ -104,6 +104,23 @@ namespace Command
 	{
 		auto curSelectWnd = m_workArea->getCurrentWindow();
 		wxAny origValue = curSelectWnd->getWinAttr(attrName);
+		// 如果窗口中没有属性
+		if (origValue.IsNull())
+		{
+			// 如果在窗口属性中不存在，则使用默认属性
+			auto attrValues = WindowAttributeManager::instance()->getWinDefValues(curSelectWnd->getWindowClassName());
+			
+			auto it = attrValues.find(attrName);
+			if (it == attrValues.cend())
+			{
+				// 按照逻辑不应该出现的情况
+				throw ExtraExcept::unexpected_situation("ChangeManager::changeSelectWndAttr can't find " + attrName.ToStdString());
+			}
+			else
+			{
+				origValue = it->second;
+			}
+		}
 		// 在这里不判断新旧值是否相同，因为编辑过程中已经判断
 		curSelectWnd->updateWinAttr(attrName, toSetValue);
 		// 修改对象查看器的显示
@@ -136,7 +153,7 @@ namespace Command
 		{
 			m_propertyEditor->resetAttrs(toSetCurWnd->getWindowClassName());
 
-			const auto& winAttrDefValues = m_winAttrMgr->getWinDefValues(toSetCurWnd->getWindowClassName());
+			const auto& winAttrDefValues = WindowAttributeManager::instance()->getWinDefValues(toSetCurWnd->getWindowClassName());
 			const auto& curAttrValues = toSetCurWnd->getWinAttrs();
 			// 先设置对应控件属性的默认值
 			if (winAttrDefValues.size() != curAttrValues.size())

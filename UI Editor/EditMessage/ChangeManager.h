@@ -55,7 +55,6 @@ namespace Command
 		void setWorkArea(std::shared_ptr<FormWorkArea> workArea) { m_workArea = workArea; }
 		void setPropertyEditor(std::shared_ptr<FormPropertyEditor> propertyEditor) { m_propertyEditor = propertyEditor; }
 		void setObjectView(std::shared_ptr<FormObjectView> objectView) { m_objectView = objectView; }
-		void setWindowAttrMgr(std::shared_ptr<WindowAttributeManager> winAttrMgr) { m_winAttrMgr = winAttrMgr; }
 		// 获取主工作区和功能区
 		std::shared_ptr<FormWorkArea> getWorkArea() const { return m_workArea; }
 		std::shared_ptr<FormPropertyEditor> getPropertyEditor() const { return m_propertyEditor; }
@@ -71,8 +70,6 @@ namespace Command
 		std::shared_ptr<FormWorkArea> m_workArea;
 		std::shared_ptr<FormPropertyEditor> m_propertyEditor;
 		std::shared_ptr<FormObjectView> m_objectView;
-		// 属性列表
-		std::shared_ptr<WindowAttributeManager> m_winAttrMgr;
 
 		// 用来存储命令列表
 		CommandStack m_commandStack;

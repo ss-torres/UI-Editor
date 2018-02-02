@@ -10,7 +10,7 @@
  * 2.修改该类的子类属性，需要对应类的updateWinAttr函数，这样属性列表中的值才能与属性保持一致
  */
 
-#include <map>
+#include <unordered_map>
 #include <utility>
 #include <functional>
 #include <wx/string.h>
@@ -27,7 +27,9 @@ namespace inner
 }
 
 class Visitor;
+class EditorEditableFunc;
 class DrawControlManager;
+class SaveInfo;
 
 namespace inner
 {
@@ -69,6 +71,9 @@ namespace inner
 
 		//在编辑界面上绘制
 		virtual void editDraw(int absX, int absY, DrawControlManager* drawManager) {}
+
+		// 将窗口信息保存到传入的容器中，如果replace为true，表示直接修改parentInfo，而不作为子对象
+		virtual void appendMySelf(SaveInfo& parentInfo, bool replace) const {}
 
 	public:
 		// 用来处理各种鼠标事件
@@ -134,22 +139,6 @@ namespace inner
 	inline void EditorFunc::updateAttrValue(const wxString & name, const wxAny & value)
 	{
 		m_allWinAttrs[name] = value;
-	}
-
-	// 获取控件对象属性列表中的信息
-	inline const wxAny& EditorFunc::getWinAttr(const wxString & attrName) const
-	{
-		auto it = m_allWinAttrs.find(attrName);
-		if (it != m_allWinAttrs.cend())
-		{
-			return it->second;
-		}
-
-		// 按照逻辑不应该出现的情况
-		throw ExtraExcept::unexpected_situation("EditorFunc::getWinAttr can't find " + attrName.ToStdString());
-
-		static wxAny value;
-		return value;
 	}
 
 	// 修改控件中一个int型属性

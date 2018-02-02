@@ -58,6 +58,9 @@
     <Filter Include="EditorProtocol\ProtocolImpl">
       <UniqueIdentifier>{7afd646d-4eb7-4b8e-b7b0-7bcf6b89aa78}</UniqueIdentifier>
     </Filter>
+    <Filter Include="AutoSave">
+      <UniqueIdentifier>{75da3b67-11fe-46dc-b983-e0edca82901c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EditorApp.h">
@@ -276,6 +279,12 @@
     <ClInclude Include="EditMessage\CurWindowSelectCommand.h">
       <Filter>EditMessage</Filter>
     </ClInclude>
+    <ClInclude Include="AutoSave\SaveInfo.h">
+      <Filter>AutoSave</Filter>
+    </ClInclude>
+    <ClInclude Include="AutoSave\EditorSave.h">
+      <Filter>AutoSave</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="UI Editor.cpp">
@@ -397,6 +406,9 @@
     </ClCompile>
     <ClCompile Include="EditorWindow\EditorAbstractWindow.cpp">
       <Filter>EditorWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="AutoSave\EditorSave.cpp">
+      <Filter>AutoSave</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

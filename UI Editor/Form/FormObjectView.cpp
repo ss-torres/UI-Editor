@@ -15,10 +15,10 @@ FormObjectView::~FormObjectView()
 }
 
 // 设置root节点对应的控件ID
-void FormObjectView::setRootWindowId(ID_TYPE id)
+void FormObjectView::setRootWindowId(ID_TYPE id, const wxString& rootName)
 {
 	wxTreeListItem rootItem = m_objectView->GetRootItem();
-	wxTreeListItem childItem = m_objectView->AppendItem(rootItem, "WorkArea", wxTreeListCtrl::NO_IMAGE, wxTreeListCtrl::NO_IMAGE, new EditorWindowID(id));
+	wxTreeListItem childItem = m_objectView->AppendItem(rootItem, rootName, wxTreeListCtrl::NO_IMAGE, wxTreeListCtrl::NO_IMAGE, new EditorWindowID(id));
 	m_objectView->SetItemText(childItem, 1, "ManageWindow");
 	m_idToItems[id] = childItem;
 }

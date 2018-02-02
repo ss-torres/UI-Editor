@@ -5,6 +5,7 @@
 #include "../EditMessage/CommandFactory.h"
 #include "../EditMessage/ChangeManager.h"
 
+
 namespace inner
 {
 	EditorFunc::EditorFunc()
@@ -16,6 +17,19 @@ namespace inner
 
 	EditorFunc::~EditorFunc()
 	{
+	}
+
+	// 获取控件对象属性列表中的信息
+	const wxAny& EditorFunc::getWinAttr(const wxString & attrName) const
+	{
+		auto it = m_allWinAttrs.find(attrName);
+		if (it != m_allWinAttrs.cend())
+		{
+			return it->second;
+		}
+
+		static wxAny value;
+		return value;
 	}
 
 	// 用来查看对应ID的控件

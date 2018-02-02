@@ -20,7 +20,7 @@ public:
 	~FormObjectView() override;
 
 	// 设置root节点对应的控件ID
-	void setRootWindowId(ID_TYPE id);
+	void setRootWindowId(ID_TYPE id, const wxString& rootName);
 	// 添加一个子节点用来标识一个控件
 	bool addWindowItem(ID_TYPE parentId, ID_TYPE childId, const wxString& objectName, const wxString& winTypeName);
 	// 删除一个子节点

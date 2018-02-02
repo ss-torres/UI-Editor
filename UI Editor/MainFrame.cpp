@@ -9,6 +9,8 @@
 #include "EditMessage/ChangeManager.h"
 #include "EditMessage/CommandFactory.h"
 
+#include "AutoSave/EditorSave.h"
+
 const wxString WIN_ATTR_FILE = "WindowAttribute.xml";
 
 MainFrame::MainFrame(const wxString & title)
@@ -16,6 +18,7 @@ MainFrame::MainFrame(const wxString & title)
 {
 	loadWindowAttributes();
 	initMessageHandle();
+	initUiSave();
 	addMenu();
 	initSubWindows();
 }
@@ -23,6 +26,8 @@ MainFrame::MainFrame(const wxString & title)
 MainFrame::~MainFrame()
 {
 	m_auiManager->UnInit();
+	// 清理ui保存模块
+	EditorSave::destroyInstance();
 }
 
 // 每帧处理函数
@@ -82,8 +87,8 @@ void MainFrame::OnRedoCommand(wxCommandEvent & WXUNUSED(event))
 // 加载控件属性
 void MainFrame::loadWindowAttributes()
 {
-	m_winAttrManager.reset(new WindowAttributeManager());
-	m_winAttrManager->LoadAttributeFile(WIN_ATTR_FILE);
+	auto winAttrManager = WindowAttributeManager::createInstance();
+	winAttrManager->LoadAttributeFile(WIN_ATTR_FILE);
 }
 
 // 创建菜单栏
@@ -133,8 +138,12 @@ void MainFrame::initMessageHandle()
 	using namespace Command;
 	ChangeManager::createInstance();
 	CommandFactory::createInstance(ChangeManager::instance());
+}
 
-	ChangeManager::instance()->setWindowAttrMgr(m_winAttrManager);
+// 初始化窗口信息保存
+void MainFrame::initUiSave()
+{
+	EditorSave::createInstance();
 }
 
 // 初始化子窗口
@@ -173,7 +182,7 @@ void MainFrame::initSubWindows()
 	m_tool_property_editor->initSubWindows(winNames);
 	for (const auto& value : winNames)
 	{
-		m_tool_property_editor->insertWindowTypeAttrs(value, m_winAttrManager->getEditWinAttr(value));
+		m_tool_property_editor->insertWindowTypeAttrs(value, WindowAttributeManager::instance()->getEditWinAttr(value));
 	}
 	wxAuiPaneInfo propertyEditorPaneInfo = m_tool_property_editor->getPaneInfo();
 	propertyEditorPaneInfo.BestSize(300, clientSize.GetHeight());
@@ -188,7 +197,8 @@ void MainFrame::initSubWindows()
 			work_area_del_func);
 
 	// 设置主工作区与查看控件对象窗口之间的关联
-	m_tool_object_view->setRootWindowId(m_editWorkArea->getManageWindowId());
+	m_tool_object_view->setRootWindowId(m_editWorkArea->getManageWindowId(),
+		m_editWorkArea->getManageWindowName());
 
 	// 将主工作区和对应功能区添加到命令处理对象中
 	using namespace Command;

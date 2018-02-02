@@ -69,10 +69,6 @@ namespace inner
 		SIMPLE_WINDOW_TYPE* getNextSibling() const;
 
 		// 控件的基本属性
-		// 设置控件对象的名字
-		void setWindowObjectName(const wxString& objectName) { m_windowObjectName = objectName; }
-		// 用来获取控件对象名字
-		wxString getWindowObjectName() { return m_windowObjectName; }
 
 		// 编辑控件范围
 		// 更新相对坐标X
@@ -135,9 +131,6 @@ namespace inner
 	protected:
 		// 控件的父对象
 		SIMPLE_WINDOW_TYPE* m_parent;
-
-		// 控件对象名字
-		wxString m_windowObjectName;
 
 		// 控件属性
 		// 控件范围

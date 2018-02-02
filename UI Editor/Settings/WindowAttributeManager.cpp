@@ -23,6 +23,8 @@ WindowAttributeManager::~WindowAttributeManager()
 	}
 }
 
+WindowAttributeManager* WindowAttributeManager::s_attrManager = nullptr;
+
 bool WindowAttributeManager::LoadAttributeFile(const wxString& winAttrFile)
 {
 	std::unique_ptr<AbstractWinAttrBuilder> winAttrBuilder(new XmlWinAttrBuilder(winAttrFile));

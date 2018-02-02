@@ -22,9 +22,9 @@ class WindowAttributeManager
 public:
 	using EDIT_WIN_ATTR_ITERATOR = std::vector<wxPGProperty*>::iterator;
 public:
-	WindowAttributeManager();
-	~WindowAttributeManager();
-
+	static WindowAttributeManager* createInstance() { s_attrManager = new WindowAttributeManager(); return s_attrManager;  }
+	static WindowAttributeManager* instance() { return s_attrManager; }
+	
 	bool LoadAttributeFile(const wxString& winAttrFile);
 
 	// 用来获取控件名对应的默认控件属性
@@ -45,6 +45,11 @@ private:
 	void createEditAttrs(const std::map<wxString, std::vector<WinAttrProperty>>& winAttrs);
 
 private:
+	WindowAttributeManager();
+	~WindowAttributeManager();
+
+	static WindowAttributeManager* s_attrManager;
+
 	// 用来记录控件默认属性信息
 	std::map<wxString, std::vector<wxPGProperty*>> m_winAttrProperty;
 	// 用来记录控件默认属性信息

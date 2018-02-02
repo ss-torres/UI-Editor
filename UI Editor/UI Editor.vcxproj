@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AutoSave\EditorSave.h" />
+    <ClInclude Include="AutoSave\SaveInfo.h" />
     <ClInclude Include="CopyDrop\CopyWinObject.h" />
     <ClInclude Include="DrawEngine\AbstractEngine.h" />
     <ClInclude Include="DrawEngine\AbstractEngineImpl.h" />
@@ -93,6 +95,7 @@
     <ClInclude Include="Util\StringUtil.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AutoSave\EditorSave.cpp" />
     <ClCompile Include="CopyDrop\CopyWinObject.cpp" />
     <ClCompile Include="DrawEngine\Controls\ButtonControl.cpp" />
     <ClCompile Include="DrawEngine\Controls\StaticControl.cpp" />

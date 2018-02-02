@@ -50,7 +50,9 @@ EditorAbstractWindow * EditorWindowFactory::createCopyObjectWnd(CopyWindowInfo w
 // 创建一个管理控件
 EditorAbstractWindow * EditorWindowFactory::createManageWnd(int width, int height)
 {
-	return new EditorManageWindow(0, 0, width, height);
+	auto editorMgr = new EditorManageWindow(0, 0, width, height);
+	editorMgr->updateWinAttr(OBJECT_NAME, wxString("WorkArea"));
+	return editorMgr;
 }
 
 // 根据拷贝控件名，给新控件取一个名字

@@ -2,6 +2,7 @@
 #define FORM_WORK_AREA_H
 
 #include <memory>
+#include <future>
 #include <unordered_set>
 #include <wx/msw/wrapwin.h>		// 在wxWidgets中替代<Windows.h>
 #include <wx/panel.h>
@@ -24,6 +25,8 @@ public:
 	wxWindow* getBench() override;
 	// 获取控件管理对象的ID
 	ID_TYPE getManageWindowId() const;
+	// 获取控件管理对象的名字
+	wxString getManageWindowName() const;
 	// 设置当前编辑的控件
 	void setCurrentWindow(EditorAbstractWindow* currentWnd) { m_currentWnd = currentWnd; }
 	// 设置当前编辑的控件ID
@@ -84,15 +87,14 @@ private:
 	void handleSize(wxSizeEvent& event);
 
 private:
+	// 获取窗口句柄，该函数必须在初始化bench之后调用
+	HWND getHandle();
 	// 用来处理场景更新的计算
 	void updateScene(float dt);
 	// 用来每帧绘制
-	void drawScene(float dt);
+	void drawScene();
 	//绘制子控件
 	void drawWindowRecur(EditorAbstractWindow* editorWindow, int absX, int absY);
-
-	// 获取窗口句柄，该函数必须在初始化bench之后调用
-	HWND getHandle();
 
 private:
 	// 查找指定位置接受消息的控件
@@ -100,6 +102,13 @@ private:
 	EditorAbstractWindow* findWnd(wxCoord x, wxCoord y);
 	// 创建一个控件对象
 	void createWndObject(EditorAbstractWindow* parent, int absX, int absY, const CopyWindowInfo& winValue);
+
+	// 将窗口保存到文件中，同步操作
+	void saveWnds();
+	// 将窗口信息保存到备份文件中，异步操作
+	void saveWndBacks();
+	// 处理上一次保存窗口信息过程，返回保存过程是否成功
+	bool handleLastBack();
 
 	// 初始化显示窗口
 	void initFrameWnd(wxMDIParentFrame* parent, const wxString& captionName, const wxPoint& position, const wxSize &size);
@@ -116,13 +125,22 @@ private:
 	// 用来存储创建的控件
 	EditorAbstractWindow* const m_winMgr = nullptr;
 	// 当前编辑的控件
-	EditorAbstractWindow* m_currentWnd;
+	EditorAbstractWindow* m_currentWnd = nullptr;
 	// 当前所有选中的控件ID
 	std::unordered_set<ID_TYPE> m_selectWndIds;
 
 private:
 	// 消息处理记录
 	bool m_mouseDown = false;
+
+	// 时间统计，如果超过约定的时间，就开始备份
+	float m_calcTime = 0;
+	// 限定的时间
+	float m_backupTime = 10;
+	// 保存的文件名
+	wxString m_editFile;
+	// 用来记录保存的线程信息
+	std::future<bool> m_saveThread;
 };
 
 // 获取窗口句柄，该函数必须在初始化bench之后调用

@@ -52,6 +52,8 @@ private:
 	void loadWindowAttributes();
 	// 初始化命令相关的对象
 	void initMessageHandle();
+	// 初始化窗口信息保存
+	void initUiSave();
 	// 初始化子窗口
 	void initSubWindows();
 	// 创建菜单栏
@@ -59,8 +61,8 @@ private:
 
 private:
 	wxAuiManager* m_auiManager;
-	// 管理窗口属性
-	std::shared_ptr<WindowAttributeManager> m_winAttrManager;
+	//// 管理窗口属性
+	//std::shared_ptr<WindowAttributeManager> m_winAttrManager;
 
 	// 创建主工作区和功能区
 	FormFactory m_manager;

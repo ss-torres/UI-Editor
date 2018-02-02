@@ -20,11 +20,11 @@ namespace inner
 		// 获取控件是否可以有子控件对象
 		bool isContainerWnd() const override { return true; }
 		// 获取子控件列表中cbegin对应的iterator
-		virtual ConstChildIterator getChildrenConstBeg() const { return m_children.cbegin(); }
+		ConstChildIterator getChildrenConstBeg() const override { return m_children.cbegin(); }
 		// 获取子控件列表中cend对应的iterator
-		virtual ConstChildIterator getChildrenConstEnd() const { return m_children.cend(); }
+		ConstChildIterator getChildrenConstEnd() const override { return m_children.cend(); }
 		// 获取子控件个数
-		virtual ChildrenSize getChildrenSize() const { return m_children.size(); }
+		ChildrenSize getChildrenSize() const override { return m_children.size(); }
 		// 用来添加一个子控件
 		void addChild(SIMPLE_WINDOW_TYPE* child) override;
 		// 用来在before控件之前添加一个子控件

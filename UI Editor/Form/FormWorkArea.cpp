@@ -1,3 +1,6 @@
+#include <ctime>
+#include <sstream>
+#include <iomanip>
 #include <wx/sizer.h>
 #include <wx/panel.h>
 #include <wx/mdi.h>
@@ -13,11 +16,17 @@
 #include "../EditorWindow/EditorManageWindow.h"
 #include "../DrawEngine/DrawControlManager.h"
 
+#include "../AutoSave/SaveInfo.h"
+#include "../AutoSave/EditorSave.h"
+
 const int MANAGE_WINDOW_WIDTH = 1200;
 const int MANAGE_WINDOW_HEIGHT = 900;
 
 // 绘制当前正在编辑窗口使用的颜色
 const D3DCOLOR CURRENT_WINDOW_COLOR = D3DCOLOR_RGBA(0, 0, 255, 255);
+
+const char* const FILE_NO_NAME_SHOW = "untitled_ui";
+const char* const BACK_UP_DIR = "backup/";
 
 class DropWinTarget : public wxDropTarget
 {
@@ -77,7 +86,14 @@ FormWorkArea::FormWorkArea(wxMDIParentFrame* parent, const wxString& captionName
 
 FormWorkArea::~FormWorkArea()
 {
-	
+	// 如果保存ui线程有效，则等待其结束
+	if (m_saveThread.valid())
+	{
+		if (m_saveThread.wait_for(std::chrono::seconds(0)) != std::future_status::deferred)
+		{
+			m_saveThread.wait();
+		}
+	}
 }
 
 wxWindow * FormWorkArea::getBench()
@@ -94,6 +110,16 @@ ID_TYPE FormWorkArea::getManageWindowId() const
 	}
 
 	return m_winMgr->getId();
+}
+
+wxString FormWorkArea::getManageWindowName() const
+{
+	if (m_winMgr == nullptr)
+	{
+		throw ExtraExcept::unexpected_situation("FormWorkArea::getManageWindowId was been invoked when m_winMgr is nullptr");
+	}
+
+	return m_winMgr->getWinAttr(OBJECT_NAME).As<wxString>();
 }
 
 // 设置当前编辑的控件ID
@@ -156,7 +182,7 @@ void FormWorkArea::updateFrame(float dt)
 	}
 
 	updateScene(dt);
-	drawScene(dt);
+	drawScene();
 }
 
 // 用来处理Drop事件
@@ -263,11 +289,18 @@ void FormWorkArea::handleSize(wxSizeEvent & event)
 // 用来处理场景更新的计算
 void FormWorkArea::updateScene(float dt)
 {
-	
+	m_calcTime += dt;
+
+	if (m_calcTime > m_backupTime)
+	{
+		saveWndBacks();
+		// 重新统计
+		m_calcTime = 0;
+	}
 }
 
 // 用来每帧绘制
-void FormWorkArea::drawScene(float dt)
+void FormWorkArea::drawScene()
 {
 	m_drawManager->drawWindowsBefore();
 	drawWindowRecur(m_winMgr, 0, 0);
@@ -313,6 +346,80 @@ void FormWorkArea::createWndObject(EditorAbstractWindow* parent, int absX, int a
 	ChangeManager::instance()->getCommandStack().Submit(dropWndCommand);
 }
 
+// 将窗口保存到文件中，同步操作
+void FormWorkArea::saveWnds()
+{
+	SaveInfo info;
+	m_winMgr->appendMySelf(info, true);
+
+	if (m_editFile.empty())
+	{
+		EditorSave::getInstance()->setSaveFileName(FILE_NO_NAME_SHOW);
+	}
+	else
+	{
+		EditorSave::getInstance()->setSaveFileName(m_editFile);
+	}
+	EditorSave::getInstance()->setSaveInfo(std::move(info));
+
+	m_saveThread = std::async(std::ref(*EditorSave::getInstance()));
+	m_saveThread.get();
+}
+
+// 将窗口信息保存到文件中，异步操作
+void FormWorkArea::saveWndBacks()
+{
+	handleLastBack();
+
+	SaveInfo info;
+	m_winMgr->appendMySelf(info, true);
+
+	// 保存窗口信息到文件中
+	auto t = std::time(nullptr);
+	std::ostringstream out;
+	out << std::put_time(std::localtime(&t), "_%Y%m%d_%H%M%S");
+	wxString backupFileName;
+	if (m_editFile.empty())
+	{
+		backupFileName = wxString(BACK_UP_DIR) + wxString(FILE_NO_NAME_SHOW) + out.str().c_str();
+	}
+	else
+	{
+		backupFileName = wxString(BACK_UP_DIR) + m_editFile + out.str().c_str();
+	}
+	EditorSave::getInstance()->setSaveFileName(std::move(backupFileName));
+	EditorSave::getInstance()->setSaveInfo(std::move(info));
+
+	m_saveThread = std::async(std::ref(*EditorSave::getInstance()));
+}
+
+// 处理上一次保存窗口信息过程
+bool FormWorkArea::handleLastBack()
+{
+	// 处理保存窗口信息线程，确保其安全退出
+	if (m_saveThread.valid())
+	{
+		std::future_status curStatus;
+		if ((curStatus = m_saveThread.wait_for(std::chrono::seconds(0))) == std::future_status::ready)
+		{	// 保存窗口信息过程已完成
+			return m_saveThread.get();
+		}
+		else if (curStatus == std::future_status::timeout)
+		{	// 保存窗口信息过程正在进行，取消保存
+			EditorSave::getInstance()->setSaveContinue(false);
+			bool ret = m_saveThread.get();
+			EditorSave::getInstance()->setSaveContinue(true);
+			return false;
+		}
+		else
+		{
+			return false;
+			// 保存窗口信息过程未开始，则直接跳过
+		}
+	}
+
+	return false;
+}
 
 // 初始化显示窗口
 void FormWorkArea::initFrameWnd(wxMDIParentFrame* parent, const wxString& captionName, const wxPoint& position, const wxSize &size)
