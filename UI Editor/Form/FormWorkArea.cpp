@@ -26,7 +26,7 @@ const int MANAGE_WINDOW_HEIGHT = 900;
 const D3DCOLOR CURRENT_WINDOW_COLOR = D3DCOLOR_RGBA(0, 0, 255, 255);
 
 const char* const FILE_NO_NAME_SHOW = "untitled_ui";
-const char* const BACK_UP_DIR = "backup/";
+const char* const BACK_UP_DIR = "./backup/";
 
 class DropWinTarget : public wxDropTarget
 {
@@ -349,6 +349,8 @@ void FormWorkArea::createWndObject(EditorAbstractWindow* parent, int absX, int a
 // 将窗口保存到文件中，同步操作
 void FormWorkArea::saveWnds()
 {
+	handleLastBack();
+
 	SaveInfo info;
 	m_winMgr->appendMySelf(info, true);
 

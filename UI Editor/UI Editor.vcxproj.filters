@@ -285,6 +285,9 @@
     <ClInclude Include="AutoSave\EditorSave.h">
       <Filter>AutoSave</Filter>
     </ClInclude>
+    <ClInclude Include="AutoSave\EditorUiXmlSaver.h">
+      <Filter>AutoSave</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="UI Editor.cpp">
@@ -408,6 +411,9 @@
       <Filter>EditorWindow</Filter>
     </ClCompile>
     <ClCompile Include="AutoSave\EditorSave.cpp">
+      <Filter>AutoSave</Filter>
+    </ClCompile>
+    <ClCompile Include="AutoSave\EditorUiXmlSaver.cpp">
       <Filter>AutoSave</Filter>
     </ClCompile>
   </ItemGroup>

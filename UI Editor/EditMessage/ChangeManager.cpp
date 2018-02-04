@@ -103,7 +103,7 @@ namespace Command
 	void ChangeManager::changeSelectWndAttr(const wxString& attrName, wxAny& toSetValue)
 	{
 		auto curSelectWnd = m_workArea->getCurrentWindow();
-		wxAny origValue = curSelectWnd->getWinAttr(attrName);
+		auto origValue = curSelectWnd->getWinAttr(attrName);
 		// 如果窗口中没有属性
 		if (origValue.IsNull())
 		{

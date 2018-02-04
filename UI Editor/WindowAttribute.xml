@@ -1,4 +1,4 @@
-<?xml version="1.0" ?>
+<?xml version="1.0"  encoding="UTF-8"?>
 <UIAttribute version = "1">
 	<Window name="GWindow">
 		<Attribute name="objectName" EditorProperty="string" EditorName="" EditorValidator="" >

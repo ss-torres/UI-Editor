@@ -16,6 +16,7 @@ class SaveInfo
 {
 public:
 	using WIN_ATTR_MAP = std::map<wxString, wxAny>;
+	using CONST_CHILD_ITERATOR = std::vector<SaveInfo>::const_iterator;
 public:
 	SaveInfo() = default;
 	~SaveInfo() = default;
@@ -35,6 +36,14 @@ public:
 	// 将子窗口信息存储到该对象中
 	void push_back(const SaveInfo& info) = delete;
 	void push_back(SaveInfo&& info) { m_childrens.push_back(std::move(info)); }
+
+	//获取窗口类型
+	const wxString& getWinType() const { return m_winType; }
+	// 用来获取窗口属性
+	const WIN_ATTR_MAP& getWinAttrs() const { return m_allWinAttrs; }
+
+	CONST_CHILD_ITERATOR getChildConstBeg() const { return m_childrens.cbegin(); }
+	CONST_CHILD_ITERATOR getChildConstEnd() const { return m_childrens.cend(); }
 
 private:
 	// 该窗口的类型名称
