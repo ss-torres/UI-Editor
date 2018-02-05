@@ -28,7 +28,7 @@ public:
 	void setSaveFileName(wxString&& fileName) { m_saveFileName = std::move(fileName); }
 	// 用来设置是否继续保存操作
 	// 线程安全函数
-	void setSaveContinue(bool cont) { m_saveContinue.store(cont); }
+	void setSaveContinue(bool cont) { m_saveContinue.store(cont, std::memory_order_relaxed); }
 	// 进行窗口信息保存
 	bool operator()();
 

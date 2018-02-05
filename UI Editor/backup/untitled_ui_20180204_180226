@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<UISave Version="1">
-  <EditorManageWindow objectName="WorkArea">
-    <GFrame objectName="GFrame1" posX="104" posY="93" sizeX="120" sizeY="60">
-      <GButton font="1" objectName="GButton1" posX="77" posY="27" sizeX="30" sizeY="15"/>
-      <GLabel objectName="GLabel1" posX="20" posY="15" sizeX="30" sizeY="15" text="label"/>
-    </GFrame>
-  </EditorManageWindow>
-</UISave>

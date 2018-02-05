@@ -136,7 +136,7 @@ private:
 	// 时间统计，如果超过约定的时间，就开始备份
 	float m_calcTime = 0;
 	// 限定的时间
-	float m_backupTime = 10;
+	float m_backupTime = 300;
 	// 保存的文件名
 	wxString m_editFile;
 	// 用来记录保存的线程信息
