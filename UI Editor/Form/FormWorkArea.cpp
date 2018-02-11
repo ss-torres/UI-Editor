@@ -94,6 +94,12 @@ FormWorkArea::~FormWorkArea()
 			m_saveThread.wait();
 		}
 	}
+
+	if (m_editorSave)
+	{
+		delete m_editorSave;
+		m_editorSave = nullptr;
+	}
 }
 
 wxWindow * FormWorkArea::getBench()
@@ -346,6 +352,17 @@ void FormWorkArea::createWndObject(EditorAbstractWindow* parent, int absX, int a
 	ChangeManager::instance()->getCommandStack().Submit(dropWndCommand);
 }
 
+// 获取保存窗口信息的对象
+EditorSave * FormWorkArea::getEditorSave()
+{
+	if (m_editorSave == nullptr)
+	{
+		m_editorSave = new EditorSave();
+	}
+
+	return m_editorSave;
+}
+
 // 将窗口保存到文件中，同步操作
 void FormWorkArea::saveWnds()
 {
@@ -356,15 +373,15 @@ void FormWorkArea::saveWnds()
 
 	if (m_editFile.empty())
 	{
-		EditorSave::getInstance()->setSaveFileName(FILE_NO_NAME_SHOW);
+		getEditorSave()->setSaveFileName(FILE_NO_NAME_SHOW);
 	}
 	else
 	{
-		EditorSave::getInstance()->setSaveFileName(m_editFile);
+		getEditorSave()->setSaveFileName(m_editFile);
 	}
-	EditorSave::getInstance()->setSaveInfo(std::move(info));
+	getEditorSave()->setSaveInfo(std::move(info));
 
-	m_saveThread = std::async(std::ref(*EditorSave::getInstance()));
+	m_saveThread = std::async(std::ref(*getEditorSave()));
 	m_saveThread.get();
 }
 
@@ -389,10 +406,10 @@ void FormWorkArea::saveWndBacks()
 	{
 		backupFileName = wxString(BACK_UP_DIR) + m_editFile + out.str().c_str();
 	}
-	EditorSave::getInstance()->setSaveFileName(std::move(backupFileName));
-	EditorSave::getInstance()->setSaveInfo(std::move(info));
+	getEditorSave()->setSaveFileName(std::move(backupFileName));
+	getEditorSave()->setSaveInfo(std::move(info));
 
-	m_saveThread = std::async(std::ref(*EditorSave::getInstance()));
+	m_saveThread = std::async(std::ref(*getEditorSave()));
 }
 
 // 处理上一次保存窗口信息过程
@@ -408,9 +425,9 @@ bool FormWorkArea::handleLastBack()
 		}
 		else if (curStatus == std::future_status::timeout)
 		{	// 保存窗口信息过程正在进行，取消保存
-			EditorSave::getInstance()->setSaveContinue(false);
+			getEditorSave()->setSaveContinue(false);
 			bool ret = m_saveThread.get();
-			EditorSave::getInstance()->setSaveContinue(true);
+			getEditorSave()->setSaveContinue(true);
 			return false;
 		}
 		else

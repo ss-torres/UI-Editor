@@ -26,8 +26,6 @@ MainFrame::MainFrame(const wxString & title)
 MainFrame::~MainFrame()
 {
 	m_auiManager->UnInit();
-	// 清理ui保存模块
-	EditorSave::destroyInstance();
 }
 
 // 每帧处理函数
@@ -143,7 +141,7 @@ void MainFrame::initMessageHandle()
 // 初始化窗口信息保存
 void MainFrame::initUiSave()
 {
-	EditorSave::createInstance();
+	
 }
 
 // 初始化子窗口

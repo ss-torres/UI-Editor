@@ -14,10 +14,7 @@ class wxXmlNode;
 class EditorSave
 {
 public:
-	static EditorSave* createInstance() { s_editor_save = new EditorSave(); return s_editor_save; }
-	static EditorSave* getInstance() { return s_editor_save; }
-	static void destroyInstance() { delete s_editor_save; s_editor_save = nullptr; }
-
+	EditorSave();
 	~EditorSave() = default;
 
 	// 设置存储的文件信息
@@ -33,11 +30,8 @@ public:
 	bool operator()();
 
 private:
-	EditorSave();
 	// 将存储的窗口信息保存到文件
 	void appendNodeInfo(const SaveInfo& info, wxXmlNode* parent);
-
-	static EditorSave* s_editor_save;
 
 	// 需要存储的窗口信息
 	SaveInfo m_info;

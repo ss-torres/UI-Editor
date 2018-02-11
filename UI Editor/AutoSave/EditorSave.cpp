@@ -1,9 +1,6 @@
 #include <thread>
 #include "EditorSave.h"
 
-
-EditorSave* EditorSave::s_editor_save = nullptr;
-
 EditorSave::EditorSave()
 	: m_saveContinue(true)
 {

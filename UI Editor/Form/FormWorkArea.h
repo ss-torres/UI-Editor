@@ -14,6 +14,7 @@ class DrawControlManager;
 class CopyWindowInfo;
 class wxMDIParentFrame;
 class wxMDIChildFrame;
+class EditorSave;
 
 class FormWorkArea : public WorkArea
 {
@@ -103,6 +104,8 @@ private:
 	// 创建一个控件对象
 	void createWndObject(EditorAbstractWindow* parent, int absX, int absY, const CopyWindowInfo& winValue);
 
+	// 获取保存窗口信息的对象
+	EditorSave* getEditorSave();
 	// 将窗口保存到文件中，同步操作
 	void saveWnds();
 	// 将窗口信息保存到备份文件中，异步操作
@@ -136,11 +139,13 @@ private:
 	// 时间统计，如果超过约定的时间，就开始备份
 	float m_calcTime = 0;
 	// 限定的时间
-	float m_backupTime = 300;
+	float m_backupTime = 10;
 	// 保存的文件名
 	wxString m_editFile;
 	// 用来记录保存的线程信息
 	std::future<bool> m_saveThread;
+	// 用来保持用于保存的对象
+	EditorSave* m_editorSave = nullptr;
 };
 
 // 获取窗口句柄，该函数必须在初始化bench之后调用
