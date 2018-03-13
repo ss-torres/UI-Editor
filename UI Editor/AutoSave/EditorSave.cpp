@@ -14,7 +14,7 @@ bool EditorSave::operator()()
 	for (auto it = m_info.getChildConstBeg(); it != m_info.getChildConstEnd(); ++it)
 	{
 		// 如果主线程取消，则返回
-		if (!m_saveContinue.load(std::memory_order_relaxed))
+		if (!m_saveContinue.load(std::memory_order_consume))
 		{
 			return false;
 		}
@@ -22,7 +22,7 @@ bool EditorSave::operator()()
 		appendNodeInfo(*it, node);
 	}
 	// 如果主线程取消，则返回
-	if (!m_saveContinue.load(std::memory_order_relaxed))
+	if (!m_saveContinue.load(std::memory_order_consume))
 	{
 		return false;
 	}
