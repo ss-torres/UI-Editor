@@ -1,25 +1,12 @@
 #ifndef ARITHMETIC_UTIL_H
 #define ARITHMETIC_UTIL_H
 
-//#include <stdexcept>
-//
-//// 添加 scalar numeric conversion function，实现源自 C++ programming language(4th)
-//// 用来防止使用static转换的时候，值发生改变
-//template <class Source, typename Target>
-//inline Target narrow_cast(Source v)
-//{
-//	auto r = static_cast<Target>(v);
-//	if (static_cast<Source>(r) != v)
-//		throw std::runtime_error("narrow_cast<>() failed");
-//	return r;
-//}
-
 #include <type_traits>
 #include <stdexcept>
 #include <limits>
 
-// 添加 scalar numeric conversion function，实现源自 C++ programming language(4th)
-// 用来防止使用static转换的时候，值发生改变
+// 添加 scalar numeric conversion function，用来防止使用static转换的时候，值发生改变
+// 灵感源自 C++ programming language(4th)，基于C++14重新实现
 
 // there is no implicit conversion from Source to Target
 template <typename Target, typename Source,
